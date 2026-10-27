@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Olympiade-Training – Fallstudie – Dariia Sichynska</title>
+<meta name="description" content="Fallstudie: Offline-Mathe-Trainer für ein Android-Tablet von 2014, mit gestuften Tipps, KI-Bewertung der Begründung und Ergebnis-Sync über Make.com.">
+<meta property="og:title" content="Olympiade-Training – Fallstudie">
+<meta property="og:image" content="https://dariiasichynska.github.io/assets/img/olympiade/map.png">
+<meta name="theme-color" content="#171a20">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<a class="skip" href="#inhalt">Zum Inhalt springen</a>
+<header class="kopf">
+  <div class="wrap">
+    <a class="marke" href="../">Dariia Sichynska</a>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a href="../#projekte" aria-current="page">Projekte</a>
+      <a href="../#kontakt">Kontakt</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inhalt">
+<div class="wrap">
+  <section class="fall-kopf">
+    <a class="zurueck" href="../#projekte">Alle Projekte</a>
+    <h1>Olympiade-Training</h1>
+    <p class="unterzeile">Ein Offline-Mathe-Trainer für einen Fünftklässler auf einem Android-Tablet von 2014: gestufte Tipps, KI-Bewertung der schriftlichen Begründung und Ergebnis-Sync über Make.com.</p>
+    <dl class="fakten">
+      <div><dt>Meine Rolle</dt><dd>Anforderungen, Produktentscheidungen, Tests auf echter Hardware, Make-Automatisierung, Auswertung der Ergebnisse. Den Code hat Claude geschrieben.</dd></div>
+      <div><dt>Werkzeuge</dt><dd>Make.com (Webhook, Router, Data Store), Claude, Legacy-Build mit Babel, automatisierte Tests</dd></div>
+      <div><dt>Status</dt><dd>Im Einsatz. Code und <a href="https://dariiasichynska.github.io/olympiade-training/">Live-Demo</a> öffentlich auf <a href="https://github.com/dariiasichynska/olympiade-training">GitHub</a>.</dd></div>
+    </dl>
+  </section>
+
+  <section class="kapitel">
+    <h2>Ausgangslage</h2>
+    <div class="inhalt">
+      <p>Ein Fünftklässler in Berlin bereitete sich auf die Mathematik-Olympiade vor. Sein einziges Gerät: ein ASUS Fonepad 7 von 2014 mit Android 4.1.2 und Chrome 42, ohne Updates und oft ohne Internet.</p>
+      <ul>
+        <li><strong>Die Olympiade bewertet den Lösungsweg.</strong> Ein richtiges Ergebnis ohne Begründung bringt nach den offiziellen Bewertungsschemata meist nur 30 bis 50 Prozent der Punkte.</li>
+        <li><strong>Zweisprachige Familie.</strong> Die Aufgaben sind auf Deutsch, die Eltern wollen sie auf einen Blick auf Ukrainisch lesen. Das Kind schreibt seine Begründungen auf Deutsch, seiner Zweitsprache.</li>
+        <li><strong>Motivation.</strong> Olympiade-Aufgaben sind schwer, ein reiner Test frustriert einen Zehnjährigen schnell.</li>
+        <li><strong>Keine Transparenz für die Eltern.</strong> Welche Aufgaben sind gelöst, wie lange hat es gedauert, welche Tipps waren nötig, wo liegen die Lücken?</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Vorgehen</h2>
+    <div class="inhalt">
+      <p>Das Projekt entstand aus einem echten Bedarf zu Hause. Ich habe es wie ein kleines Produktprojekt geführt: Claude war der Entwickler, Problem, Entscheidungen, Tests und Automatisierung lagen bei mir.</p>
+      <ol class="schritte">
+        <li><strong>Anforderungen über strukturierte Fragen.</strong> Vor dem ersten Code waren alle offenen Punkte als Auswahlfragen entschieden: Reihenfolge der Aufgaben, Zeitpunkt der Tipps (alle 5 Minuten), ein Versuch wie im echten Wettbewerb, Notenskala 1 bis 6, was übersetzt wird und was nicht.</li>
+        <li><strong>Prototyp und Feldtest.</strong> Die erste Version lief am Desktop, auf dem Tablet blieb sie leer. Ursache: Chrome 42 versteht modernes JavaScript und CSS nicht. Lösung: eine zweite Build-Strecke nach ES5, eigenes CSS ohne Grid und Custom Properties und eine Startprüfung, die statt einer leeren Seite den Fehler und die Browserversion anzeigt.</li>
+        <li><strong>Zweites Problem im Feld.</strong> Der eingebaute HTML-Viewer von Android führt kein JavaScript aus. Die Datei erklärt das jetzt selbst und zeigt, wie man sie in Chrome öffnet.</li>
+        <li><strong>Iteration anhand echter Daten.</strong> Nach der ersten Woche habe ich die echten Abgaben ausgewertet. Drei Muster: unvollständiges Aufzählen (5 von 6 Anordnungen), Punktverlust durch fehlende Klammern und Begründungen, die sagen, was gerechnet wurde, aber nicht warum. Darauf habe ich mit neuen Antworttypen, einem Begründungsgerüst und Übungen in einer „Werkstatt“ reagiert.</li>
+        <li><strong>Automatisierung statt Kopieren.</strong> Ergebnisse als JSON-Code vom Offline-Tablet abzuschreiben war im Alltag unbrauchbar. Ich habe ein Make.com-Szenario aufgesetzt, siehe unten.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Lösung</h2>
+    <div class="inhalt">
+      <ul>
+        <li><strong>Gestufte Tipps:</strong> Tipp 1 nach 5 Minuten Nachdenken, jeder weitere 5 Minuten später. Tipp 3 legt die ganze Logik offen, es bleibt nur das Rechnen.</li>
+        <li><strong>Begründungstrainer:</strong> Pflichtfeld für den Lösungsweg mit Satzanfängen, einer Checkliste in vier Schritten und einem Hinweis, wenn die Erklärung das Was nennt, aber nicht das Warum.</li>
+        <li><strong>Bewertung:</strong> sofortige Prüfung jedes Antwortfelds, Schulnote für die Begründung durch Claude, danach die Musterlösung.</li>
+        <li><strong>Motivation, die Anstrengung belohnt:</strong> Ränge, „Sternenstaub“ und 13 Abzeichen, etwa „Durchhalter“ für alle Tipps genutzt und trotzdem fertig.</li>
+        <li><strong>Ehrliche Zeitmessung:</strong> Es zählt nur aktive Zeit. Eine drei Tage offene Aufgabe meldet nicht mehr 4.000 Minuten.</li>
+      </ul>
+      <div class="galerie">
+        <figure><img src="../assets/img/olympiade/task.png" width="752" height="763" alt="Aufgabenansicht mit Abbildung und ukrainischer Übersetzung" loading="lazy"><figcaption>Aufgabe im deutschen Original, Übersetzung für die Eltern mit einem Tipp.</figcaption></figure>
+        <figure><img src="../assets/img/olympiade/reasoning-helper.png" width="752" height="1186" alt="Begründungstrainer mit Satzanfängen und Checkliste" loading="lazy"><figcaption>Begründungstrainer mit Satzanfängen und Checkliste.</figcaption></figure>
+        <figure><img src="../assets/img/olympiade/hints.png" width="752" height="383" alt="Gestufte Tipps mit Zeitanzeige" loading="lazy"><figcaption>Gestufte Tipps mit Zeitanzeige.</figcaption></figure>
+        <figure><img src="../assets/img/olympiade/result.png" width="752" height="656" alt="Ergebnis mit Note und Musterlösung" loading="lazy"><figcaption>Ein Versuch, wie im Wettbewerb: Note und Musterlösung.</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Automatisierung</h2>
+    <div class="inhalt">
+      <p>Das Tablet schickt die Ergebnisse, sobald es online ist, an einen Make.com-Webhook. Ein Router unterscheidet zwischen echtem Upload und Verbindungstest, die Daten landen pro Gerät in einem Data Store, und die Antwortseite bestätigt dem Kind: „Gesendet!“. Claude liest den Data Store über den Make-Connector und bewertet die Begründungen.</p>
+      <table class="tabelle">
+        <tr><th>Einfaches Formular statt API-Aufruf</th><td>Das Tablet sendet ein normales HTML-Formular. Das braucht kein CORS und funktioniert auch mit Chrome 42.</td></tr>
+        <tr><th>Vor dem Rollout geprüft</th><td>Ob Android 4.1 das TLS-Zertifikat des Webhooks akzeptiert.</td></tr>
+        <tr><th>Datenschutz</th><td>Keine Daten des Kindes im Repository. Die Webhook-Adresse wird erst beim Build eingesetzt und nie veröffentlicht.</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Ergebnis</h2>
+    <div class="inhalt">
+      <ul>
+        <li>Der Trainer läuft offline auf dem Tablet von 2014, als eine einzige HTML-Datei ohne Installation.</li>
+        <li>Die Ergebnisse kommen ohne Kopieren bei den Eltern an: mit Zeitstempel, genutzten Tipps, Antworten, Begründung und Note.</li>
+        <li>Die Auswertung der echten Abgaben hat drei konkrete Schwächen gezeigt, die jetzt gezielt geübt werden.</li>
+        <li>Für den alten Browser werden nur die 24 nötigen Polyfills gebündelt: etwa 66 KB statt etwa 750 KB.</li>
+      </ul>
+      <p class="hinweis">Die neun Aufgaben in der Demo habe ich eigens für das Projekt geschrieben. Die echten Olympiade-Aufgaben sind urheberrechtlich geschützt und nicht enthalten.</p>
+    </div>
+  </section>
+
+  <nav class="weiter" aria-label="Weitere Fallstudien">
+    <a href="jobsuche-agenten.html">Voriges Projekt: Agentic Workflow</a>
+    <a href="snap-and-list.html">Nächstes Projekt: Snap &amp; List</a>
+  </nav>
+</div>
+</main>
+
+<footer class="fuss">
+  <div class="wrap">
+    <p>© 2026 Dariia Sichynska</p>
+    <p>Keine Cookies, keine Analyse-Tools, keine externen Schriften. Ausgeliefert über GitHub Pages.</p>
+  </div>
+</footer>
+</body>
+</html>

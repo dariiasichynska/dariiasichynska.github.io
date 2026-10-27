@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dariia Sichynska – Prozessautomatisierung mit n8n, Make und KI</title>
+<meta name="description" content="Dariia Sichynska, Berlin: Prozessautomatisierung mit n8n, Make und KI. Vier Projekte als kurze Clips, Lebenslauf zum Herunterladen.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Dariia Sichynska – Prozessautomatisierung mit n8n, Make und KI">
+<meta property="og:description" content="Vier Automatisierungsprojekte als kurze Clips. Berlin, hybrid oder remote.">
+<meta property="og:image" content="https://dariiasichynska.github.io/assets/img/dariia-sichynska.jpg">
+<meta property="og:url" content="https://dariiasichynska.github.io/">
+<meta name="theme-color" content="#171a20">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/spectral-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/clip.css">
+</head>
+<body>
+<a class="skip" href="#inhalt">Zum Inhalt springen</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="pulli" viewBox="0 0 100 100">
+      <path d="M31 16 L43 12 Q50 21 57 12 L69 16 L83 28 L93 78 L81 81 L72 44 L72 87 Q50 91 28 87 L28 44 L19 81 L7 78 L17 28 Z" fill="var(--stoff)" stroke="var(--stoff-hell)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M8.5 72 L20.5 75 M91.5 72 L79.5 75" stroke="var(--stoff-hell)" stroke-width="1.2" fill="none" opacity=".7"/>
+      <path d="M28 80 Q50 84 72 80 M36 30 V84 M44 30 V86 M52 30 V86 M60 30 V84 M68 32 V82" stroke="var(--stoff-hell)" stroke-width="1" fill="none" opacity=".55"/>
+      <path d="M43 12 Q50 24 57 12" stroke="var(--stoff-hell)" stroke-width="3" fill="none"/>
+    </symbol>
+    <symbol id="i-uhr" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+    <symbol id="i-ordner" viewBox="0 0 24 24"><path d="M3.5 7.5a2 2 0 0 1 2-2h4l2 2.2h7a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/></symbol>
+    <symbol id="i-bild" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><circle cx="9" cy="10" r="1.7"/><path d="M20.5 16l-5-5-8.5 8.5"/></symbol>
+    <symbol id="i-ki" viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9z"/><path d="M18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></symbol>
+    <symbol id="i-klammer" viewBox="0 0 24 24"><path d="M9 4.5c-2 0-2.5 1-2.5 3v2c0 1.2-.8 2-2 2.5 1.2.5 2 1.3 2 2.5v2c0 2 .5 3 2.5 3M15 4.5c2 0 2.5 1 2.5 3v2c0 1.2.8 2 2 2.5-1.2.5-2 1.3-2 2.5v2c0 2-.5 3-2.5 3"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="M4 7l8 6 8-6"/></symbol>
+    <symbol id="i-tabelle" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M3.5 14.5h17M9.5 9.5v10"/></symbol>
+    <symbol id="i-archiv" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="4.5" rx="1"/><path d="M5 9v9a1.5 1.5 0 0 0 1.5 1.5h11A1.5 1.5 0 0 0 19 18V9M10 13h4"/></symbol>
+    <symbol id="i-wieder" viewBox="0 0 24 24"><path d="M4.5 12a7.5 7.5 0 0 1 13-5.1M19.5 12a7.5 7.5 0 0 1-13 5.1"/><path d="M17.5 3.5v3.6h-3.6M6.5 20.5v-3.6h3.6"/></symbol>
+    <symbol id="i-person" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c1-4 4-6 7-6s6 2 7 6"/></symbol>
+  </defs>
+</svg>
+
+<header class="kopf">
+  <div class="wrap">
+    <a class="marke" href="./">Dariia Sichynska</a>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a href="#projekte">Projekte</a>
+      <a href="#arbeitsweise">Vorgehen</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inhalt">
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <h1>Dariia Sichynska</h1>
+      <p class="rolle">Prozessautomatisierung mit n8n, Make und KI</p>
+      <p class="intro">Ich analysiere Arbeitsabläufe und automatisiere sie.</p>
+      <div class="aktionen">
+        <a class="knopf haupt" href="#projekte">Projekte ansehen</a>
+        <a class="knopf" href="assets/cv/Dariia-Sichynska-Lebenslauf.pdf" download>Lebenslauf (PDF)</a>
+        <a class="knopf" href="https://www.linkedin.com/in/sichynska" rel="noopener">LinkedIn</a>
+        <a class="knopf" href="https://github.com/dariiasichynska" rel="noopener">GitHub</a>
+      </div>
+    </div>
+    <figure class="portrait">
+      <img src="assets/img/dariia-sichynska.jpg" width="560" height="700" alt="Porträt von Dariia Sichynska, schwarz-weiß">
+    </figure>
+  </div>
+</section>
+
+<section class="abschnitt" id="projekte" aria-labelledby="h-projekte">
+  <div class="wrap">
+    <h2 id="h-projekte">Projekte</h2>
+    <p class="einleitung">Vier eigene Projekte, im Einsatz oder im Aufbau. Code und technische Dokumentation liegen auf GitHub.</p>
+
+    <div class="faelle">
+      <article class="fall ohne-bild">
+        <div>
+          <h3><a href="fallstudien/jobsuche-agenten.html">Agentic Workflow für die eigene Jobsuche</a></h3>
+          <p class="worum">Mehrere KI-Agenten mit klar getrennten Aufgaben: Arbeitgeber finden, Stellen nach Aufgabenbereich bewerten, Bewerbungen vorbereiten, nachverfolgen. Der erste Agent läuft in n8n und prüft jeden KI-Vorschlag mit festen Regeln, bevor er in Airtable landet.</p>
+          <ul class="werkzeuge"><li>n8n</li><li>KI-Agenten</li><li>Gemini und Claude</li><li>Airtable</li><li>Datenschutz by Design</li></ul>
+          <a class="mehr" href="fallstudien/jobsuche-agenten.html">Fallstudie lesen</a>
+        </div>
+      </article>
+
+      <article class="fall">
+        <div>
+          <h3><a href="fallstudien/olympiade-training.html">Olympiade-Training</a></h3>
+          <p class="worum">Ein Mathe-Trainer für einen Fünftklässler, der offline auf einem Android-Tablet von 2014 läuft. Gestufte Tipps, KI-Bewertung der Begründung, Ergebnisse gehen über einen Make.com-Webhook an die Eltern.</p>
+          <ul class="werkzeuge"><li>Make.com</li><li>Webhook und Data Store</li><li>Claude</li><li>Tests auf echter Hardware</li></ul>
+          <p class="links"><a class="mehr" href="fallstudien/olympiade-training.html">Fallstudie lesen</a><a class="mehr" href="https://github.com/dariiasichynska/olympiade-training" rel="noopener">GitHub</a></p>
+        </div>
+        <figure class="video">
+          <video src="assets/video/olympiade-training-demo.mp4" poster="assets/video/olympiade-training-demo-poster.jpg" width="864" height="1102" autoplay muted loop playsinline controls preload="metadata" aria-label="Durchlauf einer Aufgabe im Olympiade-Training"></video>
+          <figcaption>Eine Aufgabe von Anfang bis Ende: Tipps mit Timer, Begründung, KI-Bewertung, Abzeichen, Werkstatt und Datenübertragung. Die Demo-Aufgabe ist eigens für das Projekt geschrieben.</figcaption>
+        </figure>
+      </article>
+
+      <article class="fall">
+        <div>
+          <h3><a href="https://github.com/dariiasichynska/aurora-alert" rel="noopener">Aurora-Alert</a></h3>
+          <p class="worum">Zwei Make.com-Szenarien beobachten Wolken und Sonnenwind über Lappland und schicken eine Telegram-Nachricht, wenn Polarlichter wahrscheinlich sind: zwei Tage vorher für den Flug, kurz vorher für den Blick in den Himmel. Bewusst ohne KI.</p>
+          <ul class="werkzeuge"><li>Make.com</li><li>4 öffentliche APIs</li><li>Telegram-Bot</li><li>Kostenoptimierung</li></ul>
+          <a class="mehr" href="https://github.com/dariiasichynska/aurora-alert" rel="noopener">Auf GitHub ansehen</a>
+        </div>
+        <dl class="kennzahl">
+          <div><dt>Operationen im Monat, normaler Betrieb</dt><dd>~40</dd></div>
+          <div><dt>dieselbe Logik, naiv gebaut</dt><dd>~8.700</dd></div>
+          <div><dt>Budget im kostenlosen Tarif</dt><dd>1.000</dd></div>
+        </dl>
+      </article>
+
+      <article class="fall clip-fall clip">
+        <div class="clip-text-kopf">
+          <h3><a href="fallstudien/snap-and-list.html">Snap &amp; List</a></h3>
+          <p class="worum">Ich fotografiere ein Kleidungsstück, den Rest erledigt ein Workflow: Am Ende liegt eine fertige Verkaufsanzeige als Entwurf in meinem Postfach. Den kompletten Workflow habe ich zweimal gebaut, in Make.com und in n8n.</p>
+          <ul class="werkzeuge"><li>Make.com</li><li>n8n</li><li>Gemini über REST-API</li><li>Dropbox, Gmail, Airtable, Telegram</li><li>BPMN</li></ul>
+        </div>
+        <div class="player" data-clip>
+            <div class="buehne">
+              <span class="beispiel">Beispieldaten</span>
+
+              <!-- 1 -->
+              <div class="szene s-foto on" data-dauer="5200" data-kurz="Fotos" data-titel="Fotos machen" data-text="Ich fotografiere den Artikel von mehreren Seiten. Ein iOS-Kurzbefehl legt die Bilder als eigenes Paket im Cloud-Speicher ab.">
+                <div class="aufbau">
+                  <div class="telefon" aria-hidden="true">
+                    <div class="sucher"><svg viewBox="0 0 100 100"><use href="#pulli"/></svg>
+                      <span class="ecke a"></span><span class="ecke b"></span><span class="ecke c"></span><span class="ecke d"></span>
+                    </div>
+                    <span class="ausloeser"></span>
+                    <span class="blitz"></span>
+                  </div>
+                  <div class="seite-rechts">
+                    <p class="gross">Drei Fotos. Mehr Arbeit ist es nicht.</p>
+                    <div class="streifen" aria-hidden="true">
+                      <span class="mini"><svg viewBox="0 0 100 100"><use href="#pulli"/></svg></span>
+                      <span class="mini"><svg viewBox="0 0 100 100"><use href="#pulli"/></svg></span>
+                      <span class="mini"><svg viewBox="0 0 100 100"><use href="#pulli"/></svg></span>
+                    </div>
+                    <span class="chip gold s-foto-chip"><svg class="ic"><use href="#i-ordner"/></svg>Kurzbefehl: als Paket ablegen</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 2 -->
+              <div class="szene s-paket" data-dauer="4200" data-kurz="Paket" data-titel="Ein Artikel, ein Paket" data-text="Jeder Artikel bekommt einen eigenen Ordner in der Warteschlange. Ein Ordner ist ein Paket: Alle Fotos darin gehören zu genau einem Artikel.">
+                <div class="fenster">
+                  <div class="fenster-kopf"><i></i><i></i><i></i><b>Cloud-Speicher</b><span>/ Snap &amp; List / queue</span></div>
+                  <div class="ordner">
+                    <div class="zeile neu"><svg class="ic"><use href="#i-ordner"/></svg><span>Strickpullover dunkelblau</span><span>3 Fotos</span></div>
+                  </div>
+                  <div class="inhalt">
+                    <span class="mini"><svg viewBox="0 0 100 100"><use href="#pulli"/></svg></span>
+                    <span class="mini"><svg viewBox="0 0 100 100" style="transform:scaleX(-1)"><use href="#pulli"/></svg></span>
+                    <span class="mini"><svg viewBox="0 0 100 100" style="transform:rotate(-8deg) scale(.92)"><use href="#pulli"/></svg></span>
+                    <span class="chip gut">1 Ordner = 1 Artikel</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 3 Zwei Workflows -->
+              <div class="szene s-flow" data-dauer="6200" data-kurz="Zwei Workflows" data-titel="Derselbe Prozess, zweimal gebaut" data-text="Ich habe den kompletten Workflow zweimal umgesetzt: einmal in Make.com, einmal in n8n. Beide holen neue Pakete nach Zeitplan ab, gesammelt statt Datei für Datei, und rufen Gemini direkt über die REST-API auf. Jede Plattform nutzt dafür ihre eigenen Bausteine.">
+                <div class="flow-wrap">
+                  <div class="flow-kopf"><span class="chip gold">Ein Prozess, zwei Plattformen</span><span class="chip gut lauf-ok">beide Läufe erfolgreich</span></div>
+                  <div class="spur make"><span class="spur-name">Make.com</span><div class="flow" data-flow="make"></div></div>
+                  <div class="spur n8n"><span class="spur-name">n8n</span><div class="flow" data-flow="n8n"></div></div>
+                  <div class="fehler"><span class="klein"><svg class="ic"><use href="#i-wieder"/></svg></span><span>Fehler: Make.com meldet sich per Telegram und versucht es dreimal erneut. n8n wiederholt die Anfrage und wechselt dann auf ein Ausweichmodell.</span></div>
+                </div>
+              </div>
+
+              <!-- 4 KI -->
+              <div class="szene s-ki" data-dauer="6000" data-kurz="KI-Analyse" data-titel="Die KI sieht alle Fotos auf einmal" data-text="Alle Ansichten gehen in einer einzigen Anfrage an ein multimodales Modell. Ein festes JSON-Schema legt die Felder fest, der Zustand ist auf drei Werte begrenzt. So läuft die Antwort ohne Nacharbeit weiter.">
+                <span class="chip beide">in Make.com und n8n gleich</span>
+                <div class="aufbau">
+                  <div>
+                    <div class="bilder">
+                      <span class="mini"><svg viewBox="0 0 100 100"><use href="#pulli"/></svg></span>
+                      <span class="mini"><svg viewBox="0 0 100 100"><use href="#pulli"/></svg></span>
+                      <span class="mini"><svg viewBox="0 0 100 100"><use href="#pulli"/></svg></span>
+                      <span class="scan"></span>
+                    </div>
+                    <div class="anfrage"><span class="chip gold"><svg class="ic"><use href="#i-ki"/></svg>3 Fotos, 1 Anfrage</span></div>
+                  </div>
+                  <div class="ergebnis">
+                    <div class="felder">
+                      <div class="feld" style="--n:0"><small>Kategorie</small><b>Pullover</b></div>
+                      <div class="feld" style="--n:1"><small>Marke</small><b>laut Etikett</b></div>
+                      <div class="feld" style="--n:2"><small>Größe</small><b>M</b></div>
+                      <div class="feld" style="--n:3"><small>Material</small><b>Wolle</b></div>
+                      <div class="feld" style="--n:4"><small>Zustand</small><b>Sehr gut</b></div>
+                      <div class="feld" style="--n:5"><small>Mängel</small><b>keine erkennbar</b></div>
+                    </div>
+        <pre class="json" aria-hidden="true"><span style="--n:0">{</span><span style="--n:1">  <i class="k">"titel"</i>: "Strickpullover dunkelblau, Gr. M",</span><span style="--n:2">  <i class="k">"zustand"</i>: "Sehr gut",</span><span style="--n:3">  <i class="k">"maengel"</i>: "keine erkennbar",</span><span style="--n:4">  <i class="k">"hashtags"</i>: ["#strick", "#wolle"]</span><span style="--n:5">}</span></pre>
+                    <span class="chip regel"><svg class="ic"><use href="#i-person"/></svg>Regel im Prompt: nichts erfinden, Unsicheres als „unklar – bitte prüfen“ markieren</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 5 Entwurf -->
+              <div class="szene s-mail" data-dauer="5600" data-kurz="Entwurf" data-titel="Ich entscheide" data-text="Der fertige Anzeigentext landet in meinem Postfach. Ich lese ihn, korrigiere bei Bedarf und veröffentliche selbst. Automatisch geht nichts online.">
+                <span class="chip beide">Make.com: E-Mail an mich, n8n: Gmail-Entwurf</span>
+                <div class="fenster">
+                  <div class="fenster-kopf"><i></i><i></i><i></i><b>Postfach</b><span>1 neu</span></div>
+                  <div class="mail">
+                    <div class="feldzeile"><span>Betreff</span><b>Vinted: Strickpullover dunkelblau, Gr. M</b></div>
+                    <p class="titelzeile" style="--n:0">Strickpullover in Dunkelblau, Größe M<span class="markierung" style="--n:0"></span></p>
+                    <p style="--n:1">Weicher Strick aus Wolle, gerader Schnitt, Rippenbündchen an Saum und Ärmeln.<span class="markierung" style="--n:1"></span></p>
+                    <p style="--n:2">Zustand: sehr gut, keine Flecken, keine Löcher.<span class="markierung" style="--n:2"></span></p>
+                    <p class="hinweis" style="--n:3">Privatverkauf. Nichtraucherhaushalt. Der Artikel wird wie beschrieben und abgebildet verkauft.</p>
+                    <div class="mail-fuss"><span class="knopf-mail">Bearbeiten</span><span class="knopf-mail haupt">Geprüft</span></div>
+                  </div>
+                  <svg class="zeiger" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l14 8-6.2 1.6L10 19z" fill="var(--papier)" stroke="var(--bildschirm)" stroke-width="1.2" stroke-linejoin="round"/></svg>
+                  <span class="stempel">vom Menschen geprüft</span>
+                </div>
+              </div>
+
+              <!-- 6 Register -->
+              <div class="szene s-tabelle" data-dauer="5000" data-kurz="Register" data-titel="Alles an einem Ort" data-text="In der Make.com-Version landet jeder Artikel in Airtable, mit Status (Entwurf, Online, Verkauft) und Verkaufspreis. Danach wird das Paket in den Ordner „done“ verschoben.">
+                <span class="chip beide">Make.com-Version</span>
+                <div class="fenster">
+                  <div class="fenster-kopf"><i></i><i></i><i></i><b>Airtable</b><span>/ Artikelregister</span></div>
+                  <table class="tabelle">
+                    <thead><tr><th>Artikel</th><th>Zustand</th><th>Status</th><th class="zahl">Preis</th></tr></thead>
+                    <tbody>
+                      <tr class="neu"><td>Strickpullover dunkelblau, M</td><td>Sehr gut</td><td><span class="status"><span class="chip vorher">Entwurf</span><span class="chip gold nachher">Online</span></span></td><td class="zahl">–</td></tr>
+                      <tr><td>Jeans, Gr. 32</td><td>Gut</td><td><span class="chip gut">Verkauft</span></td><td class="zahl">15 €</td></tr>
+                      <tr><td>Wintermantel, L</td><td>Sehr gut</td><td><span class="chip gold">Online</span></td><td class="zahl">–</td></tr>
+                    </tbody>
+                  </table>
+                  <div class="archiv"><span class="chip gut"><svg class="ic"><use href="#i-archiv"/></svg>Paket archiviert</span></div>
+                </div>
+              </div>
+
+              <!-- 7 Warum zweimal -->
+              <div class="szene s-warum" data-dauer="7000" data-kurz="Warum zweimal" data-titel="Warum zweimal?" data-text="Ich wollte nicht von einem Anbieter abhängen und lernen, dieselbe Lösung auf jeder Plattform umzusetzen. Beide Workflows folgen demselben BPMN-Modell und denselben Regeln.">
+                <div class="aufbau">
+                  <div class="morph-bild" aria-hidden="true">
+                    <span class="gross-knoten"><svg class="ic"><use href="#i-ki"/></svg></span>
+                    <span class="morph-label">Make.com<span>⇄</span>n8n</span>
+                  </div>
+                  <ul class="gruende">
+                    <li style="--n:0"><b>Plattformunabhängig</b><span>Der Prozess hängt nicht an einem Anbieter. Er läuft auf beiden Plattformen.</span></li>
+                    <li style="--n:1"><b>Auf beiden Plattformen zu Hause</b><span>Ich übertrage eine Lösung von Make.com nach n8n und vergleiche, welcher Ansatz wo besser passt.</span></li>
+                    <li style="--n:2"><b>Eigene Schnittstellen, wo nötig</b><span>Wo ein Standard-Baustein das Datenformat nicht unterstützte, habe ich die KI direkt über die REST-API angebunden.</span></li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- 8 Schluss -->
+              <div class="szene s-ende" data-dauer="5200" data-kurz="Ergebnis" data-titel="Die Automatisierung bereitet vor, ich entscheide" data-text="Wiederholungsversuche bei API-Fehlern, Benachrichtigung bei Problemen und ein Ausweichmodell, wenn der Dienst überlastet ist. Die Lösung läuft im kostenlosen Tarif.">
+                <div class="aufbau">
+                  <p class="satz"><span style="--n:0">Ein Artikel.</span><span style="--n:1">Ein Paket.</span><span style="--n:2">Eine KI-Anfrage.</span><span style="--n:3">Ein Entwurf.</span></p>
+                  <div class="chips s-ende-chips"><span class="chip">doppelt gebaut: Make.com und n8n</span><span class="chip">kostenloser Tarif</span><span class="chip gold">Mensch entscheidet</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="leiste">
+              <button class="play clip-play" type="button" aria-pressed="true">
+                <svg class="clip-play-ic" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="2.5" width="3.5" height="11" rx="1"/><rect x="9.5" y="2.5" width="3.5" height="11" rx="1"/></svg>
+                <span class="clip-play-text">Pause</span>
+              </button>
+              <span class="zeit clip-zeit">0:00 / 0:43</span>
+            </div>
+            <ol class="clip-kapitel"></ol>
+            <div class="untertitel" aria-live="polite">
+              <h4 class="clip-titel">Fotos machen</h4>
+              <p class="clip-text">Ich fotografiere den Artikel von mehreren Seiten. Ein iOS-Kurzbefehl legt die Bilder als eigenes Paket im Cloud-Speicher ab.</p>
+            </div>
+          </div>
+        <a class="mehr" href="fallstudien/snap-and-list.html">Fallstudie lesen</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="abschnitt" id="arbeitsweise" aria-labelledby="h-arbeitsweise">
+  <div class="wrap">
+    <h2 id="h-arbeitsweise">Mein Vorgehen</h2>
+    <p class="einleitung">Von der Analyse bis zum Einsatz.</p>
+
+    <ol class="ablauf" id="ablauf">
+      <li style="--i:0">
+        <div class="form ereignis-start" aria-hidden="true"><span></span></div>
+        <div class="text">Ablauf kostet zu viel Zeit</div>
+      </li>
+      <li style="--i:1">
+        <div class="form aufgabe" aria-hidden="true"><span><svg viewBox="0 0 24 24"><path d="M4 5h16v10H9l-5 4z"/></svg></span></div>
+        <div class="text">Ist-Ablauf aufnehmen</div>
+        <div class="beleg">Beispiel: Olympiade-Training, Anforderungen über Auswahlfragen geklärt</div>
+      </li>
+      <li style="--i:2">
+        <div class="form aufgabe" aria-hidden="true"><span><svg viewBox="0 0 24 24"><rect x="3" y="9" width="6" height="6" rx="1"/><rect x="15" y="9" width="6" height="6" rx="1"/><path d="M9 12h6"/></svg></span></div>
+        <div class="text">In BPMN modellieren</div>
+        <div class="beleg">Beispiel: Snap &amp; List, Ablauf vorab in BPMN gezeichnet</div>
+      </li>
+      <li style="--i:3">
+        <div class="form gateway" aria-hidden="true"><span><svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17"/></svg></span></div>
+        <div class="text">KI nötig?</div>
+        <div class="zweige"><span><b>ja:</b> KI-Modell</span><span><b>nein:</b> feste Regeln</span></div>
+        <div class="beleg">Beispiel: Agentic Workflow, Adressen per Regel statt per KI</div>
+      </li>
+      <li style="--i:4">
+        <div class="form aufgabe" aria-hidden="true"><span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></span></div>
+        <div class="text">In Make oder n8n bauen und testen</div>
+        <div class="beleg">Beispiel: Olympiade-Training, Test auf einem Tablet von 2014</div>
+      </li>
+      <li style="--i:5">
+        <div class="form aufgabe mensch" aria-hidden="true"><span><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c1-4 4-6 7-6s6 2 7 6"/></svg></span></div>
+        <div class="text">Human-in-the-Loop: Mensch prüft das Ergebnis</div>
+        <div class="beleg">Beispiel: Snap &amp; List, Entwurf statt automatischer Veröffentlichung</div>
+      </li>
+      <li style="--i:6">
+        <div class="form ereignis-ende" aria-hidden="true"><span></span></div>
+        <div class="text">Im Einsatz, laufend verbessert</div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+
+<section class="abschnitt kontakt" id="kontakt" aria-labelledby="h-kontakt">
+  <div class="wrap">
+    <h2 id="h-kontakt">Kontakt</h2>
+    <p class="einleitung">Ich suche eine Stelle in der Prozessautomatisierung. 100 % remote oder hybrid in Berlin.</p>
+    <div class="aktionen">
+      <a class="knopf haupt" href="mailto:sichynska@gmail.com">sichynska@gmail.com</a>
+      <a class="knopf" href="https://www.linkedin.com/in/sichynska" rel="noopener">LinkedIn</a>
+      <a class="knopf" href="https://github.com/dariiasichynska" rel="noopener">GitHub</a>
+      <a class="knopf" href="assets/cv/Dariia-Sichynska-Lebenslauf.pdf" download>Lebenslauf (PDF)</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="fuss">
+  <div class="wrap">
+    <p>© 2026 Dariia Sichynska</p>
+    <p>Diese Seite setzt keine Cookies, nutzt keine Analyse-Tools und lädt keine externen Schriften. Sie wird über GitHub Pages ausgeliefert; dabei verarbeitet GitHub technisch notwendige Zugriffsdaten wie die IP-Adresse.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var a = document.getElementById('ablauf');
+  if (!a || !('IntersectionObserver' in window)) return;
+  a.classList.add('wartet');
+  var io = new IntersectionObserver(function (e) {
+    if (e[0].isIntersecting) { a.classList.remove('wartet'); a.classList.add('zeichnen'); io.disconnect(); }
+  }, { threshold: 0.3 });
+  io.observe(a);
+})();
+</script>
+<script src="assets/js/clip.js"></script>
+</body>
+</html>

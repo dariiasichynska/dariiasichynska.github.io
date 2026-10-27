@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agentic Workflow für die Jobsuche – Fallstudie – Dariia Sichynska</title>
+<meta name="description" content="Fallstudie: Ein Team aus KI-Agenten für die eigene Jobsuche, gebaut mit n8n, Gemini, Claude und Airtable, mit Prüfungen gegen erfundene KI-Ergebnisse.">
+<meta property="og:title" content="Agenten-Team für die Jobsuche – Fallstudie">
+<meta property="og:image" content="https://dariiasichynska.github.io/assets/img/dariia-sichynska.jpg">
+<meta name="theme-color" content="#171a20">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<a class="skip" href="#inhalt">Zum Inhalt springen</a>
+<header class="kopf">
+  <div class="wrap">
+    <a class="marke" href="../">Dariia Sichynska</a>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a href="../#projekte" aria-current="page">Projekte</a>
+      <a href="../#kontakt">Kontakt</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inhalt">
+<div class="wrap">
+  <section class="fall-kopf">
+    <a class="zurueck" href="../#projekte">Alle Projekte</a>
+    <h1>Agentic Workflow für die eigene Jobsuche</h1>
+    <p class="unterzeile">Mehrere KI-Agenten mit klar getrennten Aufgaben. Sie suchen, prüfen und bereiten vor, die Entscheidungen treffe ich.</p>
+    <dl class="fakten">
+      <div><dt>Meine Rolle</dt><dd>Architektur, Kriterien, Prüfregeln und Tests. Den n8n-Workflow habe ich zusammen mit Claude erstellt.</dd></div>
+      <div><dt>Werkzeuge</dt><dd>n8n, Google Gemini, Claude, Airtable, OpenStreetMap (Nominatim)</dd></div>
+      <div><dt>Status</dt><dd>Im Aufbau. Der Employer-Scout ist gebaut und getestet, die weiteren Agenten folgen.</dd></div>
+    </dl>
+  </section>
+
+  <section class="kapitel">
+    <h2>Ausgangslage</h2>
+    <div class="inhalt">
+      <p>Passende Stellen verteilen sich auf viele Portale, und der Stellentitel sagt wenig darüber, was man in der Rolle tatsächlich tut. Ich wollte die Suche so weit wie möglich automatisieren, ohne die Kontrolle abzugeben: Bewertet wird nach Aufgabenbereich, nicht nach Titel, und kein Agent bewirbt sich oder verschickt etwas selbst.</p>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Architektur</h2>
+    <div class="inhalt">
+      <p>Jeder Agent hat genau eine Aufgabe. Wiederkehrende Abläufe laufen in n8n mit dem kostenlosen Gemini-Tarif, Texte, die Arbeitgeber lesen, entstehen mit Claude.</p>
+      <ul class="agenten">
+        <li class="fertig"><span>Employer-Scout: Arbeitgeber-Wunschliste</span><span>n8n + Gemini, getestet</span></li>
+        <li><span>Stellensuche auf Portalen und Firmenseiten</span><span>n8n + Gemini</span></li>
+        <li><span>Passung 0–100 nach Aufgabenbereich</span><span>n8n + Gemini</span></li>
+        <li><span>Bewerbungs-Tracking</span><span>n8n + Airtable</span></li>
+        <li><span>Wochenrückblick</span><span>n8n + Gemini</span></li>
+        <li><span>Anschreiben und Lebenslauf, erst ab Score 75</span><span>Claude</span></li>
+        <li><span>ATS-Check des Lebenslaufs</span><span>Claude</span></li>
+        <li><span>Portfolio aus Weiterbildungsprojekten</span><span>Claude</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Employer-Scout</h2>
+    <div class="inhalt">
+      <p>Der erste fertige Agent baut eine Liste Berliner Arbeitgeber auf, die zu meinem Profil passen. Die KI darf vorschlagen, gespeichert wird nur, was die Prüfungen besteht.</p>
+      <ol class="schritte">
+        <li><strong>Vorschlag.</strong> Gemini nennt Arbeitgeber zu einem Fokus-Stichwort, etwa Prozessautomatisierung oder BPMN, als JSON mit Temperatur 0. Unbekanntes bleibt leer statt geraten.</li>
+        <li><strong>Dubletten.</strong> Abgleich mit der Wunschliste in Airtable.</li>
+        <li><strong>Prüfung ohne KI.</strong> Existiert die Website? Gehört die Karriereseite zur Firma oder zu einem bekannten Bewerbungssystem? Steht der Firmenname auf der Seite? Wer durchfällt, landet nicht in Airtable, sondern nur im Bericht des Laufs.</li>
+        <li><strong>Adresse aus dem Impressum.</strong> In meinen Testläufen lag Gemini bei 7 von 22 Firmen mit der Berliner Adresse falsch. Deshalb liest der Workflow die Adresse jetzt per Regel aus dem Impressum. Die KI-Adresse dient nur als markierter Notbehelf.</li>
+        <li><strong>Entfernung.</strong> Geokodierung über OpenStreetMap und Luftlinie im Code-Knoten. Hybride Stellen mit zu langem Arbeitsweg werden aussortiert.</li>
+        <li><strong>Eintrag und Bericht.</strong> Neue Arbeitgeber kommen mit dem Status „Neu“ in Airtable, die Priorität setze ich. Werden in einem Lauf mehr als 30 Prozent abgelehnt, markiert der Bericht den Lauf, denn dann stimmt der Prompt oder das Stichwort nicht.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Datenschutz</h2>
+    <div class="inhalt">
+      <ul>
+        <li>An Gemini gehen nur öffentliche Stellentexte, Suchparameter und ein Profil ohne Kontaktdaten, nie der Lebenslauf.</li>
+        <li>Der Bezugspunkt für die Entfernung liegt nur als Koordinate im Workflow und erreicht kein KI-Modell.</li>
+        <li>Die n8n-Instanz stellt ein Bildungsträger bereit. Deshalb nutze ich eigene, eng begrenzte und austauschbare Zugangsschlüssel und exportiere die Workflows regelmäßig.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Erkenntnis</h2>
+    <div class="inhalt">
+      <p>KI ist gut darin, Kandidaten vorzuschlagen. Für Fakten wie Adressen und Links ist eine einfache Regel zuverlässiger. Die stärkste Stelle im Workflow sind deshalb die Prüfungen, nicht der Prompt.</p>
+    </div>
+  </section>
+
+  <nav class="weiter" aria-label="Weitere Fallstudien">
+    <a href="../#projekte">Alle Projekte</a>
+    <a href="olympiade-training.html">Nächstes Projekt: Olympiade-Training</a>
+  </nav>
+</div>
+</main>
+
+<footer class="fuss">
+  <div class="wrap">
+    <p>© 2026 Dariia Sichynska</p>
+    <p>Keine Cookies, keine Analyse-Tools, keine externen Schriften. Ausgeliefert über GitHub Pages.</p>
+  </div>
+</footer>
+</body>
+</html>

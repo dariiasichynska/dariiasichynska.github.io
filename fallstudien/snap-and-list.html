@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Snap &amp; List – Fallstudie – Dariia Sichynska</title>
+<meta name="description" content="Fallstudie: KI-gestützte Automatisierung von Verkaufsanzeigen, vom Foto zum fertigen deutschen Anzeigentext, umgesetzt in Make.com und n8n.">
+<meta property="og:title" content="Snap &amp; List – Fallstudie">
+<meta property="og:image" content="https://dariiasichynska.github.io/assets/img/dariia-sichynska.jpg">
+<meta name="theme-color" content="#171a20">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<a class="skip" href="#inhalt">Zum Inhalt springen</a>
+<header class="kopf">
+  <div class="wrap">
+    <a class="marke" href="../">Dariia Sichynska</a>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a href="../#projekte" aria-current="page">Projekte</a>
+      <a href="../#kontakt">Kontakt</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inhalt">
+<div class="wrap">
+  <section class="fall-kopf">
+    <a class="zurueck" href="../#projekte">Alle Projekte</a>
+    <h1>Snap &amp; List</h1>
+    <p class="unterzeile">Vom Foto eines Kleidungsstücks zur fertigen deutschen Verkaufsanzeige. Die KI analysiert und schreibt, der Mensch prüft und veröffentlicht. Der komplette Workflow ist zweimal gebaut: in Make.com und in n8n.</p>
+    <dl class="fakten">
+      <div><dt>Meine Rolle</dt><dd>Konzept, Umsetzung und Betrieb, eigenständig</dd></div>
+      <div><dt>Werkzeuge</dt><dd>Make.com, n8n, Google Gemini API (Claude zum Vergleich), Dropbox, Gmail, Airtable, Telegram, BPMN, iOS-Kurzbefehle</dd></div>
+      <div><dt>Status</dt><dd>Im Einsatz für meine eigenen Verkäufe</dd></div>
+    </dl>
+  </section>
+
+  <section class="kapitel">
+    <h2>Ausgangslage</h2>
+    <div class="inhalt">
+      <p>Jede Anzeige war Handarbeit: Fotos sichten, Merkmale bestimmen, einen Text auf Deutsch formulieren. Die Qualität der Beschreibungen schwankte, und der Aufwand wuchs mit jedem Artikel.</p>
+      <ul>
+        <li><strong>Effizienz:</strong> Handarbeit nur noch bei der abschließenden Prüfung.</li>
+        <li><strong>Qualität:</strong> einheitliche, vollständige Beschreibungen für den deutschsprachigen Markt.</li>
+        <li><strong>Budget:</strong> keine Infrastrukturkosten, Betrieb in kostenlosen Tarifen.</li>
+        <li><strong>Kontrolle:</strong> keine automatische Veröffentlichung, die Entscheidung bleibt beim Menschen.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Ablauf</h2>
+    <div class="inhalt">
+      <ol class="schritte">
+        <li>Die Fotos jedes Artikels landen als eigenes Paket in einem Cloud-Speicher.</li>
+        <li>Zeitgesteuert holt der Prozess neue Pakete ab und schickt alle Fotos eines Artikels in einer einzigen Anfrage an das KI-Modell.</li>
+        <li>Die KI bestimmt Kategorie, Zustand, Material, Farbe, Größe und Marke und formuliert Titel und Beschreibung.</li>
+        <li>Der Text kommt zur Prüfung in mein Postfach: in Make.com als E-Mail an mich, in n8n als Gmail-Entwurf. Die Make.com-Version erfasst den Artikel zusätzlich in Airtable.</li>
+        <li>Das verarbeitete Paket wird automatisch archiviert.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Entscheidungen</h2>
+    <div class="inhalt">
+      <table class="tabelle">
+        <tr><th>Prozessanalyse</th><td>Verkaufsprozess in Einzelschritte zerlegt, Automatisierungspotenzial und menschliche Kontrollpunkte festgelegt, in BPMN modelliert.</td></tr>
+        <tr><th>Architektur</th><td>Zeitgesteuerte Stapelverarbeitung statt Reaktion auf jede einzelne Datei: ein Artikel, ein Paket, eine KI-Anfrage, ein Entwurf. Das verhindert Dubletten und spart Ressourcen.</td></tr>
+        <tr><th>Knappe Ressourcen</th><td>Verbrauch für den kostenlosen Tarif (1.000 Operationen, 2 aktive Szenarien pro Monat) bei etwa 10 Artikeln mit 100 Fotos kalkuliert. Als das Datenvolumen nicht mehr reichte, habe ich die Bildkomprimierung in den Aufnahmeschritt verlegt.</td></tr>
+        <tr><th>Multimodale KI</th><td>Alle Ansichten eines Artikels in einer Anfrage. Strukturierte JSON-Ausgabe, damit die Daten ohne Nacharbeit in E-Mail und Datenbank fließen.</td></tr>
+        <tr><th>Anbieterwahl</th><td>Google Gemini und Anthropic Claude nach Kosten, Zugangsbedingungen und Qualität verglichen. Wo Standard-Konnektoren das Datenformat nicht unterstützten, direkt über die REST-API angebunden.</td></tr>
+        <tr><th>Prompt</th><td>Deutscher System-Prompt mit klaren Regeln: Aufbau der Anzeige, Hinweis zum Privatverkauf, keine personenbezogenen Daten wie Namensetiketten. Haupt- und Ausweichmodell nach Ergebnisqualität festgelegt.</td></tr>
+        <tr><th>Ausfallsicherheit</th><td>Wiederholungsversuche bei API-Fehlern, fehlerhafte Dateien werden übersprungen, Fehlerbenachrichtigungen, Ausweichmodell bei Überlastung.</td></tr>
+        <tr><th>Plattformwechsel</th><td>Lösung von Make.com nach n8n übertragen und beide Ansätze verglichen.</td></tr>
+        <tr><th>Dokumentation</th><td>BPMN-Diagramm und eine Übersicht der Hürden und Lösungen.</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Ergebnis</h2>
+    <div class="inhalt">
+      <ul>
+        <li>Ein durchgängiger Prozess vom Foto bis zum fertigen Anzeigenentwurf, ohne selbst zu formulieren.</li>
+        <li>Keine Infrastrukturkosten: Beim aktuellen Volumen bleibt alles in den kostenlosen Tarifen.</li>
+        <li>Einheitliche, vollständige Beschreibungen dank klarer Regeln für die KI.</li>
+        <li>Die Automatisierung bereitet vor, ich entscheide.</li>
+      </ul>
+      <p class="hinweis">Dieselbe Logik lässt sich auf andere Produkte, Plattformen und Geschäftsprozesse mit Bild- und Dokumentenverarbeitung übertragen.</p>
+    </div>
+  </section>
+
+  <nav class="weiter" aria-label="Weitere Fallstudien">
+    <a href="olympiade-training.html">Voriges Projekt: Olympiade-Training</a>
+    <a href="../#kontakt">Kontakt aufnehmen</a>
+  </nav>
+</div>
+</main>
+
+<footer class="fuss">
+  <div class="wrap">
+    <p>© 2026 Dariia Sichynska</p>
+    <p>Keine Cookies, keine Analyse-Tools, keine externen Schriften. Ausgeliefert über GitHub Pages.</p>
+  </div>
+</footer>
+</body>
+</html>
