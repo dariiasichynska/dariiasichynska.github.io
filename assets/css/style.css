@@ -94,6 +94,8 @@ li::marker { color: var(--messing-dunkel); }
 .knopf:hover { border-color: var(--messing); color: var(--papier); }
 .knopf.haupt { background: var(--messing); border-color: var(--messing); color: var(--graphit); }
 .knopf.haupt:hover { background: #dbb983; color: var(--graphit); }
+.abo { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem; margin-top: 1.5rem; }
+.abo small { color: var(--grau); font-size: 0.8125rem; }
 
 /* Abschnitte */
 .abschnitt { padding: clamp(3.5rem, 8vw, 6rem) 0; border-top: 1px solid var(--kante); }
