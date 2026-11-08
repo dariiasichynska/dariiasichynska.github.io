@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Agentic Workflow für die Jobsuche – Fallstudie – Dariia Sichynska</title>
-<meta name="description" content="Fallstudie: Ein Team aus KI-Agenten für die eigene Jobsuche, gebaut mit n8n, Gemini, Claude und Airtable, mit Prüfungen gegen erfundene KI-Ergebnisse.">
+<meta name="description" content="Fallstudie: KI-Agenten für die eigene Jobsuche mit n8n, Gemini, Claude und Airtable. Bewertung nach Aufgaben, Prüfungen gegen erfundene KI-Ergebnisse, Mensch entscheidet.">
 <meta property="og:title" content="Agenten-Team für die Jobsuche – Fallstudie">
 <meta property="og:image" content="https://dariiasichynska.github.io/assets/img/dariia-sichynska.jpg">
 <meta name="theme-color" content="#171a20">
@@ -31,8 +31,8 @@
     <p class="unterzeile">Mehrere KI-Agenten mit klar getrennten Aufgaben. Sie suchen, prüfen und bereiten vor, die Entscheidungen treffe ich.</p>
     <dl class="fakten">
       <div><dt>Meine Rolle</dt><dd>Architektur, Kriterien, Prüfregeln und Tests. Den n8n-Workflow habe ich zusammen mit Claude erstellt.</dd></div>
-      <div><dt>Werkzeuge</dt><dd>n8n, Google Gemini, Claude, Airtable, OpenStreetMap (Nominatim)</dd></div>
-      <div><dt>Status</dt><dd>Im Aufbau. Der Employer-Scout ist gebaut und getestet, die weiteren Agenten folgen.</dd></div>
+      <div><dt>Werkzeuge</dt><dd>n8n, Google Gemini, Claude, Airtable, Gmail, Telegram, OpenStreetMap (Nominatim)</dd></div>
+      <div><dt>Status</dt><dd>Im Aufbau. Vier Workflows laufen nach Zeitplan, der Writer arbeitet noch auf Zuruf. Technische Doku auf <a href="https://github.com/dariiasichynska/jobsuche-agenten" rel="noopener">GitHub</a>.</dd></div>
     </dl>
   </section>
 
@@ -48,22 +48,58 @@
     <div class="inhalt">
       <p>Jeder Agent hat genau eine Aufgabe. Wiederkehrende Abläufe laufen in n8n mit dem kostenlosen Gemini-Tarif, Texte, die Arbeitgeber lesen, entstehen mit Claude.</p>
       <ul class="agenten">
-        <li class="fertig"><span>Employer-Scout: Arbeitgeber-Wunschliste</span><span>n8n + Gemini, getestet</span></li>
-        <li><span>Stellensuche auf Portalen und Firmenseiten</span><span>n8n + Gemini</span></li>
-        <li><span>Passung 0–100 nach Aufgabenbereich</span><span>n8n + Gemini</span></li>
-        <li><span>Bewerbungs-Tracking</span><span>n8n + Airtable</span></li>
-        <li><span>Wochenrückblick</span><span>n8n + Gemini</span></li>
-        <li><span>Anschreiben und Lebenslauf, erst ab Score 75</span><span>Claude</span></li>
-        <li><span>ATS-Check des Lebenslaufs</span><span>Claude</span></li>
-        <li><span>Portfolio aus Weiterbildungsprojekten</span><span>Claude</span></li>
+        <li class="fertig"><span>Employer-Scout: Arbeitgeber-Wunschliste</span><span>läuft sonntags</span></li>
+        <li class="fertig"><span>Job-Scout: drei Quellen, Arbeitsweg, Dubletten</span><span>läuft täglich</span></li>
+        <li class="fertig"><span>Scorer: Passung 0–100 nach Aufgabenbereich</span><span>läuft täglich</span></li>
+        <li class="fertig"><span>Nachfass-Erinnerung und Fehlermeldung</span><span>Telegram</span></li>
+        <li class="fertig"><span>Writer: Anschreiben und Lebenslauf ab Score 75</span><span>Claude, auf Zuruf</span></li>
+        <li><span>Arbeitgeber-Check (Bewertungen im Netz)</span><span>geplant</span></li>
+        <li><span>ATS-Check des Lebenslaufs</span><span>geplant</span></li>
+        <li><span>Wochenrückblick</span><span>geplant</span></li>
       </ul>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Eine Nacht im Ablauf</h2>
+    <div class="inhalt">
+      <p>Der Job-Scout startet jede Nacht um 3:17 Uhr, außerhalb der Arbeitszeiten anderer und abseits der Spitzenlast der KI-Dienste.</p>
+      <ol class="schritte">
+        <li><strong>Drei Quellen.</strong> Die Jobsuche der Bundesagentur für Arbeit, die Job-Alerts von LinkedIn und StepStone in einem eigenen Gmail-Label und die Karriereseiten meiner Wunschliste, sofern sie auf einem bekannten Bewerbungssystem laufen. Portale werden nicht gescrapt: Die Alerts kommen ohnehin per E-Mail.</li>
+        <li><strong>Arbeitsweg zuerst.</strong> Die Bundesagentur liefert Koordinaten mit. Liegt das Büro zu weit weg und ist kein Homeoffice möglich, fliegt die Stelle raus, bevor sie einen KI-Aufruf kostet.</li>
+        <li><strong>Dubletten und Fairness.</strong> Dieselbe Stelle kommt oft über mehrere Wege. Der Workflow vergleicht bereinigte Links sowie Titel und Arbeitgeber. Danach nimmt er reihum aus jeder Quelle, sonst füllt der erste Suchbegriff das Tageslimit allein.</li>
+        <li><strong>Bewertung.</strong> Pro Stelle ein Gemini-Aufruf, höchstens 25 pro Nacht. Ohne ausreichenden Anzeigentext entsteht nur ein Datensatz zur Vorprüfung.</li>
+        <li><strong>Kurze Meldung.</strong> Am Morgen kommt eine Telegram-Nachricht: passende Stellen ab 75 mit Link, der Rest nur als Zahl.</li>
+      </ol>
+      <p>Im ersten echten Lauf kamen von der Bundesagentur 958 Treffer. Nach dem Titel-Vorfilter blieben 109, davon waren 27 zu weit weg. 25 Stellen wurden bewertet.</p>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Scorer</h2>
+    <div class="inhalt">
+      <p>Bewertet wird nach dem, was man in der Rolle tut, nicht nach dem Titel. Eine Anzeige mit „Projektmanager“ im Titel kann eine Vertriebsstelle sein, eine „Teamassistenz“ kann überwiegend Prozessarbeit bedeuten.</p>
+      <ol class="schritte">
+        <li><strong>Teilwerte von der KI.</strong> Gemini liest die Anzeige und liefert Teilwerte für Aufgaben, Werkzeuge, Sprache, Ort und Bedingungen, dazu Treffer, Lücken und offene Fragen als JSON.</li>
+        <li><strong>Rechnen im Code.</strong> Die Gesamtpunktzahl berechnet ein Code-Knoten: Teilwerte begrenzen, Abzüge deckeln, Bonus für interne Rollen. So ist jeder Score nachvollziehbar, die Rechnung steht im Datensatz.</li>
+        <li><strong>Harte Ausschlüsse.</strong> Personalverantwortung, „5+ Jahre Berufserfahrung in Deutschland“ oder Präsenzpflicht außerhalb meines Radius sperren den Writer.</li>
+        <li><strong>Nachjustiert.</strong> Nach den ersten Läufen habe ich drei Regeln geschärft: Vertrieb als Hauptaufgabe begrenzt den Aufgaben-Wert, ein Gehalt unter meinem Minimum drückt die Bedingungen, und „sehr gute Deutschkenntnisse“ kosten keine Punkte mehr.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Writer</h2>
+    <div class="inhalt">
+      <p>Ab Score 75 bereitet Claude ein Bewerbungspaket vor: Anschreiben, einen auf die Anzeige zugeschnittenen Lebenslauf und Hinweise für das Bewerbungsportal. Formuliert wird nur mit Erfahrung, die belegt ist. Das Anschreiben entsteht vor allem als E-Mail-Text, weil ich die meisten Bewerbungen per E-Mail verschicke. Abgeschickt wird nichts automatisch: Ich lese, entscheide und bewerbe mich selbst.</p>
+      <p>Das erste Paket haben wir gemeinsam von Hand gebaut, es ist jetzt die Stilvorlage. Als Nächstes soll der Writer täglich laufen und vorher den Arbeitgeber anhand von Bewertungen im Netz einordnen.</p>
     </div>
   </section>
 
   <section class="kapitel">
     <h2>Employer-Scout</h2>
     <div class="inhalt">
-      <p>Der erste fertige Agent baut eine Liste Berliner Arbeitgeber auf, die zu meinem Profil passen. Die KI darf vorschlagen, gespeichert wird nur, was die Prüfungen besteht.</p>
+      <p>Der erste Agent baut jeden Sonntag eine Liste Berliner Arbeitgeber auf, die zu meinem Profil passen. Die KI darf vorschlagen, gespeichert wird nur, was die Prüfungen besteht.</p>
       <ol class="schritte">
         <li><strong>Vorschlag.</strong> Gemini nennt Arbeitgeber zu einem Fokus-Stichwort, etwa Prozessautomatisierung oder BPMN, als JSON mit Temperatur 0. Unbekanntes bleibt leer statt geraten.</li>
         <li><strong>Dubletten.</strong> Abgleich mit der Wunschliste in Airtable.</li>
@@ -80,7 +116,9 @@
     <div class="inhalt">
       <ul>
         <li>An Gemini gehen nur öffentliche Stellentexte, Suchparameter und ein Profil ohne Kontaktdaten, nie der Lebenslauf.</li>
-        <li>Der Bezugspunkt für die Entfernung liegt nur als Koordinate im Workflow und erreicht kein KI-Modell.</li>
+        <li>Meine Wohnadresse steht nirgends im Workflow. Für den Arbeitsweg reicht ein öffentlicher Platz in der Nähe.</li>
+        <li>Lebenslauf, Kontaktdaten und Anschreiben bleiben bei Claude und in meinem Google Drive.</li>
+        <li>Kein Workflow verschickt etwas an Arbeitgeber.</li>
         <li>Die n8n-Instanz stellt ein Bildungsträger bereit. Deshalb nutze ich eigene, eng begrenzte und austauschbare Zugangsschlüssel und exportiere die Workflows regelmäßig.</li>
       </ul>
     </div>
@@ -89,9 +127,12 @@
   <section class="kapitel">
     <h2>Erkenntnis</h2>
     <div class="inhalt">
-      <p>KI ist gut darin, Kandidaten vorzuschlagen. Für Fakten wie Adressen und Links ist eine einfache Regel zuverlässiger. Die stärkste Stelle im Workflow sind deshalb die Prüfungen, nicht der Prompt.</p>
+      <p>KI ist gut darin, Kandidaten vorzuschlagen und Anzeigen zu lesen. Für Fakten wie Adressen und Links und für das Rechnen ist eine einfache Regel zuverlässiger. Die stärkste Stelle im Workflow sind deshalb die Prüfungen, nicht der Prompt.</p>
+      <p>Die zweite Lehre kam aus dem Betrieb: Der kostenlose Gemini-Tarif hat Tageslimits pro Modell, und öffentliche Schnittstellen ändern sich ohne Ankündigung. Deshalb gibt es ein Ersatzmodell mit eigenem Kontingent, eine Fehlermeldung per Telegram und eine Obergrenze pro Lauf.</p>
     </div>
   </section>
+
+  <p><a class="mehr" href="https://github.com/dariiasichynska/jobsuche-agenten" rel="noopener">Technische Doku auf GitHub</a></p>
 
   <nav class="weiter" aria-label="Weitere Fallstudien">
     <a href="snap-and-list.html">Voriges Projekt: Snap &amp; List</a>
