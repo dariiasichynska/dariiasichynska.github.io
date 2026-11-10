@@ -1,14 +1,14 @@
 # dariiasichynska.github.io
 
-Persönliche Bewerbungsseite von Dariia Sichynska: Prozessautomatisierung und KI-Integration.
+Personal portfolio of Dariia Sichynska: process automation and AI integration. The site is in German.
 
-Statisches HTML und CSS, keine Build-Schritte, keine Cookies, keine externen Dienste. Schriften (Spectral, IBM Plex Sans, SIL Open Font License) liegen unter `assets/fonts/`.
+Static HTML and CSS, no build steps, no cookies, no external services. The fonts (Spectral, IBM Plex Sans, SIL Open Font License) are in `assets/fonts/`.
 
-## Struktur
-- `index.html` – Startseite
-- `fallstudien/` – eine Seite pro Fallstudie
-- `assets/css/style.css` – gesamtes Design
-- `assets/img/` – Foto und Screenshots
-- `assets/cv/` – Lebenslauf als PDF
+## Structure
+- `index.html` – home page
+- `fallstudien/` – one page per case study
+- `assets/css/style.css` – the whole design
+- `assets/img/` – photo and screenshots
+- `assets/cv/` – CV as PDF
 
 © 2026 Dariia Sichynska
