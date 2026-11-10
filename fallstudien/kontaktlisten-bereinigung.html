@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kontaktlisten-Bereinigung – Fallstudie – Dariia Sichynska</title>
+<meta name="description" content="Fallstudie: Ein Google-Apps-Script macht aus 150 Zeilen aus vier Quellen 96 saubere Kontakte, eine Prüf-Liste mit Begründung und ein Cockpit für die Geschäftsführung.">
+<meta property="og:title" content="Kontaktlisten-Bereinigung – Fallstudie">
+<meta property="og:image" content="https://dariiasichynska.github.io/assets/img/kontaktlisten/cockpit-karte.png">
+<meta name="theme-color" content="#171a20">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<a class="skip" href="#inhalt">Zum Inhalt springen</a>
+<header class="kopf">
+  <div class="wrap">
+    <a class="marke" href="../">Dariia Sichynska</a>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a href="../#projekte" aria-current="page">Projekte</a>
+      <a href="../#kontakt">Kontakt</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inhalt">
+<div class="wrap">
+  <section class="fall-kopf">
+    <a class="zurueck" href="../#projekte">Alle Projekte</a>
+    <h1>Kontaktlisten-Bereinigung</h1>
+    <p class="unterzeile">Ein Klick in Google Sheets macht aus 150 Zeilen aus vier Quellen 96 saubere Kontakte, eine Prüf-Liste mit Begründung und ein Cockpit für die Geschäftsführung.</p>
+    <dl class="fakten">
+      <div><dt>Meine Rolle</dt><dd>Umfang, Fachkonzept, Entscheidungen zu den Regeln, Abnahme in Google Sheets, Inhalte des Cockpits. Den Code hat Claude geschrieben.</dd></div>
+      <div><dt>Werkzeuge</dt><dd>Google Apps Script, Google Sheets, Web-App mit HTML, automatisierte Tests in Node</dd></div>
+      <div><dt>Status</dt><dd>Demo-Projekt. SICH Studio ist ein Modellunternehmen, alle Daten sind synthetisch. Code und Dokumentation öffentlich auf <a href="https://github.com/dariiasichynska/kontaktlisten-bereinigung">GitHub</a>.</dd></div>
+    </dl>
+  </section>
+
+  <section class="kapitel">
+    <h2>Ausgangslage</h2>
+    <div class="inhalt">
+      <p>Das Modellunternehmen SICH Studio, eine Beratung, sammelt Kontakte auf vier Wegen: über das Kontaktformular der Website, über Webinar-Anmeldungen, über abgetippte Visitenkarten von der Messe und über den Newsletter. Jede Liste führt eine andere Person oder ein anderes Tool.</p>
+      <ul>
+        <li><strong>Dieselbe Person steht mehrfach in den Listen.</strong> Einmal als <code>J.NEUMANN@…</code>, einmal mit Leerzeichen, einmal mit einem unsichtbaren Zeichen aus Copy&nbsp;&amp;&nbsp;Paste.</li>
+        <li><strong>Jede Quelle hat eigene Fehler.</strong> Namen in einer Zelle, Telefonnummern in sechs Schreibweisen, Datumsangaben als Text, als Datum oder als Excel-Zahl.</li>
+        <li><strong>Manche Personen haben der Werbung widersprochen.</strong> Sie stehen auf einer Sperrliste und dürfen über keine der vier Listen wieder angeschrieben werden.</li>
+        <li><strong>Niemand weiß, wie viele echte Kontakte es sind.</strong> 150 Zeilen sind nicht 150 Personen.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Vorgehen</h2>
+    <div class="inhalt">
+      <p>Der Ausgangspunkt war eine Kursaufgabe aus meiner Weiterbildung: 18 Zeilen mit n8n säubern. Ich habe die Idee mit eigenen Daten, strengeren Regeln und einer Sicht für die Geschäftsführung in Apps Script neu gebaut. Claude war der Entwickler, Umfang, Entscheidungen und Abnahme lagen bei mir.</p>
+      <ol class="schritte">
+        <li><strong>Fachkonzept vor dem Code.</strong> Ziel-Schema, Priorität der Quellen und die Trennung „Die Maschine säubert, der Mensch entscheidet“ standen fest, bevor eine Zeile Code existierte. Dazu 23 bewusst gesetzte Sonderfälle mit erwartetem Ergebnis.</li>
+        <li><strong>Eigene Testdaten.</strong> 150 synthetische Zeilen aus vier Quellen, reproduzierbar erzeugt. Alle Adressen enden auf <code>.example</code>, damit nie eine Mail an echte Menschen geht.</li>
+        <li><strong>Abnahme in der echten Tabelle.</strong> Jede Version lief bei mir in Google Sheets, das Protokoll habe ich mit den Tests verglichen. Der erste Lauf scheiterte an der Zeitzone einer importierten Tabelle. Diesen Fall hatte die Simulation nicht abgedeckt.</li>
+        <li><strong>Code-Review auf Anforderung.</strong> Ich habe eine kritische Prüfung des fertigen Skripts verlangt. Sie fand zehn Fehler außerhalb der Testdaten, darunter die fehlende Sperrliste und die Schreibweise <code>+49 030 …</code>. Alle sind behoben und durch Tests abgesichert.</li>
+        <li><strong>Zwei Entscheidungen zu den Regeln.</strong> Meldet sich eine gesperrte Person später selbst über das Formular, geht die Anfrage auf die Prüf-Liste, statt zu verschwinden. Teilen sich zwei Personen eine E-Mail-Adresse, bleiben beide erhalten.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Lösung</h2>
+    <div class="inhalt">
+      <p>Im Menü der Tabelle steht der Punkt „Kontaktlisten bereinigen“. Das Skript liest die vier Quellen, ohne sie zu verändern, und schreibt drei Tabs: <em>Sauber</em>, <em>Prüfen</em> und <em>Protokoll</em>.</p>
+      <ul>
+        <li><strong>Zuordnung als Konfiguration:</strong> Welche Spalte welcher Quelle wohin gehört, steht in einer eigenen Datei. Eine neue Quelle ist ein neuer Eintrag, der Code bleibt unverändert.</li>
+        <li><strong>Säubern:</strong> unsichtbare Zeichen entfernen, E-Mail klein schreiben, Namen aus einer Zelle teilen, Telefonnummern auf <code>+49…</code> bringen, Datumsangaben vereinheitlichen.</li>
+        <li><strong>Zusammenführen:</strong> Zeilen mit derselben E-Mail werden eine Person. Lücken füllt das Skript aus den anderen Quellen, die zuverlässigere Quelle gewinnt.</li>
+        <li><strong>Prüf-Liste mit Begründung:</strong> Was die Maschine nicht sicher entscheiden kann, bekommt einen Grund in Klartext, zum Beispiel „Nachname weicht ab (Krüger / Neumann)“.</li>
+        <li><strong>Bilanz:</strong> Jeder Lauf prüft, ob gelesene Zeilen und Ergebnis zusammenpassen. Geht eine Zeile verloren, steht im Protokoll „FEHLER“.</li>
+      </ul>
+      <div class="galerie">
+        <figure class="breit"><img src="../assets/img/kontaktlisten/cockpit.png" width="1240" height="1778" alt="Kontaktdaten-Cockpit mit Kennzahlen, Fluss der Zeilen aus vier Quellen, Prüfquote je Quelle, Datenschutz, Prüfgründen und gesparter Zeit" loading="lazy"><figcaption>Das Kontaktdaten-Cockpit, eine Web-App in Apps Script. Es zeigt nur Zahlen, keine Namen und keine Adressen.</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Details</h2>
+    <div class="inhalt">
+      <p>Vier Stellen, an denen ein einfacher Ansatz ein ordentlich aussehendes, aber falsches Ergebnis liefert.</p>
+      <table class="tabelle">
+        <tr><th>+49 (0)30 …</th><td>Die übliche Kurzformel macht daraus <code>+49030…</code>. Die Nummer sieht sauber aus und ist nicht erreichbar. Das Skript entfernt die Null und prüft die Länge.</td></tr>
+        <tr><th>Google Sheets deutet Werte um</th><td>Aus <code>+4930…</code> wird in einer normalen Zelle eine Zahl ohne Plus, aus <code>2026-09-15</code> ein Datum. Das Skript setzt zuerst das Format „Text“ und schreibt dann die Werte.</td></tr>
+        <tr><th>Erst säubern, dann sperren</th><td>Roh verglichen rutscht <code>MARKUS…@</code> an <code>markus…@</code> auf der Sperrliste vorbei.</td></tr>
+        <tr><th>Fehlende Sperrliste</th><td>Ohne Sperrliste bricht der Lauf ab. Sonst landen alle gesperrten Personen in der sauberen Liste, und die Bilanz zeigt trotzdem „OK“.</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Datenschutz</h2>
+    <div class="inhalt">
+      <table class="tabelle">
+        <tr><th>Gesperrte Zeilen</th><td>Sie werden aus allen Quellen entfernt und in keinen Tab geschrieben. Im Protokoll steht nur die Anzahl.</td></tr>
+        <tr><th>Minimale Rechte</th><td>Das Skript darf nur auf diese eine Tabelle zugreifen, nicht auf alle Dateien im Drive.</td></tr>
+        <tr><th>Cockpit ohne Personendaten</th><td>Die Web-App liest gespeicherte Kennzahlen und greift nie auf die Tabelle zu. Der Link kann geteilt werden.</td></tr>
+        <tr><th>Schutz vor Formeln</th><td>Ein Wert aus einem öffentlichen Formular, der mit „=“ beginnt, wird als Text geschrieben und nie als Formel ausgeführt.</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Ergebnis</h2>
+    <div class="inhalt">
+      <ul>
+        <li>Aus 150 Zeilen werden 96 saubere Kontakte. 29 doppelte Zeilen sind zusammengeführt, das ist fast jede fünfte.</li>
+        <li>17 Datensätze gehen mit Begründung an einen Menschen, 8 gesperrte Zeilen erscheinen nirgends.</li>
+        <li>Die Messe-Liste verursacht den höchsten Prüfaufwand: 20 Prozent ihrer Zeilen. Das Cockpit zeigt damit, wo sich eine andere Erfassung lohnt.</li>
+        <li>121 automatisierte Prüfungen laufen lokal, ohne Google-Konto. Der Lauf in der echten Tabelle liefert dieselben Zahlen.</li>
+      </ul>
+      <p class="hinweis">SICH Studio ist ein Modellunternehmen, alle Daten sind synthetische Testdaten. Die gesparte Zeit im Cockpit ist ein Rechenbeispiel mit offen ausgewiesenen Annahmen: 2 Minuten je Zeile von Hand, 3 Minuten je Prüf-Fall, 100 € Stundensatz.</p>
+    </div>
+  </section>
+
+  <nav class="weiter" aria-label="Weitere Fallstudien">
+    <a href="olympiade-training.html">Voriges Projekt: Olympiade-Training</a>
+    <a href="snap-and-list.html">Nächstes Projekt: Snap &amp; List</a>
+  </nav>
+</div>
+</main>
+
+<footer class="fuss">
+  <div class="wrap">
+    <p>© 2026 Dariia Sichynska</p>
+    <p>Keine Cookies, keine Analyse-Tools, keine externen Schriften. Ausgeliefert über GitHub Pages.</p>
+  </div>
+</footer>
+</body>
+</html>

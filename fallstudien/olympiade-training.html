@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Olympiade-Training – Fallstudie – Dariia Sichynska</title>
-<meta name="description" content="Fallstudie: Offline-Mathe-Trainer für ein Android-Tablet von 2014, mit gestuften Tipps, KI-Bewertung der Begründung und Ergebnis-Sync über Make.com.">
+<meta name="description" content="Fallstudie: Mathe-Trainer für die Olympiade, offline auf einem Tablet von 2014 und als Web-Version unter eigenem Konto, mit KI-Bewertung, Make.com und Airtable.">
 <meta property="og:title" content="Olympiade-Training – Fallstudie">
 <meta property="og:image" content="https://dariiasichynska.github.io/assets/img/olympiade/map.png">
 <meta name="theme-color" content="#171a20">
@@ -28,23 +28,24 @@
   <section class="fall-kopf">
     <a class="zurueck" href="../#projekte">Alle Projekte</a>
     <h1>Olympiade-Training</h1>
-    <p class="unterzeile">Ein Offline-Mathe-Trainer für einen Fünftklässler auf einem Android-Tablet von 2014: gestufte Tipps, KI-Bewertung der schriftlichen Begründung und Ergebnis-Sync über Make.com.</p>
+    <p class="unterzeile">Ein Trainer für die Mathematik-Olympiade (Klasse 5), der dort läuft, wo das Kind wirklich lernt: offline auf einem Tablet von 2014 und als Web-Version im Browser unter einem eigenen Konto. KI bewertet die Begründungen, Make.com und Airtable bringen die Ergebnisse zu den Eltern.</p>
     <dl class="fakten">
-      <div><dt>Meine Rolle</dt><dd>Anforderungen, Produktentscheidungen, Tests auf echter Hardware, Make-Automatisierung, Auswertung der Ergebnisse. Den Code hat Claude geschrieben.</dd></div>
-      <div><dt>Werkzeuge</dt><dd>Make.com (Webhook, Router, Data Store), Claude, Legacy-Build mit Babel, automatisierte Tests</dd></div>
-      <div><dt>Status</dt><dd>Im Einsatz. Code und <a href="https://dariiasichynska.github.io/olympiade-training/">Live-Demo</a> öffentlich auf <a href="https://github.com/dariiasichynska/olympiade-training">GitHub</a>.</dd></div>
+      <div><dt>Meine Rolle</dt><dd>Produktverantwortung von der Anforderung bis zum Betrieb: Anforderungen und Entscheidungen, Tests auf der echten Hardware, Make-Szenario, Airtable-Modell und Dashboard, Datenanalyse der echten Abgaben und daraus abgeleitete Iterationen. Den Code hat Claude (Anthropic) unter meiner Anleitung geschrieben.</dd></div>
+      <div><dt>Werkzeuge</dt><dd>Claude, Make.com, Airtable, JavaScript (ES5-Build mit Babel), GitHub Pages</dd></div>
+      <div><dt>Status</dt><dd>Seit Oktober 2026 im täglichen Einsatz, auf zwei Geräten. Code und <a href="https://dariiasichynska.github.io/olympiade-training/">Live-Demo</a> öffentlich auf <a href="https://github.com/dariiasichynska/olympiade-training">GitHub</a>.</dd></div>
     </dl>
   </section>
 
   <section class="kapitel">
     <h2>Ausgangslage</h2>
     <div class="inhalt">
-      <p>Ein Fünftklässler in Berlin bereitete sich auf die Mathematik-Olympiade vor. Sein einziges Gerät: ein ASUS Fonepad 7 von 2014 mit Android 4.1.2 und Chrome 42, ohne Updates und oft ohne Internet.</p>
+      <p>Ein Fünftklässler bereitet sich auf die Mathematik-Olympiade vor. Sein Tablet ist von 2014 (Android 4.1, Chrome 42) und oft offline.</p>
       <ul>
-        <li><strong>Die Olympiade bewertet den Lösungsweg.</strong> Ein richtiges Ergebnis ohne Begründung bringt nach den offiziellen Bewertungsschemata meist nur 30 bis 50 Prozent der Punkte.</li>
-        <li><strong>Zweisprachige Familie.</strong> Die Aufgaben sind auf Deutsch, die Eltern wollen sie auf einen Blick auf Ukrainisch lesen. Das Kind schreibt seine Begründungen auf Deutsch, seiner Zweitsprache.</li>
-        <li><strong>Motivation.</strong> Olympiade-Aufgaben sind schwer, ein reiner Test frustriert einen Zehnjährigen schnell.</li>
-        <li><strong>Keine Transparenz für die Eltern.</strong> Welche Aufgaben sind gelöst, wie lange hat es gedauert, welche Tipps waren nötig, wo liegen die Lücken?</li>
+        <li><strong>Die Olympiade bewertet den Lösungsweg.</strong> Die Begründung zählt mehr als das Ergebnis. Ein richtiges Ergebnis ohne Begründung bringt nach den offiziellen Bewertungsschemata meist nur 30 bis 50 Prozent der Punkte.</li>
+        <li><strong>Zweisprachige Familie.</strong> Die Aufgaben sind auf Deutsch, die Eltern wollen sie auf einen Blick auf Ukrainisch lesen. Das Kind begründet auf Deutsch, seiner Zweitsprache.</li>
+        <li><strong>Motivation.</strong> Schwere Aufgaben frustrieren einen Zehnjährigen schnell.</li>
+        <li><strong>Zwei Lernorte.</strong> Das Tablet für unterwegs, ein Laptop mit Mikrofon für längere Einheiten. Das Kind soll den Trainer auf dem Laptop nutzen, ohne Zugriff auf das Konto der Eltern.</li>
+        <li><strong>Keine Transparenz für die Eltern.</strong> Sie sehen nicht, wo die Lücken liegen.</li>
       </ul>
     </div>
   </section>
@@ -54,11 +55,14 @@
     <div class="inhalt">
       <p>Das Projekt entstand aus einem echten Bedarf zu Hause. Ich habe es wie ein kleines Produktprojekt geführt: Claude war der Entwickler, Problem, Entscheidungen, Tests und Automatisierung lagen bei mir.</p>
       <ol class="schritte">
-        <li><strong>Anforderungen über strukturierte Fragen.</strong> Vor dem ersten Code waren alle offenen Punkte als Auswahlfragen entschieden: Reihenfolge der Aufgaben, Zeitpunkt der Tipps (alle 5 Minuten), ein Versuch wie im echten Wettbewerb, Notenskala 1 bis 6, was übersetzt wird und was nicht.</li>
+        <li><strong>Anforderungen über strukturierte Fragen.</strong> Vor dem ersten Code waren alle offenen Punkte als Auswahlfragen entschieden: Reihenfolge der Aufgaben, Zeitpunkt der Tipps, ein Versuch wie im echten Wettbewerb, Notenskala 1 bis 6, was übersetzt wird und was nicht.</li>
         <li><strong>Prototyp und Feldtest.</strong> Die erste Version lief am Desktop, auf dem Tablet blieb sie leer. Ursache: Chrome 42 versteht modernes JavaScript und CSS nicht. Lösung: eine zweite Build-Strecke nach ES5, eigenes CSS ohne Grid und Custom Properties und eine Startprüfung, die statt einer leeren Seite den Fehler und die Browserversion anzeigt.</li>
-        <li><strong>Zweites Problem im Feld.</strong> Der eingebaute HTML-Viewer von Android führt kein JavaScript aus. Die Datei erklärt das jetzt selbst und zeigt, wie man sie in Chrome öffnet.</li>
         <li><strong>Iteration anhand echter Daten.</strong> Nach der ersten Woche habe ich die echten Abgaben ausgewertet. Drei Muster: unvollständiges Aufzählen (5 von 6 Anordnungen), Punktverlust durch fehlende Klammern und Begründungen, die sagen, was gerechnet wurde, aber nicht warum. Darauf habe ich mit neuen Antworttypen, einem Begründungsgerüst und Übungen in einer „Werkstatt“ reagiert.</li>
         <li><strong>Automatisierung statt Kopieren.</strong> Ergebnisse als JSON-Code vom Offline-Tablet abzuschreiben war im Alltag unbrauchbar. Ich habe ein Make.com-Szenario aufgesetzt, siehe unten.</li>
+        <li><strong>Reibung entfernen.</strong> Die nächste Auswertung zeigte zwei neue Probleme: Das Tippen der Begründung auf dem 7-Zoll-Tablet war das größte Hindernis, und einzelne Aufgaben dauerten 30 bis 70 Minuten. Die Begründung wurde auf dem Tablet freiwillig, jede Aufgabe bekam ein Zeitfenster, und alle Aufgaben sind frei wählbar.</li>
+        <li><strong>Die Begründung kommt per Stimme zurück.</strong> Sprechen fällt einem Zehnjährigen leichter als Tippen. Am Laptop diktiert das Kind seinen Lösungsweg, dort zählt die Begründung wieder wie im Wettbewerb.</li>
+        <li><strong>Fortschritt, den die Eltern sehen.</strong> Airtable ist die zentrale Ablage: eine Zeile pro Aufgabe und eine pro Trainingstag. Ein Dashboard zeigt die Kennzahlen des Monats im Vergleich zum Vormonat.</li>
+        <li><strong>Zweite Stufe und eigenes Konto.</strong> Nach der Schulrunde kam eine zweite „Galaxie“ für die Regionalrunde dazu. Drei Wünsche kamen direkt vom Kind und aus den Daten: mehr Abzeichen, mehr Zeit pro Aufgabe und die Möglichkeit, eine Aufgabe noch einmal zu lösen. Das Kind arbeitet seitdem unter seinem eigenen Konto.</li>
       </ol>
     </div>
   </section>
@@ -67,17 +71,23 @@
     <h2>Lösung</h2>
     <div class="inhalt">
       <ul>
-        <li><strong>Gestufte Tipps:</strong> Tipp 1 nach 5 Minuten Nachdenken, jeder weitere 5 Minuten später. Tipp 3 legt die ganze Logik offen, es bleibt nur das Rechnen.</li>
-        <li><strong>Begründungstrainer:</strong> Pflichtfeld für den Lösungsweg mit Satzanfängen, einer Checkliste in vier Schritten und einem Hinweis, wenn die Erklärung das Was nennt, aber nicht das Warum.</li>
-        <li><strong>Bewertung:</strong> sofortige Prüfung jedes Antwortfelds, Schulnote für die Begründung durch Claude, danach die Musterlösung.</li>
-        <li><strong>Motivation, die Anstrengung belohnt:</strong> Ränge, „Sternenstaub“ und 13 Abzeichen, etwa „Durchhalter“ für alle Tipps genutzt und trotzdem fertig.</li>
-        <li><strong>Ehrliche Zeitmessung:</strong> Es zählt nur aktive Zeit. Eine drei Tage offene Aufgabe meldet nicht mehr 4.000 Minuten.</li>
+        <li><strong>Zwei Versionen aus einem Quellcode:</strong> eine Offline-Datei für das alte Tablet (eigene ES5-Build-Pipeline) und eine Web-Version im Browser auf dem Laptop.</li>
+        <li><strong>Eigenes Konto des Kindes:</strong> In der Web-Version sieht das Kind nur den Trainer, nicht das Konto der Eltern. Der Fortschritt wird automatisch gespeichert.</li>
+        <li><strong>Zwei Stufen der Olympiade als zwei „Galaxien“:</strong> Schulrunde (24 Aufgaben) und Regionalrunde (20 Aufgaben).</li>
+        <li><strong>Gestufte Tipps und Zeitfenster:</strong> Tipps nach 4, 8 und 12 Minuten, 20 Minuten pro Aufgabe mit beliebig vielen Verlängerungen.</li>
+        <li><strong>Diktierte Begründung:</strong> Am Laptop wird die Begründung diktiert und von KI nach dem Olympiade-Maßstab bewertet: Note 1 bis 6 und eine kurze Notiz für die Eltern auf Ukrainisch.</li>
+        <li><strong>„Nochmal lösen“:</strong> Wie bei der Olympiade zählt der erste Versuch. Verbesserungen werden getrennt erfasst.</li>
+        <li><strong>Motivation:</strong> Ränge, „Sternenstaub“ und 26 Abzeichen. Eine Werkstatt mit 25 kurzen Übungen zielt auf die Schwächen, die die echten Abgaben gezeigt haben.</li>
       </ul>
       <div class="galerie">
+        <figure class="breit"><img src="../assets/img/olympiade/map.png" width="1100" height="900" alt="Sternenkarte mit zwei Galaxien, Rängen und Abzeichen" loading="lazy"><figcaption>Zwei Galaxien für Schulrunde und Regionalrunde, mit Rängen und Abzeichen.</figcaption></figure>
         <figure><img src="../assets/img/olympiade/task.png" width="752" height="763" alt="Aufgabenansicht mit Abbildung und ukrainischer Übersetzung" loading="lazy"><figcaption>Aufgabe im deutschen Original, Übersetzung für die Eltern mit einem Tipp.</figcaption></figure>
-        <figure><img src="../assets/img/olympiade/reasoning-helper.png" width="752" height="1186" alt="Begründungstrainer mit Satzanfängen und Checkliste" loading="lazy"><figcaption>Begründungstrainer mit Satzanfängen und Checkliste.</figcaption></figure>
-        <figure><img src="../assets/img/olympiade/hints.png" width="752" height="383" alt="Gestufte Tipps mit Zeitanzeige" loading="lazy"><figcaption>Gestufte Tipps mit Zeitanzeige.</figcaption></figure>
-        <figure><img src="../assets/img/olympiade/result.png" width="752" height="656" alt="Ergebnis mit Note und Musterlösung" loading="lazy"><figcaption>Ein Versuch, wie im Wettbewerb: Note und Musterlösung.</figcaption></figure>
+        <figure><img src="../assets/img/olympiade/hints.png" width="736" height="383" alt="Gestufte Tipps mit Zeitanzeige" loading="lazy"><figcaption>Gestufte Tipps nach 4, 8 und 12 Minuten.</figcaption></figure>
+        <figure class="breit"><img src="../assets/img/olympiade/timer.png" width="784" height="175" alt="Zeitleiste mit 20 Minuten pro Aufgabe und einer ermutigenden Nachricht" loading="lazy"><figcaption>20 Minuten pro Aufgabe, mit einer Nachricht, die sich im Lauf der Zeit ändert.</figcaption></figure>
+        <figure><img src="../assets/img/olympiade/time-up.png" width="784" height="900" alt="Bildschirm „Zeit ist um!“ mit drei Möglichkeiten" loading="lazy"><figcaption>„Zeit ist um!“: noch 5 Minuten, abgeben oder zum nächsten Stern.</figcaption></figure>
+        <figure><img src="../assets/img/olympiade/dictation.png" width="712" height="1016" alt="Diktierte Begründung mit einem Feld pro Teilaufgabe" loading="lazy"><figcaption>Am Laptop diktiert das Kind seine Begründung, ein Feld pro Teilaufgabe.</figcaption></figure>
+        <figure><img src="../assets/img/olympiade/result.png" width="752" height="656" alt="Ergebnis mit Note und Musterlösung" loading="lazy"><figcaption>Der erste Versuch zählt: Note und Musterlösung.</figcaption></figure>
+        <figure><img src="../assets/img/olympiade/retry.png" width="752" height="596" alt="Erster Versuch und späterer Übungsversuch nebeneinander" loading="lazy"><figcaption>„Nochmal lösen“: Die Verbesserung wird als eigener Übungsversuch gezeigt.</figcaption></figure>
       </div>
     </div>
   </section>
@@ -85,11 +95,12 @@
   <section class="kapitel">
     <h2>Automatisierung</h2>
     <div class="inhalt">
-      <p>Das Tablet schickt die Ergebnisse, sobald es online ist, an einen Make.com-Webhook. Ein Router unterscheidet zwischen echtem Upload und Verbindungstest, die Daten landen pro Gerät in einem Data Store, und die Antwortseite bestätigt dem Kind: „Gesendet!“. Claude liest den Data Store über den Make-Connector und bewertet die Begründungen.</p>
+      <p>Die Ergebnisse kommen auf zwei Wegen an. Das Tablet schickt sie, sobald es online ist, an einen Make.com-Webhook; ein Router unterscheidet zwischen echtem Upload und Verbindungstest, die Daten landen pro Gerät in einem Data Store. Die Web-Version speichert in ihrer eigenen Datenbank. Beide Quellen werden zusammengeführt und in Airtable abgelegt. Ein Dashboard liest Airtable und zeigt den Monatsvergleich.</p>
       <table class="tabelle">
         <tr><th>Einfaches Formular statt API-Aufruf</th><td>Das Tablet sendet ein normales HTML-Formular. Das braucht kein CORS und funktioniert auch mit Chrome 42.</td></tr>
         <tr><th>Vor dem Rollout geprüft</th><td>Ob Android 4.1 das TLS-Zertifikat des Webhooks akzeptiert.</td></tr>
-        <tr><th>Datenschutz</th><td>Keine Daten des Kindes im Repository. Die Webhook-Adresse wird erst beim Build eingesetzt und nie veröffentlicht.</td></tr>
+        <tr><th>Erster Versuch und Übung getrennt</th><td>Note und Statistik behalten den ersten Versuch. Spätere Versuche werden als Übung gespeichert, auch in Airtable und im Dashboard.</td></tr>
+        <tr><th>Datenschutz</th><td>Keine Kinderdaten, keine IDs und keine Webhook-Adresse im öffentlichen Repository. Die Demo enthält nur eigene Aufgaben.</td></tr>
       </table>
     </div>
   </section>
@@ -98,9 +109,9 @@
     <h2>Ergebnis</h2>
     <div class="inhalt">
       <ul>
-        <li>Der Trainer läuft offline auf dem Tablet von 2014, als eine einzige HTML-Datei ohne Installation.</li>
-        <li>Die Ergebnisse kommen ohne Kopieren bei den Eltern an: mit Zeitstempel, genutzten Tipps, Antworten, Begründung und Note.</li>
-        <li>Die Auswertung der echten Abgaben hat drei konkrete Schwächen gezeigt, die jetzt gezielt geübt werden.</li>
+        <li>Seit Oktober 2026 im täglichen Einsatz, auf zwei Geräten. Die Schulrunde der Olympiade ist geschafft, das Training läuft jetzt auf Regionalniveau.</li>
+        <li>Jede Änderung kam aus echten Daten oder aus Wünschen des Kindes: freiwillige Begründung auf dem Tablet, Diktat am Laptop, längere Zeit, mehr Abzeichen, „Nochmal lösen“, eigenes Konto.</li>
+        <li>Die Ergebnisse kommen ohne Kopieren bei den Eltern an und sind im Dashboard Monat für Monat vergleichbar.</li>
         <li>Für den alten Browser werden nur die 24 nötigen Polyfills gebündelt: etwa 66 KB statt etwa 750 KB.</li>
       </ul>
       <p class="hinweis">Die neun Aufgaben in der Demo habe ich eigens für das Projekt geschrieben. Die echten Olympiade-Aufgaben sind urheberrechtlich geschützt und nicht enthalten.</p>
@@ -109,7 +120,7 @@
 
   <nav class="weiter" aria-label="Weitere Fallstudien">
     <a href="../#projekte">Alle Projekte</a>
-    <a href="snap-and-list.html">Nächstes Projekt: Snap &amp; List</a>
+    <a href="kontaktlisten-bereinigung.html">Nächstes Projekt: Kontaktlisten-Bereinigung</a>
   </nav>
 </div>
 </main>

@@ -74,19 +74,32 @@
 <section class="abschnitt" id="projekte" aria-labelledby="h-projekte">
   <div class="wrap">
     <h2 id="h-projekte">Projekte</h2>
-    <p class="einleitung">Vier eigene Projekte, im Einsatz oder im Aufbau. Code und technische Dokumentation liegen auf GitHub.</p>
+    <p class="einleitung">Fünf eigene Projekte, im Einsatz oder im Aufbau. Code und technische Dokumentation liegen auf GitHub.</p>
 
     <div class="faelle">
       <article class="fall">
         <div>
           <h3><a href="fallstudien/olympiade-training.html">Olympiade-Training</a></h3>
-          <p class="worum">Ein Mathe-Trainer für einen Fünftklässler, der offline auf einem Android-Tablet von 2014 läuft. Gestufte Tipps, KI-Bewertung der Begründung, Ergebnisse gehen über einen Make.com-Webhook an die Eltern.</p>
-          <ul class="werkzeuge"><li>Make.com</li><li>Webhook und Data Store</li><li>Claude</li><li>Tests auf echter Hardware</li></ul>
+          <p class="worum">Ein Trainer für die Mathematik-Olympiade (Klasse 5), der dort läuft, wo das Kind wirklich lernt: offline auf einem Tablet von 2014 und als Web-Version im Browser unter einem eigenen Konto. KI bewertet die Begründungen, Make.com und Airtable bringen die Ergebnisse zu den Eltern.</p>
+          <ul class="werkzeuge"><li>Make.com</li><li>Airtable</li><li>KI (Claude)</li><li>Low-Code</li><li>Tests auf echter Hardware</li></ul>
           <p class="links"><a class="mehr" href="fallstudien/olympiade-training.html">Fallstudie lesen</a><a class="mehr" href="https://github.com/dariiasichynska/olympiade-training" rel="noopener">GitHub</a></p>
         </div>
         <figure class="video">
           <video src="assets/video/olympiade-training-demo.mp4" poster="assets/video/olympiade-training-demo-poster.jpg" width="864" height="1102" autoplay muted loop playsinline controls preload="metadata" aria-label="Durchlauf einer Aufgabe im Olympiade-Training"></video>
           <figcaption>Eine Aufgabe von Anfang bis Ende: Tipps mit Timer, Begründung, KI-Bewertung, Abzeichen, Werkstatt und Datenübertragung. Die Demo-Aufgabe ist eigens für das Projekt geschrieben.</figcaption>
+        </figure>
+      </article>
+
+      <article class="fall">
+        <div>
+          <h3><a href="fallstudien/kontaktlisten-bereinigung.html">Kontaktlisten-Bereinigung</a></h3>
+          <p class="worum">Ein Klick in Google Sheets macht aus 150 Zeilen aus vier Quellen 96 saubere Kontakte. Unklare Fälle gehen mit Begründung an einen Menschen, gesperrte Personen erscheinen in keiner Liste. Ein Cockpit zeigt der Geschäftsführung das Ergebnis. Demo-Projekt mit synthetischen Testdaten.</p>
+          <ul class="werkzeuge"><li>Google Apps Script</li><li>Google Sheets</li><li>Web-App</li><li>Datenschutz by Design</li><li>Automatisierte Tests</li></ul>
+          <p class="links"><a class="mehr" href="fallstudien/kontaktlisten-bereinigung.html">Fallstudie lesen</a><a class="mehr" href="https://github.com/dariiasichynska/kontaktlisten-bereinigung" rel="noopener">GitHub</a></p>
+        </div>
+        <figure class="video" style="max-width:none">
+          <div class="bild"><img src="assets/img/kontaktlisten/cockpit-karte.png" width="1240" height="840" alt="Kontaktdaten-Cockpit: 96 von 150 echte Kontakte, 29 doppelte Zeilen, 17 zur Prüfung, 8 gesperrte Zeilen, darunter der Fluss der Zeilen aus vier Quellen" loading="lazy"></div>
+          <figcaption>Das Cockpit nach einem Lauf: Kennzahlen und der Weg jeder Zeile aus vier Quellen.</figcaption>
         </figure>
       </article>
 
