@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aurora-Alert – Fallstudie – Dariia Sichynska</title>
+<meta name="description" content="Fallstudie: Zwei Make.com-Szenarien beobachten Wolken und Sonnenwind über Lappland und melden über Telegram, wann sich Polarlichter lohnen – im kostenlosen Tarif, ohne Server.">
+<meta property="og:title" content="Aurora-Alert – Fallstudie">
+<meta property="og:image" content="https://dariiasichynska.github.io/assets/video/aurora-alert-walkthrough-poster.jpg">
+<meta name="theme-color" content="#171a20">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<a class="skip" href="#inhalt">Zum Inhalt springen</a>
+<header class="kopf">
+  <div class="wrap">
+    <a class="marke" href="../">Dariia Sichynska</a>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a href="../#projekte" aria-current="page">Projekte</a>
+      <a href="../#kontakt">Kontakt</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inhalt">
+<div class="wrap">
+  <section class="fall-kopf">
+    <a class="zurueck" href="../#projekte">Alle Projekte</a>
+    <h1>Aurora-Alert</h1>
+    <p class="unterzeile">Zwei Make.com-Szenarien beobachten Wolken und Sonnenwind über Lappland und schreiben in einen Telegram-Kanal, wenn Polarlichter wahrscheinlich sind: zwei Tage vorher für die Flugbuchung, 20 bis 60 Minuten vorher für den Blick in den Himmel. Bewusst ohne KI, im kostenlosen Tarif, ohne eigenen Server.</p>
+    <dl class="fakten">
+      <div><dt>Meine Rolle</dt><dd>Idee, Datenquellen, Filterlogik und Schwellenwerte, Aufbau beider Szenarien in Make.com, Fehlersuche im laufenden Betrieb und Kostenoptimierung. Auswertung, Diagramme und Video habe ich mit Claude (Anthropic) erstellt.</dd></div>
+      <div><dt>Werkzeuge</dt><dd>Make.com, Open-Meteo, NOAA Space Weather Prediction Center, Telegram Bot API</dd></div>
+      <div><dt>Status</dt><dd>Szenario 1 läuft seit Oktober 2026 jeden Abend. Szenario 2 wird auf Reisen eingeschaltet. Blueprints und Dokumentation öffentlich auf <a href="https://github.com/dariiasichynska/aurora-alert">GitHub</a>, Meldungen im <a href="https://t.me/auroralert">Telegram-Kanal</a>.</dd></div>
+    </dl>
+  </section>
+
+  <figure class="galerie" style="display:block;margin:2.5rem 0 0">
+    <video src="../assets/video/aurora-alert-walkthrough.mp4" poster="../assets/video/aurora-alert-walkthrough-poster.jpg" width="1280" height="720" controls muted playsinline preload="metadata" style="display:block;width:100%;height:auto;border:1px solid var(--kante);border-radius:12px;background:var(--schiefer)" aria-label="Rundgang durch beide Make.com-Szenarien"></video>
+    <figcaption style="font-size:var(--step--1);color:var(--grau);margin-top:.7rem">Rundgang in 64 Sekunden, gefilmt in den echten Szenarien: Editor, Filter, ein echter Lauf mit Meldung und ein echter ruhiger Abend.</figcaption>
+  </figure>
+
+  <section class="kapitel">
+    <h2>Ausgangslage</h2>
+    <div class="inhalt">
+      <p>Für eine Polarlicht-Reise nach Lappland braucht man zwei sehr verschiedene Antworten:</p>
+      <ul>
+        <li><strong>Lohnt sich ein Flug in zwei Tagen?</strong> Dafür zählen die Wolkenprognose an mehreren Orten und die Vorhersage der geomagnetischen Aktivität (Kp-Index).</li>
+        <li><strong>Lohnt es sich, jetzt nach draußen zu gehen?</strong> Dafür zählen Messwerte des Sonnenwinds, die erst 20 bis 60 Minuten vor ihrer Wirkung auf der Erde verfügbar sind.</li>
+        <li><strong>Die Daten liegen verstreut</strong> auf mehreren Webseiten, in Rohdaten und Fachbegriffen.</li>
+        <li><strong>Enger Rahmen:</strong> kostenloser Make.com-Tarif, 1.000 Operationen im Monat, höchstens zwei aktive Szenarien.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Vorgehen</h2>
+    <div class="inhalt">
+      <ol class="schritte">
+        <li><strong>Zwei Fragen, zwei Szenarien.</strong> Eine Zwei-Tages-Prognose hilft nicht bei der Entscheidung, ob man jetzt die Jacke anzieht, und 40 Minuten Vorlauf reichen nicht für eine Flugbuchung. Deshalb gibt es zwei getrennte Szenarien mit eigenem Takt.</li>
+        <li><strong>Der günstigste Filter zuerst.</strong> In Make kostet jedes ausgeführte Modul eine Operation. Die Prüfung, die am häufigsten scheitert, steht am Anfang: Wolken im ersten Szenario, die Richtung des Magnetfelds (Bz) im zweiten. An den meisten Abenden endet der Lauf nach ein bis zwei Operationen.</li>
+        <li><strong>Tiefe Wolken statt Gesamtbewölkung.</strong> Polarlicht leuchtet oberhalb von 100 km. Hohe Schleierwolken dämpfen es nur, tiefe Wolken verdecken es. Der Filter prüft deshalb <code>cloud_cover_low</code>, an fünf Orten mit ODER-Logik: Ein klarer Ort reicht, man kann hinfahren.</li>
+        <li><strong>Schutz vor falschem Alarm.</strong> Fallen die Satellitendaten aus, liefert NOAA den Platzhalter −999. Für einen einfachen Filter sähe das wie ein Rekordsturm aus. Eine zweite Bedingung (Bz größer als −100) lässt echte Stürme durch und hält Datenausfälle zurück.</li>
+        <li><strong>Fehlersuche am echten Fall.</strong> Während eines G3-Sturms blieb das Szenario stumm. Die Ausführungshistorie zeigte eine Operation pro Lauf, der Filter-Inspector einen gültigen, aber nicht ausreichend negativen Bz-Wert. Das Szenario hatte richtig entschieden: Der Sturm hatte seinen Höhepunkt vor dem Einschalten.</li>
+        <li><strong>Kosten senken.</strong> Takt des zweiten Szenarios von 15 auf 30 Minuten, Schwelle für den Sonnenwind von 400 auf 450 km/s. Beides halbiert die Kosten einer aktiven Nacht.</li>
+        <li><strong>Meldungen für ein breites Publikum.</strong> Die Rohwerte werden direkt in der Nachricht mit verschachtelten <code>if()</code>-Ausdrücken in Klartext übersetzt, ohne zusätzliche Module. Seit November 2026 auf Englisch, damit der öffentliche Kanal international lesbar ist.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Lösung</h2>
+    <div class="inhalt">
+      <ul>
+        <li><strong>„Soll ich zu Aurora fliegen?“</strong> läuft täglich um 21:00 Uhr. Eine einzige Open-Meteo-Abfrage holt die Wolkenprognose für Abisko, Kiruna, Saariselkä, Levi und Rovaniemi. Bei klarem Himmel folgen die Kp-Prognose der NOAA und die Sonnenwind-Geschwindigkeit. Die Meldung enthält vorausgefüllte Links zu Google Flights.</li>
+        <li><strong>„Soll ich raus für Aurora?“</strong> läuft alle 30 Minuten zwischen 20:00 und 06:00 Uhr. Es prüft Messwerte vom Punkt L1, rund 1,5 Millionen km vor der Erde: Zeigt das Magnetfeld nach Süden und weht der Sonnenwind schnell genug, kommt die Meldung „Jetzt rausgehen“ mit Blickrichtung und Kameraeinstellungen.</li>
+        <li><strong>Ohne Schlüssel und ohne Server:</strong> Alle drei Datenquellen sind öffentlich und brauchen keine Authentifizierung.</li>
+      </ul>
+      <div class="galerie">
+        <figure class="breit"><img src="../assets/img/aurora/fly-editor.jpg" width="800" height="450" alt="Make.com-Editor: Szenario „Soll ich zu Aurora fliegen?“ mit drei HTTP-Modulen, zwei Filtern und zwei Telegram-Modulen" loading="lazy"><figcaption>Szenario 1 im Make-Editor: Wetter, Kp-Prognose, Sonnenwind, dann Telegram. Die Filter sitzen auf den Verbindungen.</figcaption></figure>
+        <figure><img src="../assets/img/aurora/fly-filter-clouds.jpg" width="800" height="450" alt="Filter „Clouds low“ mit ODER-Bedingungen für fünf Orte" loading="lazy"><figcaption>Fünf ODER-Bedingungen: Ein Ort mit weniger als 40 % tiefen Wolken genügt.</figcaption></figure>
+        <figure><img src="../assets/img/aurora/fly-filter-kp.jpg" width="800" height="450" alt="Filter „Kp OK“: Kp-Wert größer oder gleich 3,67" loading="lazy"><figcaption>Kp wird in Dritteln gemessen. „Etwa 4“ heißt 3,67.</figcaption></figure>
+        <figure><img src="../assets/img/aurora/fly-http-openmeteo.jpg" width="800" height="450" alt="HTTP-Modul mit der Open-Meteo-Adresse und „No authentication“" loading="lazy"><figcaption>Eine Abfrage für fünf Orte, ohne API-Schlüssel.</figcaption></figure>
+        <figure><img src="../assets/img/aurora/live-filter-bz.jpg" width="800" height="450" alt="Filter „Bz negative“: Bz kleiner als −3 und größer als −100" loading="lazy"><figcaption>Szenario 2: Bz unter −3 nT, aber über −100 als Schutz vor dem Platzhalter −999.</figcaption></figure>
+        <figure class="breit"><img src="../assets/img/aurora/live-editor.jpg" width="800" height="450" alt="Make.com-Editor: Szenario „Soll ich raus für Aurora?“ mit zwei HTTP-Modulen und zwei Telegram-Modulen" loading="lazy"><figcaption>Szenario 2: Magnetfeld, Sonnenwind, Meldung. Vier Module, zwei Filter.</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Zahlen aus dem Betrieb</h2>
+    <div class="inhalt">
+      <p>Ausgewertet aus der Ausführungshistorie von Make, 9. Oktober bis 9. November 2026.</p>
+      <div class="galerie">
+        <figure class="breit"><img src="../assets/img/aurora/flight-timeline.svg" width="1000" height="340" alt="Diagramm: Wie weit jeder Abendlauf kam – Wolken, Kp zu niedrig oder Meldung" loading="lazy"><figcaption>32 Abende: 5-mal Wolken überall, 18-mal Kp zu niedrig, 9 Meldungen.</figcaption></figure>
+        <figure><img src="../assets/img/aurora/fly-run-overview.jpg" width="800" height="450" alt="Echter Lauf am 7. November: alle Module ausgeführt, 5 Operationen" loading="lazy"><figcaption>7. November: alle Module ausgeführt, Meldung gesendet, 5 Operationen.</figcaption></figure>
+        <figure><img src="../assets/img/aurora/fly-run-quiet.jpg" width="800" height="450" alt="Echter Lauf am 9. November: Filter gestoppt, 2 Operationen" loading="lazy"><figcaption>9. November: „The bundle did not pass through the filter“, 2 Operationen.</figcaption></figure>
+        <figure class="breit"><img src="../assets/img/aurora/live-heatstrip.svg" width="1000" height="290" alt="Diagramm: Läufe des zweiten Szenarios im 15-Minuten-Takt in drei Nächten" loading="lazy"><figcaption>Szenario 2 in zwei Sturmnächten: 21 Meldungen. Daraus folgt der nächste Schritt, eine Sperrzeit nach jeder Meldung.</figcaption></figure>
+      </div>
+      <table class="tabelle">
+        <tr><th>Abendläufe Szenario 1</th><td>32, alle erfolgreich</td></tr>
+        <tr><th>Meldungen „Flug lohnt sich“</th><td>9 (28 %)</td></tr>
+        <tr><th>Operationen pro Abend</th><td>2,5 im Schnitt, also etwa 75 im Monat</td></tr>
+        <tr><th>Laufzeit</th><td>0,9 Sekunden im Median</td></tr>
+        <tr><th>Dieselbe Logik, naiv gebaut</th><td>etwa 8.700 Operationen im Monat, ein Vielfaches des kostenlosen Budgets</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Ergebnis</h2>
+    <div class="inhalt">
+      <ul>
+        <li>Zwei Fragen, die sonst den Blick auf mehrere Fachseiten erfordern, beantwortet eine Telegram-Nachricht.</li>
+        <li>Szenario 1 braucht weniger als ein Zehntel des kostenlosen Budgets. 72 % der Abende enden nach ein bis zwei Operationen.</li>
+        <li>Jeder Schwellenwert ist begründet und dokumentiert, auch die, die wie Tippfehler aussehen: <a href="https://github.com/dariiasichynska/aurora-alert/blob/main/docs/architecture.md">Design-Notizen auf GitHub</a>.</li>
+        <li>Das Muster ist übertragbar: günstige Vorprüfungen vor teuren Aufrufen, Platzhalterwerte abfangen, Rohdaten direkt in der Nachricht in Klartext übersetzen.</li>
+      </ul>
+      <p class="hinweis">Die Werte in den Telegram-Meldungen im Video sind Beispielwerte, die Logik ist die echte. Chat-IDs und Verbindungsdaten sind in den veröffentlichten Blueprints entfernt.</p>
+    </div>
+  </section>
+
+  <nav class="weiter" aria-label="Weitere Fallstudien">
+    <a href="kontaktlisten-bereinigung.html">Voriges Projekt: Kontaktlisten-Bereinigung</a>
+    <a href="snap-and-list.html">Nächstes Projekt: Snap &amp; List</a>
+  </nav>
+</div>
+</main>
+
+<footer class="fuss">
+  <div class="wrap">
+    <p>© 2026 Dariia Sichynska</p>
+    <p>Keine Cookies, keine Analyse-Tools, keine externen Schriften. Ausgeliefert über GitHub Pages.</p>
+  </div>
+</footer>
+</body>
+</html>
