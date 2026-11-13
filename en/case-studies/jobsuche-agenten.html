@@ -106,16 +106,18 @@
   </section>
 
   <section class="kapitel">
-    <h2>When something fails at night</h2>
+    <h2>Incident on 12 November 2026</h2>
     <div class="inhalt">
-      <p>In the night of 12 November the Job-Scout stopped after twelve minutes. A Code node could not get a task runner on the server. No error message came, because the error workflow itself started with a Code node. Four jobs were saved; no summary arrived.</p>
+      <p><strong>Cause.</strong> No task runner was available on the n8n server for a Code node. The error workflow also started with a Code node, so no error message was sent.</p>
+      <p><strong>Impact.</strong> The nightly run was stopped after twelve minutes. Four jobs were saved; no summary was sent.</p>
+      <p><strong>Fix.</strong></p>
       <ol class="schritte">
-        <li><strong>A check before the start.</strong> The workflow asks the server whether it is ready and, if needed, waits twice for ten minutes.</li>
-        <li><strong>Retry instead of giving up.</strong> Every Code node tries up to five times. The node that failed now works without any code.</li>
-        <li><strong>An error message without code.</strong> The Telegram message is built directly in the Telegram node, so it arrives even when the server has problems.</li>
-        <li><strong>Watchdogs from outside.</strong> Every run reports its start and end to Healthchecks.io. If the success report does not arrive, a message comes by Telegram and e-mail, also for cancelled runs that n8n does not report itself. UptimeRobot checks the server every five minutes.</li>
+        <li><strong>Readiness check before the start.</strong> Before each run, the server is checked for readiness up to three times, ten minutes apart.</li>
+        <li><strong>Retries.</strong> Every Code node is retried up to five times. The failed node was replaced by a node without code.</li>
+        <li><strong>Error message without code.</strong> The Telegram message is built directly in the Telegram node.</li>
+        <li><strong>External monitoring.</strong> The start and end of every run are reported to Healthchecks.io. If the success report is missing, an alert is sent by Telegram and e-mail, also for cancelled runs. The server is checked by UptimeRobot every five minutes.</li>
       </ol>
-      <p>A longer time limit would only have hidden the cause. So I secured the places where the process could fail silently.</p>
+      <p>A longer timeout was not used, because it would only have hidden the cause.</p>
     </div>
   </section>
 

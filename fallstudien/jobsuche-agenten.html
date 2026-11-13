@@ -106,16 +106,18 @@
   </section>
 
   <section class="kapitel">
-    <h2>Wenn nachts etwas ausfällt</h2>
+    <h2>Störung am 12. November 2026</h2>
     <div class="inhalt">
-      <p>In der Nacht zum 12. November brach der Job-Scout nach zwölf Minuten ab. Ein Code-Knoten bekam auf dem Server keinen Task-Runner. Die Fehlermeldung blieb aus, weil der Fehler-Workflow selbst mit einem Code-Knoten begann. Vier Stellen waren gespeichert, eine Zusammenfassung kam nicht.</p>
+      <p><strong>Ursache.</strong> Für einen Code-Knoten stand auf dem n8n-Server kein Task-Runner zur Verfügung. Auch der Fehler-Workflow begann mit einem Code-Knoten, deshalb wurde keine Fehlermeldung gesendet.</p>
+      <p><strong>Auswirkung.</strong> Der nächtliche Lauf wurde nach zwölf Minuten abgebrochen. Vier Stellen wurden gespeichert, eine Zusammenfassung wurde nicht gesendet.</p>
+      <p><strong>Lösung.</strong></p>
       <ol class="schritte">
-        <li><strong>Prüfung vor dem Start.</strong> Der Workflow fragt den Server, ob er bereit ist, und wartet notfalls zweimal zehn Minuten.</li>
-        <li><strong>Wiederholen statt aufgeben.</strong> Jeder Code-Knoten versucht es bis zu fünfmal. Der Knoten, der ausgefallen war, kommt jetzt ganz ohne Code aus.</li>
-        <li><strong>Fehlermeldung ohne Code.</strong> Die Telegram-Nachricht entsteht direkt im Telegram-Knoten, damit sie auch dann ankommt, wenn der Server hakt.</li>
-        <li><strong>Wächter von außen.</strong> Jeder Lauf meldet Start und Ende an Healthchecks.io. Bleibt die Erfolgsmeldung aus, kommt eine Nachricht per Telegram und E-Mail, auch bei abgebrochenen Läufen, die n8n selbst nicht meldet. UptimeRobot prüft den Server alle fünf Minuten.</li>
+        <li><strong>Prüfung vor dem Start.</strong> Vor jedem Lauf wird bis zu dreimal im Abstand von zehn Minuten geprüft, ob der Server bereit ist.</li>
+        <li><strong>Wiederholungen.</strong> Jeder Code-Knoten wird bis zu fünfmal wiederholt. Der ausgefallene Knoten wurde durch einen Knoten ohne Code ersetzt.</li>
+        <li><strong>Fehlermeldung ohne Code.</strong> Die Telegram-Nachricht wird direkt im Telegram-Knoten erstellt.</li>
+        <li><strong>Überwachung von außen.</strong> Start und Ende jedes Laufs werden an Healthchecks.io gemeldet. Fehlt die Erfolgsmeldung, wird eine Nachricht per Telegram und E-Mail gesendet, auch bei abgebrochenen Läufen. Der Server wird von UptimeRobot alle fünf Minuten geprüft.</li>
       </ol>
-      <p>Ein längeres Zeitlimit hätte die Ursache nur versteckt. Deshalb habe ich die Stellen abgesichert, an denen der Ablauf still scheitern konnte.</p>
+      <p>Ein längeres Zeitlimit wurde nicht eingesetzt, weil es die Ursache nur verdeckt hätte.</p>
     </div>
   </section>
 
