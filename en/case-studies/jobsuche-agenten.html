@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agentic workflow for my job search – Case study – Dariia Sichynska</title>
+<meta name="description" content="Case study: AI agents for my own job search with n8n, Gemini, Claude and Airtable. Scoring by tasks, checks against invented AI results, a human decides.">
+<meta property="og:title" content="An agent team for the job search – Case study">
+<meta property="og:image" content="https://dariiasichynska.github.io/assets/img/dariia-sichynska.jpg">
+<meta name="theme-color" content="#171a20">
+<link rel="alternate" hreflang="de" href="https://dariiasichynska.github.io/fallstudien/jobsuche-agenten.html">
+<link rel="alternate" hreflang="en" href="https://dariiasichynska.github.io/en/case-studies/jobsuche-agenten.html">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+<a class="skip" href="#inhalt">Skip to content</a>
+<header class="kopf">
+  <div class="wrap">
+    <a class="marke" href="../">Dariia Sichynska</a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="../#projekte" aria-current="page">Projects</a>
+      <a href="../#kontakt">Contact</a>
+      <a href="../../fallstudien/jobsuche-agenten.html" hreflang="de" lang="de" class="sprache">DE</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inhalt">
+<div class="wrap">
+  <section class="fall-kopf">
+    <a class="zurueck" href="../#projekte">All projects</a>
+    <h1>Agentic workflow for my own job search</h1>
+    <p class="unterzeile">Several AI agents with clearly separated tasks. They search, check and prepare; I make the decisions.</p>
+    <dl class="fakten">
+      <div><dt>My role</dt><dd>Architecture, criteria, check rules and tests. I built the n8n workflows together with Claude.</dd></div>
+      <div><dt>Tools</dt><dd>n8n, Google Gemini, Claude, Airtable, Gmail, Telegram, OpenStreetMap (Nominatim), Healthchecks.io, UptimeRobot</dd></div>
+      <div><dt>Status</dt><dd>In progress. Five workflows run on a schedule and are monitored from outside. The Writer checks the employer and writes only after my “yes” to the specific job. Technical documentation on <a href="https://github.com/dariiasichynska/jobsuche-agenten" rel="noopener">GitHub</a>.</dd></div>
+    </dl>
+  </section>
+
+  <section class="kapitel">
+    <h2>Starting point</h2>
+    <div class="inhalt">
+      <p>Suitable jobs are spread across many portals, and the job title says little about what you actually do in the role. I wanted to automate the search as far as possible without giving up control: jobs are scored by scope of tasks, not by title, and no agent applies or sends anything on its own.</p>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Architecture</h2>
+    <div class="inhalt">
+      <p>Each agent has exactly one task. Repetitive steps run in n8n on the free Gemini tier; texts that employers read are written with Claude.</p>
+      <ul class="agenten">
+        <li class="fertig"><span>Employer-Scout: employer wishlist</span><span>runs on Sundays</span></li>
+        <li class="fertig"><span>Job-Scout: three sources, commute, duplicates</span><span>runs daily</span></li>
+        <li class="fertig"><span>Scorer: fit 0–100 by scope of tasks</span><span>runs daily</span></li>
+        <li class="fertig"><span>Follow-up reminder and error alert</span><span>Telegram</span></li>
+        <li class="fertig"><span>Monitoring from outside: Healthchecks.io and UptimeRobot</span><span>Telegram and e-mail</span></li>
+        <li class="fertig"><span>Writer: employer check, cover letter and CV from score 75</span><span>Claude, after my yes</span></li>
+        <li><span>Writer as a daily task</span><span>next</span></li>
+        <li><span>ATS check of the CV</span><span>planned</span></li>
+        <li><span>Weekly review</span><span>planned</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>One night, step by step</h2>
+    <div class="inhalt">
+      <p>The Job-Scout starts every night at 3:17, outside other people’s working hours and away from the peak load of the AI services.</p>
+      <ol class="schritte">
+        <li><strong>Is the server ready?</strong> Before the run the workflow asks the server whether it is ready, up to three times, ten minutes apart. If it does not answer, the run stops and I get a Telegram message.</li>
+        <li><strong>Three sources.</strong> The job search of the German Federal Employment Agency, the job alerts from LinkedIn and StepStone in a dedicated Gmail label, and the career pages of my wishlist, if they run on a known applicant tracking system. Portals are not scraped: the alerts arrive by e-mail anyway.</li>
+        <li><strong>Commute first.</strong> The Federal Employment Agency supplies coordinates. If the office is too far away and there is no home office option, the job is dropped before it costs an AI call.</li>
+        <li><strong>Duplicates and fairness.</strong> The same job often arrives through several channels. The workflow compares cleaned links as well as title and employer. Then it takes jobs from each source in turn; otherwise the first search term would fill the daily limit on its own.</li>
+        <li><strong>Scoring.</strong> One Gemini call per job, at most 25 per night. Eight of these slots are reserved for the Federal Employment Agency, so the e-mail alerts do not fill the limit alone. Without enough ad text, only a record for a manual pre-check is created.</li>
+        <li><strong>Short report.</strong> In the morning a Telegram message arrives: suitable jobs from 75 with a link, the rest only as numbers. At the end the run reports its success to Healthchecks.io.</li>
+      </ol>
+      <div class="galerie" style="grid-template-columns:minmax(0,1fr)">
+        <figure><a href="../../assets/img/jobsuche/job-scout-v1-6.png"><img src="../../assets/img/jobsuche/job-scout-v1-6.png" width="1630" height="626" alt="The whole Job-Scout workflow in n8n, version 1.6: start and schedule, server readiness check with two waits, three sources, merge, filter, loop with Scorer call and pre-check, Telegram report and pings to Healthchecks.io" loading="lazy"></a><figcaption>The whole Job-Scout in n8n, version 1.6 (node names in German). At the bottom the check whether the server is ready, top right the success ping to Healthchecks.io. Click to open the full-size image.</figcaption></figure>
+      </div>
+      <p>In the first real run the Federal Employment Agency returned 958 hits. After the title pre-filter 109 were left, 27 of them too far away. 25 jobs were scored.</p>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Scorer</h2>
+    <div class="inhalt">
+      <p>Jobs are scored by what you do in the role, not by the title. An ad with “Projektmanager” in the title can be a sales job; a “Teamassistenz” can mean mostly process work.</p>
+      <ol class="schritte">
+        <li><strong>Part scores from the AI.</strong> Gemini reads the ad and returns part scores for tasks, tools, language, location and conditions, plus matches, gaps and open questions as JSON.</li>
+        <li><strong>Arithmetic in code.</strong> A code node computes the total: it clamps the part scores, caps the penalties and adds a bonus for internal roles. Every score can be traced; the calculation is stored in the record.</li>
+        <li><strong>Hard exclusions.</strong> People management, “5+ years of professional experience in Germany”, work with customers or on the phone as a core duty, a salary below my minimum, or on-site work outside my radius block the Writer.</li>
+        <li><strong>Must requirements with a sense of proportion.</strong> If a whole class of knowledge or tools is missing, such as SAP or programming, the score is capped at 70. Another CRM or another task tracker is only a gap, because I already work with that kind of tool.</li>
+        <li><strong>Fine-tuned.</strong> After the first runs I sharpened the rules: sales as the main task limits the task score, “very good German” costs no points, “start immediately” in the ad is not a minus, and a gap is named only when the ad itself mentions the tool.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Writer</h2>
+    <div class="inhalt">
+      <p>From a score of 75 I decide in Airtable whether I want to apply. Only after my “yes” does Claude assess the employer from online reviews, as “Premium”, “Solid middle” or “Rather not”, with the key facts. For “Rather not” no package is created. Otherwise Claude prepares an application package: a cover letter, a CV tailored to the ad and notes for the application portal. Only evidenced experience is used. The cover letter is mainly e-mail text, because I send most applications by e-mail. Nothing is sent automatically: I read, decide and apply myself.</p>
+      <p>We built the first package together by hand; it is the style reference. The employer check now works as well. Next, the Writer is to run every day at a fixed time.</p>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>When something fails at night</h2>
+    <div class="inhalt">
+      <p>In the night of 12 November the Job-Scout stopped after twelve minutes. A Code node could not get a task runner on the server. No error message came, because the error workflow itself started with a Code node. Four jobs were saved; no summary arrived.</p>
+      <ol class="schritte">
+        <li><strong>A check before the start.</strong> The workflow asks the server whether it is ready and, if needed, waits twice for ten minutes.</li>
+        <li><strong>Retry instead of giving up.</strong> Every Code node tries up to five times. The node that failed now works without any code.</li>
+        <li><strong>An error message without code.</strong> The Telegram message is built directly in the Telegram node, so it arrives even when the server has problems.</li>
+        <li><strong>Watchdogs from outside.</strong> Every run reports its start and end to Healthchecks.io. If the success report does not arrive, a message comes by Telegram and e-mail, also for cancelled runs that n8n does not report itself. UptimeRobot checks the server every five minutes.</li>
+      </ol>
+      <p>A longer time limit would only have hidden the cause. So I secured the places where the process could fail silently.</p>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Employer-Scout</h2>
+    <div class="inhalt">
+      <p>The first agent builds a list of Berlin employers that fit my profile every Sunday. The AI may suggest; only what passes the checks is saved.</p>
+      <ol class="schritte">
+        <li><strong>Suggestion.</strong> Gemini names employers for a focus keyword, such as process automation or BPMN, as JSON with temperature 0. Anything unknown stays empty instead of being guessed.</li>
+        <li><strong>Duplicates.</strong> Compared with the wishlist in Airtable.</li>
+        <li><strong>Checks without AI.</strong> Does the website exist? Does the career page belong to the company or to a known applicant tracking system? Is the company name on the page? Whatever fails does not go to Airtable, only into the run report.</li>
+        <li><strong>Address from the imprint.</strong> In my test runs Gemini got the Berlin address wrong for 7 of 22 companies. So the workflow now reads the address from the imprint page by a rule. The AI address is only a marked fallback.</li>
+        <li><strong>Distance.</strong> Geocoding via OpenStreetMap and straight-line distance in a code node. Hybrid jobs with too long a commute are sorted out.</li>
+        <li><strong>Entry and report.</strong> New employers go into Airtable with the status “Neu” (new); I set the priority. If more than 30 percent are rejected in a run, the report flags the run, because then the prompt or the keyword is wrong.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Privacy</h2>
+    <div class="inhalt">
+      <ul>
+        <li>Only public job ad texts, search parameters and a profile without contact data go to Gemini, never the CV.</li>
+        <li>My home address appears nowhere in the workflow. For the commute a public square nearby is enough.</li>
+        <li>CV, contact data and cover letters stay with Claude and in my Google Drive.</li>
+        <li>No workflow sends anything to employers.</li>
+        <li>Healthchecks.io only gets a sign of life without content; UptimeRobot only checks a public status address of the server.</li>
+        <li>The n8n instance is provided by a training provider. That is why I use my own narrowly scoped, replaceable access keys and export the workflows regularly.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Lessons</h2>
+    <div class="inhalt">
+      <p>AI is good at suggesting candidates and reading ads. For facts such as addresses and links, and for arithmetic, a simple rule is more reliable. So the strongest part of the workflow is the checks, not the prompt.</p>
+      <p>The second lesson came from operation: the free Gemini tier has daily limits per model, and public interfaces change without notice. That is why there is a fallback model with its own quota, a limit per run and monitoring that does not depend on the same server.</p>
+    </div>
+  </section>
+
+  <p><a class="mehr" href="https://github.com/dariiasichynska/jobsuche-agenten" rel="noopener">Technical documentation on GitHub</a></p>
+
+  <nav class="weiter" aria-label="More case studies">
+    <a href="snap-and-list.html">Previous project: Snap &amp; List</a>
+    <a href="../#kontakt">Get in touch</a>
+  </nav>
+</div>
+</main>
+
+<footer class="fuss">
+  <div class="wrap">
+    <p>© 2026 Dariia Sichynska</p>
+    <p>No cookies, no analytics tools, no external fonts. Served by GitHub Pages.</p>
+  </div>
+</footer>
+</body>
+</html>

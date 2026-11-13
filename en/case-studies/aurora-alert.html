@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aurora-Alert – Case study – Dariia Sichynska</title>
+<meta name="description" content="Case study: two Make.com scenarios watch the clouds and the solar wind over Lapland and report via Telegram when the northern lights are worth it – on the free tier, without a server.">
+<meta property="og:title" content="Aurora-Alert – Case study">
+<meta property="og:image" content="https://dariiasichynska.github.io/assets/video/aurora-alert-walkthrough-poster.jpg">
+<meta name="theme-color" content="#171a20">
+<link rel="alternate" hreflang="de" href="https://dariiasichynska.github.io/fallstudien/aurora-alert.html">
+<link rel="alternate" hreflang="en" href="https://dariiasichynska.github.io/en/case-studies/aurora-alert.html">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+<a class="skip" href="#inhalt">Skip to content</a>
+<header class="kopf">
+  <div class="wrap">
+    <a class="marke" href="../">Dariia Sichynska</a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="../#projekte" aria-current="page">Projects</a>
+      <a href="../#kontakt">Contact</a>
+      <a href="../../fallstudien/aurora-alert.html" hreflang="de" lang="de" class="sprache">DE</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inhalt">
+<div class="wrap">
+  <section class="fall-kopf">
+    <a class="zurueck" href="../#projekte">All projects</a>
+    <h1>Aurora-Alert</h1>
+    <p class="unterzeile">Two Make.com scenarios watch the clouds and the solar wind over Lapland and post to a Telegram channel when the northern lights are likely: two days ahead for booking a flight, 20 to 60 minutes ahead for a look at the sky. Deliberately without AI, on the free tier, without a server of my own.</p>
+    <dl class="fakten">
+      <div><dt>My role</dt><dd>Idea, data sources, filter logic and thresholds, building both scenarios in Make.com, troubleshooting in live operation and cost optimisation. Analysis, charts and video were made with Claude (Anthropic).</dd></div>
+      <div><dt>Tools</dt><dd>Make.com, Open-Meteo, NOAA Space Weather Prediction Center, Telegram Bot API</dd></div>
+      <div><dt>Status</dt><dd>Scenario 1 has run every evening since October 2026. Scenario 2 is switched on when I travel. Blueprints and documentation are public on <a href="https://github.com/dariiasichynska/aurora-alert">GitHub</a>, alerts go to the <a href="https://t.me/auroralert">Telegram channel</a>.</dd></div>
+    </dl>
+  </section>
+
+  <figure class="galerie" style="display:block;margin:2.5rem 0 0">
+    <video src="../../assets/video/aurora-alert-walkthrough.mp4" poster="../../assets/video/aurora-alert-walkthrough-poster.jpg" width="1280" height="720" controls muted playsinline preload="metadata" style="display:block;width:100%;height:auto;border:1px solid var(--kante);border-radius:12px;background:var(--schiefer)" aria-label="Walkthrough of both Make.com scenarios"></video>
+    <figcaption style="font-size:var(--step--1);color:var(--grau);margin-top:.7rem">A 64-second walkthrough filmed in the real scenarios: editor, filters, a real run with an alert and a real quiet evening.</figcaption>
+  </figure>
+
+  <section class="kapitel">
+    <h2>Starting point</h2>
+    <div class="inhalt">
+      <p>A northern lights trip to Lapland needs two very different answers:</p>
+      <ul>
+        <li><strong>Is a flight in two days worth it?</strong> This depends on the cloud forecast at several places and the forecast of geomagnetic activity (Kp index).</li>
+        <li><strong>Is it worth going outside now?</strong> This depends on solar wind measurements that are available only 20 to 60 minutes before they take effect on Earth.</li>
+        <li><strong>The data is scattered</strong> across several websites, in raw data and technical terms.</li>
+        <li><strong>Tight limits:</strong> the free Make.com plan, 1,000 operations a month, at most two active scenarios.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Approach</h2>
+    <div class="inhalt">
+      <ol class="schritte">
+        <li><strong>Two questions, two scenarios.</strong> A two-day forecast does not help you decide whether to put your jacket on now, and 40 minutes of lead time are not enough to book a flight. So there are two separate scenarios, each with its own schedule.</li>
+        <li><strong>The cheapest filter first.</strong> In Make every executed module costs one operation. The check that fails most often comes first: clouds in the first scenario, the direction of the magnetic field (Bz) in the second. On most evenings the run ends after one or two operations.</li>
+        <li><strong>Low clouds instead of total cloud cover.</strong> The aurora glows above 100 km. High thin clouds only dim it, low clouds hide it. That is why the filter checks <code>cloud_cover_low</code>, at five places with OR logic: one clear place is enough, you can drive there.</li>
+        <li><strong>Protection against false alarms.</strong> When satellite data fails, NOAA returns the placeholder −999. To a simple filter this would look like a record storm. A second condition (Bz greater than −100) lets real storms through and holds back data gaps.</li>
+        <li><strong>Troubleshooting a real case.</strong> During a G3 storm the scenario stayed silent. The execution history showed one operation per run, and the filter inspector showed a valid but not negative enough Bz value. The scenario had decided correctly: the storm had peaked before it was switched on.</li>
+        <li><strong>Lower costs.</strong> The second scenario now runs every 30 instead of 15 minutes, and the solar wind threshold went from 400 to 450 km/s. Both together halve the cost of an active night.</li>
+        <li><strong>Alerts for a broad audience.</strong> Nested <code>if()</code> expressions translate the raw values into plain language directly in the message, without extra modules. Since November 2026 the alerts are in English, so the public channel can be read internationally.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Solution</h2>
+    <div class="inhalt">
+      <ul>
+        <li><strong>“Soll ich zu Aurora fliegen?” (Should I fly to the aurora?)</strong> runs daily at 21:00. A single Open-Meteo request fetches the cloud forecast for Abisko, Kiruna, Saariselkä, Levi and Rovaniemi. If the sky is clear, the NOAA Kp forecast and the solar wind speed follow. The alert contains pre-filled links to Google Flights.</li>
+        <li><strong>“Soll ich raus für Aurora?” (Should I go out for the aurora?)</strong> runs every 30 minutes between 20:00 and 06:00. It checks measurements from the point L1, about 1.5 million km in front of the Earth: if the magnetic field points south and the solar wind is fast enough, the alert “Go outside now” arrives with viewing direction and camera settings.</li>
+        <li><strong>No keys and no server:</strong> all three data sources are public and need no authentication.</li>
+      </ul>
+      <div class="galerie">
+        <figure class="breit"><img src="../../assets/img/aurora/fly-editor.jpg" width="800" height="450" alt="Make.com editor: scenario “Soll ich zu Aurora fliegen?” with three HTTP modules, two filters and two Telegram modules" loading="lazy"><figcaption>Scenario 1 in the Make editor: weather, Kp forecast, solar wind, then Telegram. The filters sit on the connections.</figcaption></figure>
+        <figure><img src="../../assets/img/aurora/fly-filter-clouds.jpg" width="800" height="450" alt="Filter “Clouds low” with OR conditions for five places" loading="lazy"><figcaption>Five OR conditions: one place with less than 40 % low clouds is enough.</figcaption></figure>
+        <figure><img src="../../assets/img/aurora/fly-filter-kp.jpg" width="800" height="450" alt="Filter “Kp OK”: Kp value greater than or equal to 3.67" loading="lazy"><figcaption>Kp is measured in thirds. “About 4” means 3.67.</figcaption></figure>
+        <figure><img src="../../assets/img/aurora/fly-http-openmeteo.jpg" width="800" height="450" alt="HTTP module with the Open-Meteo address and “No authentication”" loading="lazy"><figcaption>One request for five places, without an API key.</figcaption></figure>
+        <figure><img src="../../assets/img/aurora/live-filter-bz.jpg" width="800" height="450" alt="Filter “Bz negative”: Bz less than −3 and greater than −100" loading="lazy"><figcaption>Scenario 2: Bz below −3 nT, but above −100 as protection against the placeholder −999.</figcaption></figure>
+        <figure class="breit"><img src="../../assets/img/aurora/live-editor.jpg" width="800" height="450" alt="Make.com editor: scenario “Soll ich raus für Aurora?” with two HTTP modules and two Telegram modules" loading="lazy"><figcaption>Scenario 2: magnetic field, solar wind, alert. Four modules, two filters.</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Figures from operation</h2>
+    <div class="inhalt">
+      <p>Taken from the Make execution history, 9 October to 9 November 2026.</p>
+      <div class="galerie">
+        <figure class="breit"><img src="../../assets/img/aurora/flight-timeline.svg" width="1000" height="340" alt="Chart: how far each evening run got – clouds, Kp too low or alert" loading="lazy"><figcaption>32 evenings: 5 times clouds everywhere, 18 times Kp too low, 9 alerts.</figcaption></figure>
+        <figure><img src="../../assets/img/aurora/fly-run-overview.jpg" width="800" height="450" alt="Real run on 7 November: all modules executed, 5 operations" loading="lazy"><figcaption>7 November: all modules executed, alert sent, 5 operations.</figcaption></figure>
+        <figure><img src="../../assets/img/aurora/fly-run-quiet.jpg" width="800" height="450" alt="Real run on 9 November: stopped by the filter, 2 operations" loading="lazy"><figcaption>9 November: “The bundle did not pass through the filter”, 2 operations.</figcaption></figure>
+        <figure class="breit"><img src="../../assets/img/aurora/live-heatstrip.svg" width="1000" height="290" alt="Chart: runs of the second scenario at 15-minute intervals over three nights" loading="lazy"><figcaption>Scenario 2 in two storm nights: 21 alerts. This leads to the next step, a quiet period after each alert.</figcaption></figure>
+      </div>
+      <table class="tabelle">
+        <tr><th>Evening runs, scenario 1</th><td>32, all successful</td></tr>
+        <tr><th>Alerts “flight is worth it”</th><td>9 (28 %)</td></tr>
+        <tr><th>Operations per evening</th><td>2.5 on average, about 75 a month</td></tr>
+        <tr><th>Run time</th><td>0.9 seconds (median)</td></tr>
+        <tr><th>The same logic, built naively</th><td>about 8,700 operations a month, many times the free budget</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Result</h2>
+    <div class="inhalt">
+      <ul>
+        <li>Two questions that otherwise require a look at several specialist websites are answered by one Telegram message.</li>
+        <li>Scenario 1 needs less than a tenth of the free budget. 72 % of the evenings end after one or two operations.</li>
+        <li>Every threshold is justified and documented, including the ones that look like typos: <a href="https://github.com/dariiasichynska/aurora-alert/blob/main/docs/architecture.md">design notes on GitHub</a>.</li>
+        <li>The pattern can be reused: cheap pre-checks before expensive calls, catch placeholder values, translate raw data into plain language directly in the message.</li>
+      </ul>
+      <p class="hinweis">The values in the Telegram alerts in the video are sample values; the logic is real. Chat IDs and connection data are removed from the published blueprints.</p>
+    </div>
+  </section>
+
+  <nav class="weiter" aria-label="More case studies">
+    <a href="kontaktlisten-bereinigung.html">Previous project: Contact list cleanup</a>
+    <a href="snap-and-list.html">Next project: Snap &amp; List</a>
+  </nav>
+</div>
+</main>
+
+<footer class="fuss">
+  <div class="wrap">
+    <p>© 2026 Dariia Sichynska</p>
+    <p>No cookies, no analytics tools, no external fonts. Served by GitHub Pages.</p>
+  </div>
+</footer>
+</body>
+</html>

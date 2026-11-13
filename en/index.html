@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dariia Sichynska – Process automation with n8n, Make and AI</title>
+<meta name="description" content="Dariia Sichynska, Berlin: process automation with n8n, Make and AI. Projects as short clips, CV to download.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Dariia Sichynska – Process automation with n8n, Make and AI">
+<meta property="og:description" content="Automation projects as short clips. Berlin, hybrid or remote.">
+<meta property="og:image" content="https://dariiasichynska.github.io/assets/img/dariia-sichynska.jpg">
+<meta property="og:url" content="https://dariiasichynska.github.io/en/">
+<meta name="theme-color" content="#171a20">
+<link rel="alternate" hreflang="de" href="https://dariiasichynska.github.io/">
+<link rel="alternate" hreflang="en" href="https://dariiasichynska.github.io/en/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../assets/fonts/spectral-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/clip.css">
+</head>
+<body>
+<a class="skip" href="#inhalt">Skip to content</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="pulli" viewBox="0 0 100 100">
+      <path d="M31 16 L43 12 Q50 21 57 12 L69 16 L83 28 L93 78 L81 81 L72 44 L72 87 Q50 91 28 87 L28 44 L19 81 L7 78 L17 28 Z" fill="var(--stoff)" stroke="var(--stoff-hell)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M8.5 72 L20.5 75 M91.5 72 L79.5 75" stroke="var(--stoff-hell)" stroke-width="1.2" fill="none" opacity=".7"/>
+      <path d="M28 80 Q50 84 72 80 M36 30 V84 M44 30 V86 M52 30 V86 M60 30 V84 M68 32 V82" stroke="var(--stoff-hell)" stroke-width="1" fill="none" opacity=".55"/>
+      <path d="M43 12 Q50 24 57 12" stroke="var(--stoff-hell)" stroke-width="3" fill="none"/>
+    </symbol>
+    <symbol id="i-uhr" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+    <symbol id="i-ordner" viewBox="0 0 24 24"><path d="M3.5 7.5a2 2 0 0 1 2-2h4l2 2.2h7a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/></symbol>
+    <symbol id="i-bild" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><circle cx="9" cy="10" r="1.7"/><path d="M20.5 16l-5-5-8.5 8.5"/></symbol>
+    <symbol id="i-ki" viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9z"/><path d="M18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></symbol>
+    <symbol id="i-klammer" viewBox="0 0 24 24"><path d="M9 4.5c-2 0-2.5 1-2.5 3v2c0 1.2-.8 2-2 2.5 1.2.5 2 1.3 2 2.5v2c0 2 .5 3 2.5 3M15 4.5c2 0 2.5 1 2.5 3v2c0 1.2.8 2 2 2.5-1.2.5-2 1.3-2 2.5v2c0 2-.5 3-2.5 3"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="M4 7l8 6 8-6"/></symbol>
+    <symbol id="i-tabelle" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M3.5 14.5h17M9.5 9.5v10"/></symbol>
+    <symbol id="i-archiv" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="4.5" rx="1"/><path d="M5 9v9a1.5 1.5 0 0 0 1.5 1.5h11A1.5 1.5 0 0 0 19 18V9M10 13h4"/></symbol>
+    <symbol id="i-wieder" viewBox="0 0 24 24"><path d="M4.5 12a7.5 7.5 0 0 1 13-5.1M19.5 12a7.5 7.5 0 0 1-13 5.1"/><path d="M17.5 3.5v3.6h-3.6M6.5 20.5v-3.6h3.6"/></symbol>
+    <symbol id="i-person" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c1-4 4-6 7-6s6 2 7 6"/></symbol>
+  </defs>
+</svg>
+
+<header class="kopf">
+  <div class="wrap">
+    <a class="marke" href="./">Dariia Sichynska</a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="#projekte">Projects</a>
+      <a href="#arbeitsweise">Approach</a>
+      <a href="#kontakt">Contact</a>
+      <a href="../" hreflang="de" lang="de" class="sprache">DE</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inhalt">
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <h1>Dariia Sichynska</h1>
+      <p class="rolle">Process automation with n8n, Make and AI</p>
+      <p class="intro">I analyse workflows and automate them.</p>
+      <div class="aktionen">
+        <a class="knopf haupt" href="#projekte">View projects</a>
+        <a class="knopf" href="../assets/cv/Dariia-Sichynska-Lebenslauf.pdf" download>CV (PDF, German)</a>
+        <a class="knopf" href="https://www.linkedin.com/in/sichynska" rel="noopener">LinkedIn</a>
+        <a class="knopf" href="https://github.com/dariiasichynska" rel="noopener">GitHub</a>
+      </div>
+    </div>
+    <figure class="portrait">
+      <img src="../assets/img/dariia-sichynska.jpg" width="560" height="700" alt="Portrait of Dariia Sichynska, black and white">
+    </figure>
+  </div>
+</section>
+
+<section class="abschnitt" id="projekte" aria-labelledby="h-projekte">
+  <div class="wrap">
+    <h2 id="h-projekte">Projects</h2>
+    <p class="einleitung">Five projects of my own, in use or in progress. Code and technical documentation are on GitHub.</p>
+
+    <div class="faelle">
+      <article class="fall">
+        <div>
+          <h3><a href="case-studies/olympiade-training.html">Olympiade-Training</a></h3>
+          <p class="worum">A trainer for the German Mathematics Olympiad (grade 5) that runs where the child actually learns: offline on a tablet from 2014 and as a web version in the browser under his own account. AI grades the reasoning, Make.com and Airtable bring the results to the parents.</p>
+          <ul class="werkzeuge"><li>Make.com</li><li>Airtable</li><li>AI (Claude)</li><li>Low-code</li><li>Tests on real hardware</li></ul>
+          <p class="links"><a class="mehr" href="case-studies/olympiade-training.html">Read case study</a><a class="mehr" href="https://github.com/dariiasichynska/olympiade-training" rel="noopener">GitHub</a></p>
+        </div>
+        <figure class="video">
+          <video src="../assets/video/olympiade-training-demo.mp4" poster="../assets/video/olympiade-training-demo-poster.jpg" width="864" height="1102" autoplay muted loop playsinline controls preload="metadata" aria-label="One task in Olympiade-Training from start to finish"></video>
+          <figcaption>One task from start to finish: hints with a timer, reasoning, AI grading, badges, workshop drills and data upload. The interface is in German, the language of the competition. The demo task was written for this project.</figcaption>
+        </figure>
+      </article>
+
+      <article class="fall">
+        <div>
+          <h3><a href="case-studies/kontaktlisten-bereinigung.html">Contact list cleanup</a></h3>
+          <p class="worum">One click in Google Sheets turns 150 rows from four sources into 96 clean contacts. Unclear cases go to a person with a reason, blocked people appear in no list. A cockpit shows management the result. Demo project with synthetic test data.</p>
+          <ul class="werkzeuge"><li>Google Apps Script</li><li>Google Sheets</li><li>Web app</li><li>Privacy by design</li><li>Automated tests</li></ul>
+          <p class="links"><a class="mehr" href="case-studies/kontaktlisten-bereinigung.html">Read case study</a><a class="mehr" href="https://github.com/dariiasichynska/kontaktlisten-bereinigung" rel="noopener">GitHub</a><a class="mehr" href="https://script.google.com/macros/s/AKfycbxigPIFfsmDxaRsgpY2GTBQPTFU-wtq3qKxddGltTRqq5-TF2dZNikwP52lejOiaifE/exec" rel="noopener">Live cockpit</a></p>
+        </div>
+        <figure class="video" style="max-width:none">
+          <div class="bild"><img src="../assets/img/kontaktlisten/cockpit-karte.png" width="1240" height="840" alt="Contact data cockpit: 96 of 150 real contacts, 29 duplicate rows, 17 for review, 8 blocked rows, below it the flow of rows from four sources" loading="lazy"></div>
+          <figcaption>The cockpit after a run: key figures and the path of every row from four sources (in German).</figcaption>
+        </figure>
+      </article>
+
+      <article class="fall">
+        <div>
+          <h3><a href="case-studies/aurora-alert.html">Aurora-Alert</a></h3>
+          <p class="worum">Two Make.com scenarios watch the clouds and the solar wind over Lapland and post to a public Telegram channel when the northern lights are likely: two days ahead for the flight, shortly before for a look at the sky. Deliberately without AI.</p>
+          <ul class="werkzeuge"><li>Make.com</li><li>4 public APIs</li><li>Telegram bot</li><li>Cost optimisation</li></ul>
+          <p class="links"><a class="mehr" href="case-studies/aurora-alert.html">Read case study</a><a class="mehr" href="https://github.com/dariiasichynska/aurora-alert" rel="noopener">GitHub</a></p>
+          <div class="abo">
+            <a class="knopf haupt" href="https://t.me/auroralert" rel="noopener"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.7.8l-4.8-3.6-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2L6.5 13.1 1.8 11.6c-1-.3-1-1 .2-1.5L20.5 3c.9-.3 1.6.2 1.4 1.3Z"/></svg>Subscribe to the aurora channel</a>
+            <small>Telegram · messages in English</small>
+          </div>
+        </div>
+        <figure class="video" style="max-width:none">
+          <video src="../assets/video/aurora-alert-walkthrough.mp4" poster="../assets/video/aurora-alert-walkthrough-poster.jpg" width="1280" height="720" autoplay muted loop playsinline controls preload="metadata" aria-label="Walkthrough of both Make.com scenarios of Aurora-Alert"></video>
+          <figcaption>A walkthrough of the real Make.com scenarios: editor, filters, an evening with an alert and a quiet evening. About 75 operations a month, far below the free budget of 1,000.</figcaption>
+        </figure>
+      </article>
+
+      <article class="fall clip-fall clip">
+        <div class="clip-text-kopf">
+          <h3><a href="case-studies/snap-and-list.html">Snap &amp; List</a></h3>
+          <p class="worum">I take photos of a piece of clothing, and a workflow does the rest: a finished sales listing lands as a draft in my inbox. I built the complete workflow twice, in Make.com and in n8n.</p>
+          <ul class="werkzeuge"><li>Make.com</li><li>n8n</li><li>Gemini via REST API</li><li>Dropbox, Gmail, Airtable, Telegram</li><li>BPMN</li></ul>
+        </div>
+        <div class="player" data-clip>
+            <div class="buehne">
+              <span class="beispiel">Sample data</span>
+
+              <!-- 1 -->
+              <div class="szene s-foto on" data-dauer="5200" data-kurz="Photos" data-titel="Take photos" data-text="I photograph the item from several sides. An iOS shortcut stores the pictures as a separate package in cloud storage.">
+                <div class="aufbau">
+                  <div class="telefon" aria-hidden="true">
+                    <div class="sucher"><svg viewBox="0 0 100 100"><use href="#pulli"/></svg>
+                      <span class="ecke a"></span><span class="ecke b"></span><span class="ecke c"></span><span class="ecke d"></span>
+                    </div>
+                    <span class="ausloeser"></span>
+                    <span class="blitz"></span>
+                  </div>
+                  <div class="seite-rechts">
+                    <p class="gross">Three photos. That is all the work.</p>
+                    <div class="streifen" aria-hidden="true">
+                      <span class="mini"><svg viewBox="0 0 100 100"><use href="#pulli"/></svg></span>
+                      <span class="mini"><svg viewBox="0 0 100 100"><use href="#pulli"/></svg></span>
+                      <span class="mini"><svg viewBox="0 0 100 100"><use href="#pulli"/></svg></span>
+                    </div>
+                    <span class="chip gold s-foto-chip"><svg class="ic"><use href="#i-ordner"/></svg>Shortcut: store as package</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 2 -->
+              <div class="szene s-paket" data-dauer="4200" data-kurz="Package" data-titel="One item, one package" data-text="Every item gets its own folder in the queue. A folder is a package: all photos in it belong to exactly one item.">
+                <div class="fenster">
+                  <div class="fenster-kopf"><i></i><i></i><i></i><b>Cloud storage</b><span>/ Snap &amp; List / queue</span></div>
+                  <div class="ordner">
+                    <div class="zeile neu"><svg class="ic"><use href="#i-ordner"/></svg><span>Knitted jumper, navy</span><span>3 photos</span></div>
+                  </div>
+                  <div class="inhalt">
+                    <span class="mini"><svg viewBox="0 0 100 100"><use href="#pulli"/></svg></span>
+                    <span class="mini"><svg viewBox="0 0 100 100" style="transform:scaleX(-1)"><use href="#pulli"/></svg></span>
+                    <span class="mini"><svg viewBox="0 0 100 100" style="transform:rotate(-8deg) scale(.92)"><use href="#pulli"/></svg></span>
+                    <span class="chip gut">1 folder = 1 item</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 3 Zwei Workflows -->
+              <div class="szene s-flow" data-dauer="6200" data-kurz="Two workflows" data-titel="The same process, built twice" data-text="I built the complete workflow twice: once in Make.com, once in n8n. Both pick up new packages on a schedule, in batches instead of file by file, and call Gemini directly via the REST API. Each platform uses its own building blocks for this.">
+                <div class="flow-wrap">
+                  <div class="flow-kopf"><span class="chip gold">One process, two platforms</span><span class="chip gut lauf-ok">both runs successful</span></div>
+                  <div class="spur make"><span class="spur-name">Make.com</span><div class="flow" data-flow="make"></div></div>
+                  <div class="spur n8n"><span class="spur-name">n8n</span><div class="flow" data-flow="n8n"></div></div>
+                  <div class="fehler"><span class="klein"><svg class="ic"><use href="#i-wieder"/></svg></span><span>Errors: Make.com reports via Telegram and retries three times. n8n repeats the request and then switches to a fallback model.</span></div>
+                </div>
+              </div>
+
+              <!-- 4 KI -->
+              <div class="szene s-ki" data-dauer="6000" data-kurz="AI analysis" data-titel="The AI sees all photos at once" data-text="All views go to a multimodal model in a single request. A fixed JSON schema defines the fields, and the condition is limited to three values. That way the answer moves on without rework.">
+                <span class="chip beide">the same in Make.com and n8n</span>
+                <div class="aufbau">
+                  <div>
+                    <div class="bilder">
+                      <span class="mini"><svg viewBox="0 0 100 100"><use href="#pulli"/></svg></span>
+                      <span class="mini"><svg viewBox="0 0 100 100"><use href="#pulli"/></svg></span>
+                      <span class="mini"><svg viewBox="0 0 100 100"><use href="#pulli"/></svg></span>
+                      <span class="scan"></span>
+                    </div>
+                    <div class="anfrage"><span class="chip gold"><svg class="ic"><use href="#i-ki"/></svg>3 photos, 1 request</span></div>
+                  </div>
+                  <div class="ergebnis">
+                    <div class="felder">
+                      <div class="feld" style="--n:0"><small>Category</small><b>Jumper</b></div>
+                      <div class="feld" style="--n:1"><small>Brand</small><b>as on label</b></div>
+                      <div class="feld" style="--n:2"><small>Size</small><b>M</b></div>
+                      <div class="feld" style="--n:3"><small>Material</small><b>Wool</b></div>
+                      <div class="feld" style="--n:4"><small>Condition</small><b>Very good</b></div>
+                      <div class="feld" style="--n:5"><small>Defects</small><b>none visible</b></div>
+                    </div>
+        <pre class="json" aria-hidden="true"><span style="--n:0">{</span><span style="--n:1">  <i class="k">"titel"</i>: "Strickpullover dunkelblau, Gr. M",</span><span style="--n:2">  <i class="k">"zustand"</i>: "Sehr gut",</span><span style="--n:3">  <i class="k">"maengel"</i>: "keine erkennbar",</span><span style="--n:4">  <i class="k">"hashtags"</i>: ["#strick", "#wolle"]</span><span style="--n:5">}</span></pre>
+                    <span class="chip regel"><svg class="ic"><use href="#i-person"/></svg>Rule in the prompt: invent nothing, mark anything uncertain as “unclear – please check”</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 5 Entwurf -->
+              <div class="szene s-mail" data-dauer="5600" data-kurz="Draft" data-titel="I decide" data-text="The finished listing lands in my inbox. I read it, correct it if needed and publish it myself. Nothing goes online automatically.">
+                <span class="chip beide">Make.com: e-mail to me, n8n: Gmail draft</span>
+                <div class="fenster">
+                  <div class="fenster-kopf"><i></i><i></i><i></i><b>Inbox</b><span>1 new</span></div>
+                  <div class="mail">
+                    <div class="feldzeile"><span>Betreff</span><b>Vinted: Strickpullover dunkelblau, Gr. M</b></div>
+                    <p class="titelzeile" style="--n:0">Strickpullover in Dunkelblau, Größe M<span class="markierung" style="--n:0"></span></p>
+                    <p style="--n:1">Weicher Strick aus Wolle, gerader Schnitt, Rippenbündchen an Saum und Ärmeln.<span class="markierung" style="--n:1"></span></p>
+                    <p style="--n:2">Zustand: sehr gut, keine Flecken, keine Löcher.<span class="markierung" style="--n:2"></span></p>
+                    <p class="hinweis" style="--n:3">Privatverkauf. Nichtraucherhaushalt. Der Artikel wird wie beschrieben und abgebildet verkauft.</p>
+                    <div class="mail-fuss"><span class="knopf-mail">Edit</span><span class="knopf-mail haupt">Checked</span></div>
+                  </div>
+                  <svg class="zeiger" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l14 8-6.2 1.6L10 19z" fill="var(--papier)" stroke="var(--bildschirm)" stroke-width="1.2" stroke-linejoin="round"/></svg>
+                  <span class="stempel">checked by a human</span>
+                </div>
+              </div>
+
+              <!-- 6 Register -->
+              <div class="szene s-tabelle" data-dauer="5000" data-kurz="Register" data-titel="Everything in one place" data-text="In the Make.com version every item ends up in Airtable, with status (Draft, Online, Sold) and sale price. Then the package is moved to the folder “done”.">
+                <span class="chip beide">Make.com version</span>
+                <div class="fenster">
+                  <div class="fenster-kopf"><i></i><i></i><i></i><b>Airtable</b><span>/ Item register</span></div>
+                  <table class="tabelle">
+                    <thead><tr><th>Item</th><th>Condition</th><th>Status</th><th class="zahl">Price</th></tr></thead>
+                    <tbody>
+                      <tr class="neu"><td>Knitted jumper, navy, M</td><td>Very good</td><td><span class="status"><span class="chip vorher">Draft</span><span class="chip gold nachher">Online</span></span></td><td class="zahl">–</td></tr>
+                      <tr><td>Jeans, size 32</td><td>Good</td><td><span class="chip gut">Sold</span></td><td class="zahl">15 €</td></tr>
+                      <tr><td>Winter coat, L</td><td>Very good</td><td><span class="chip gold">Online</span></td><td class="zahl">–</td></tr>
+                    </tbody>
+                  </table>
+                  <div class="archiv"><span class="chip gut"><svg class="ic"><use href="#i-archiv"/></svg>Package archived</span></div>
+                </div>
+              </div>
+
+              <!-- 7 Warum zweimal -->
+              <div class="szene s-warum" data-dauer="7000" data-kurz="Why twice" data-titel="Why twice?" data-text="I did not want to depend on one vendor, and I wanted to learn to build the same solution on any platform. Both workflows follow the same BPMN model and the same rules.">
+                <div class="aufbau">
+                  <div class="morph-bild" aria-hidden="true">
+                    <span class="gross-knoten"><svg class="ic"><use href="#i-ki"/></svg></span>
+                    <span class="morph-label">Make.com<span>⇄</span>n8n</span>
+                  </div>
+                  <ul class="gruende">
+                    <li style="--n:0"><b>Platform-independent</b><span>The process does not depend on one vendor. It runs on both platforms.</span></li>
+                    <li style="--n:1"><b>At home on both platforms</b><span>I move a solution from Make.com to n8n and compare which approach fits better where.</span></li>
+                    <li style="--n:2"><b>Own interfaces where needed</b><span>Where a standard module did not support the data format, I connected the AI directly via the REST API.</span></li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- 8 Schluss -->
+              <div class="szene s-ende" data-dauer="5200" data-kurz="Result" data-titel="The automation prepares, I decide" data-text="Retries on API errors, a notification when something goes wrong and a fallback model when the service is overloaded. The solution runs on the free tier.">
+                <div class="aufbau">
+                  <p class="satz"><span style="--n:0">One item.</span><span style="--n:1">One package.</span><span style="--n:2">One AI request.</span><span style="--n:3">One draft.</span></p>
+                  <div class="chips s-ende-chips"><span class="chip">built twice: Make.com and n8n</span><span class="chip">free tier</span><span class="chip gold">a human decides</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="leiste">
+              <button class="play clip-play" type="button" aria-pressed="true">
+                <svg class="clip-play-ic" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="2.5" width="3.5" height="11" rx="1"/><rect x="9.5" y="2.5" width="3.5" height="11" rx="1"/></svg>
+                <span class="clip-play-text">Pause</span>
+              </button>
+              <span class="zeit clip-zeit">0:00 / 0:43</span>
+            </div>
+            <ol class="clip-kapitel"></ol>
+            <div class="untertitel" aria-live="polite">
+              <h4 class="clip-titel">Take photos</h4>
+              <p class="clip-text">I photograph the item from several sides. An iOS shortcut stores the pictures as a separate package in cloud storage.</p>
+            </div>
+          </div>
+        <a class="mehr" href="case-studies/snap-and-list.html">Read case study</a>
+      </article>
+
+      <article class="fall">
+        <div>
+          <p class="in-arbeit">In progress</p>
+          <h3><a href="case-studies/jobsuche-agenten.html">Agentic workflow for my own job search</a></h3>
+          <p class="worum">Several AI agents with clearly separated tasks. Every night n8n collects new jobs from three sources, checks the commute and scores them by scope of tasks instead of job title. From a score of 75 I decide; after that Claude checks the employer and prepares the application package. Every run is monitored from outside.</p>
+          <ul class="werkzeuge"><li>n8n</li><li>AI agents</li><li>Gemini and Claude</li><li>Airtable</li><li>Telegram</li><li>Privacy by design</li></ul>
+          <p class="links"><a class="mehr" href="case-studies/jobsuche-agenten.html">Read case study</a><a class="mehr" href="https://github.com/dariiasichynska/jobsuche-agenten" rel="noopener">GitHub</a></p>
+        </div>
+        <figure class="video" style="max-width:none">
+          <div class="bild"><img src="../assets/img/jobsuche/job-scout-quellen.png" width="1150" height="380" alt="Part of the Job-Scout in n8n: three branches for the Federal Employment Agency, Gmail alerts and career pages run in parallel and are merged" loading="lazy"></div>
+          <figcaption>Job-Scout in n8n: three sources run in parallel and are merged.</figcaption>
+        </figure>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="abschnitt" id="arbeitsweise" aria-labelledby="h-arbeitsweise">
+  <div class="wrap">
+    <h2 id="h-arbeitsweise">My approach</h2>
+    <p class="einleitung">From analysis to everyday use.</p>
+
+    <ol class="ablauf" id="ablauf">
+      <li style="--i:0">
+        <div class="form ereignis-start" aria-hidden="true"><span></span></div>
+        <div class="text">A process takes too much time</div>
+      </li>
+      <li style="--i:1">
+        <div class="form aufgabe" aria-hidden="true"><span><svg viewBox="0 0 24 24"><path d="M4 5h16v10H9l-5 4z"/></svg></span></div>
+        <div class="text">Capture the current process</div>
+        <div class="beleg">Example: Olympiade-Training, requirements settled through multiple-choice questions</div>
+      </li>
+      <li style="--i:2">
+        <div class="form aufgabe" aria-hidden="true"><span><svg viewBox="0 0 24 24"><rect x="3" y="9" width="6" height="6" rx="1"/><rect x="15" y="9" width="6" height="6" rx="1"/><path d="M9 12h6"/></svg></span></div>
+        <div class="text">Model it in BPMN</div>
+        <div class="beleg">Example: Snap &amp; List, process drawn in BPMN first</div>
+      </li>
+      <li style="--i:3">
+        <div class="form gateway" aria-hidden="true"><span><svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17"/></svg></span></div>
+        <div class="text">AI needed?</div>
+        <div class="zweige"><span><b>yes:</b> AI model</span><span><b>no:</b> fixed rules</span></div>
+        <div class="beleg">Example: Agentic workflow, addresses by rule instead of by AI</div>
+      </li>
+      <li style="--i:4">
+        <div class="form aufgabe" aria-hidden="true"><span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></span></div>
+        <div class="text">Build and test in Make or n8n</div>
+        <div class="beleg">Example: Olympiade-Training, tested on a tablet from 2014</div>
+      </li>
+      <li style="--i:5">
+        <div class="form aufgabe mensch" aria-hidden="true"><span><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c1-4 4-6 7-6s6 2 7 6"/></svg></span></div>
+        <div class="text">Human in the loop: a person checks the result</div>
+        <div class="beleg">Example: Snap &amp; List, a draft instead of automatic publishing</div>
+      </li>
+      <li style="--i:6">
+        <div class="form ereignis-ende" aria-hidden="true"><span></span></div>
+        <div class="text">In use, improved continuously</div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+
+<section class="abschnitt kontakt" id="kontakt" aria-labelledby="h-kontakt">
+  <div class="wrap">
+    <h2 id="h-kontakt">Contact</h2>
+    <p class="einleitung">I am looking for a role in process automation. 100 % remote or hybrid in Berlin.</p>
+    <div class="aktionen">
+      <a class="knopf haupt" href="mailto:sichynska@gmail.com">sichynska@gmail.com</a>
+      <a class="knopf" href="https://www.linkedin.com/in/sichynska" rel="noopener">LinkedIn</a>
+      <a class="knopf" href="https://github.com/dariiasichynska" rel="noopener">GitHub</a>
+      <a class="knopf" href="../assets/cv/Dariia-Sichynska-Lebenslauf.pdf" download>CV (PDF, German)</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="fuss">
+  <div class="wrap">
+    <p>© 2026 Dariia Sichynska</p>
+    <p>This site sets no cookies, uses no analytics tools and loads no external fonts. It is served by GitHub Pages; GitHub processes technically necessary access data such as the IP address.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var a = document.getElementById('ablauf');
+  if (!a || !('IntersectionObserver' in window)) return;
+  a.classList.add('wartet');
+  var io = new IntersectionObserver(function (e) {
+    if (e[0].isIntersecting) { a.classList.remove('wartet'); a.classList.add('zeichnen'); io.disconnect(); }
+  }, { threshold: 0.3 });
+  io.observe(a);
+})();
+</script>
+<script src="../assets/js/clip.js"></script>
+</body>
+</html>

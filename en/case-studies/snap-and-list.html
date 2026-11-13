@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Snap &amp; List – Case study – Dariia Sichynska</title>
+<meta name="description" content="Case study: AI-supported automation of sales listings, from a photo to a finished German listing text, built in Make.com and n8n.">
+<meta property="og:title" content="Snap &amp; List – Case study">
+<meta property="og:image" content="https://dariiasichynska.github.io/assets/img/dariia-sichynska.jpg">
+<meta name="theme-color" content="#171a20">
+<link rel="alternate" hreflang="de" href="https://dariiasichynska.github.io/fallstudien/snap-and-list.html">
+<link rel="alternate" hreflang="en" href="https://dariiasichynska.github.io/en/case-studies/snap-and-list.html">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+<a class="skip" href="#inhalt">Skip to content</a>
+<header class="kopf">
+  <div class="wrap">
+    <a class="marke" href="../">Dariia Sichynska</a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="../#projekte" aria-current="page">Projects</a>
+      <a href="../#kontakt">Contact</a>
+      <a href="../../fallstudien/snap-and-list.html" hreflang="de" lang="de" class="sprache">DE</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inhalt">
+<div class="wrap">
+  <section class="fall-kopf">
+    <a class="zurueck" href="../#projekte">All projects</a>
+    <h1>Snap &amp; List</h1>
+    <p class="unterzeile">From a photo of a piece of clothing to a finished German sales listing. The AI analyses and writes; a human checks and publishes. The complete workflow is built twice: in Make.com and in n8n.</p>
+    <dl class="fakten">
+      <div><dt>My role</dt><dd>Concept, implementation and operation, on my own</dd></div>
+      <div><dt>Tools</dt><dd>Make.com, n8n, Google Gemini API (Claude for comparison), Dropbox, Gmail, Airtable, Telegram, BPMN, iOS Shortcuts</dd></div>
+      <div><dt>Status</dt><dd>In use for my own sales</dd></div>
+    </dl>
+  </section>
+
+  <section class="kapitel">
+    <h2>Starting point</h2>
+    <div class="inhalt">
+      <p>Every listing was manual work: look through the photos, determine the features, write a text in German. The quality of the descriptions varied, and the effort grew with every item.</p>
+      <ul>
+        <li><strong>Efficiency:</strong> manual work only for the final check.</li>
+        <li><strong>Quality:</strong> consistent, complete descriptions for the German-speaking market.</li>
+        <li><strong>Budget:</strong> no infrastructure costs, running on free tiers.</li>
+        <li><strong>Control:</strong> no automatic publishing; the decision stays with a human.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Process</h2>
+    <div class="inhalt">
+      <ol class="schritte">
+        <li>The photos of each item land as a separate package in cloud storage.</li>
+        <li>On a schedule, the process picks up new packages and sends all photos of one item to the AI model in a single request.</li>
+        <li>The AI determines category, condition, material, colour, size and brand and writes the title and description.</li>
+        <li>The text arrives in my inbox for review: in Make.com as an e-mail to me, in n8n as a Gmail draft. The Make.com version also registers the item in Airtable.</li>
+        <li>The processed package is archived automatically.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Decisions</h2>
+    <div class="inhalt">
+      <table class="tabelle">
+        <tr><th>Process analysis</th><td>Split the sales process into single steps, defined the automation potential and the human checkpoints, modelled it in BPMN.</td></tr>
+        <tr><th>Architecture</th><td>Scheduled batch processing instead of reacting to every single file: one item, one package, one AI request, one draft. This prevents duplicates and saves resources.</td></tr>
+        <tr><th>Scarce resources</th><td>Calculated usage for the free plan (1,000 operations, 2 active scenarios per month) at about 10 items with 100 photos. When the data volume was no longer enough, I moved image compression into the capture step.</td></tr>
+        <tr><th>Multimodal AI</th><td>All views of an item in one request. Structured JSON output, so the data flows into e-mail and database without rework.</td></tr>
+        <tr><th>Choice of provider</th><td>Compared Google Gemini and Anthropic Claude by cost, access conditions and quality. Where standard connectors did not support the data format, connected directly via the REST API.</td></tr>
+        <tr><th>Prompt</th><td>A German system prompt with clear rules: structure of the listing, a note on private sale, no personal data such as name labels. Main and fallback model chosen by quality of results.</td></tr>
+        <tr><th>Resilience</th><td>Retries on API errors, faulty files are skipped, error notifications, fallback model under overload.</td></tr>
+        <tr><th>Platform switch</th><td>Moved the solution from Make.com to n8n and compared both approaches.</td></tr>
+        <tr><th>Documentation</th><td>A BPMN diagram and an overview of obstacles and solutions.</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Result</h2>
+    <div class="inhalt">
+      <ul>
+        <li>A continuous process from the photo to the finished listing draft, without writing it myself.</li>
+        <li>No infrastructure costs: at the current volume everything stays on free tiers.</li>
+        <li>Consistent, complete descriptions thanks to clear rules for the AI.</li>
+        <li>The automation prepares, I decide.</li>
+      </ul>
+      <p class="hinweis">The same logic can be applied to other products, platforms and business processes with image and document processing.</p>
+    </div>
+  </section>
+
+  <nav class="weiter" aria-label="More case studies">
+    <a href="aurora-alert.html">Previous project: Aurora-Alert</a>
+    <a href="jobsuche-agenten.html">Next project: Agentic workflow</a>
+  </nav>
+</div>
+</main>
+
+<footer class="fuss">
+  <div class="wrap">
+    <p>© 2026 Dariia Sichynska</p>
+    <p>No cookies, no analytics tools, no external fonts. Served by GitHub Pages.</p>
+  </div>
+</footer>
+</body>
+</html>

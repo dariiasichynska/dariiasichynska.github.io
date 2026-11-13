@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Olympiade-Training – Case study – Dariia Sichynska</title>
+<meta name="description" content="Case study: a maths olympiad trainer, offline on a tablet from 2014 and as a web version under the child’s own account, with AI grading, Make.com and Airtable.">
+<meta property="og:title" content="Olympiade-Training – Case study">
+<meta property="og:image" content="https://dariiasichynska.github.io/assets/img/olympiade/map.png">
+<meta name="theme-color" content="#171a20">
+<link rel="alternate" hreflang="de" href="https://dariiasichynska.github.io/fallstudien/olympiade-training.html">
+<link rel="alternate" hreflang="en" href="https://dariiasichynska.github.io/en/case-studies/olympiade-training.html">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+<a class="skip" href="#inhalt">Skip to content</a>
+<header class="kopf">
+  <div class="wrap">
+    <a class="marke" href="../">Dariia Sichynska</a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="../#projekte" aria-current="page">Projects</a>
+      <a href="../#kontakt">Contact</a>
+      <a href="../../fallstudien/olympiade-training.html" hreflang="de" lang="de" class="sprache">DE</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inhalt">
+<div class="wrap">
+  <section class="fall-kopf">
+    <a class="zurueck" href="../#projekte">All projects</a>
+    <h1>Olympiade-Training</h1>
+    <p class="unterzeile">A trainer for the German Mathematics Olympiad (grade 5) that runs where the child actually learns: offline on a tablet from 2014 and as a web version in the browser under his own account. AI grades the reasoning, Make.com and Airtable bring the results to the parents.</p>
+    <dl class="fakten">
+      <div><dt>My role</dt><dd>Product ownership from requirements to operation: requirements and decisions, tests on the real hardware, Make scenario, Airtable model and dashboard, analysis of the real submissions and the iterations that followed. The code was written by Claude (Anthropic) under my direction.</dd></div>
+      <div><dt>Tools</dt><dd>Claude, Make.com, Airtable, JavaScript (ES5 build with Babel), GitHub Pages</dd></div>
+      <div><dt>Status</dt><dd>In daily use since October 2026, on two devices. Code and <a href="https://dariiasichynska.github.io/olympiade-training/">live demo</a> (in German) are public on <a href="https://github.com/dariiasichynska/olympiade-training">GitHub</a>.</dd></div>
+    </dl>
+  </section>
+
+  <section class="kapitel">
+    <h2>Starting point</h2>
+    <div class="inhalt">
+      <p>A fifth-grader is preparing for the Mathematics Olympiad. His tablet is from 2014 (Android 4.1, Chrome 42) and often offline.</p>
+      <ul>
+        <li><strong>The olympiad grades the solution path.</strong> The reasoning counts more than the result. Under the official marking schemes, a correct result without reasoning usually earns only 30 to 50 percent of the points.</li>
+        <li><strong>A bilingual family.</strong> The tasks are in German; the parents want to read them in Ukrainian at a glance. The child explains in German, his second language.</li>
+        <li><strong>Motivation.</strong> Hard tasks quickly frustrate a ten-year-old.</li>
+        <li><strong>Two places to learn.</strong> The tablet for on the go, a laptop with a microphone for longer sessions. The child should use the trainer on the laptop without access to the parents’ account.</li>
+        <li><strong>No visibility for the parents.</strong> They cannot see where the gaps are.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Approach</h2>
+    <div class="inhalt">
+      <p>The project came from a real need at home. I ran it like a small product project: Claude was the developer; problem, decisions, tests and automation were mine.</p>
+      <ol class="schritte">
+        <li><strong>Requirements through structured questions.</strong> Before the first line of code, every open point was decided through multiple-choice questions: order of tasks, timing of hints, one attempt as in the real competition, grading scale 1 to 6, what is translated and what is not.</li>
+        <li><strong>Prototype and field test.</strong> The first version ran on the desktop but stayed blank on the tablet. The cause: Chrome 42 does not understand modern JavaScript and CSS. The solution: a second build pipeline to ES5, separate CSS without grid and custom properties, and a start-up check that shows the error and the browser version instead of a blank page.</li>
+        <li><strong>Iteration based on real data.</strong> After the first week I analysed the real submissions. Three patterns: incomplete enumeration (5 of 6 arrangements), points lost through missing brackets, and explanations that say what was calculated but not why. I responded with new answer types, a reasoning scaffold and drills in a “workshop”.</li>
+        <li><strong>Automation instead of copying.</strong> Copying results as JSON code from the offline tablet was unusable in everyday life. I set up a Make.com scenario, see below.</li>
+        <li><strong>Removing friction.</strong> The next analysis showed two new problems: typing the reasoning on the 7-inch tablet was the biggest obstacle, and single tasks took 30 to 70 minutes. The reasoning became optional on the tablet, every task got a time box, and all tasks can be chosen freely.</li>
+        <li><strong>The reasoning comes back by voice.</strong> Speaking is easier than typing for a ten-year-old. On the laptop the child dictates his solution path, and there the reasoning counts again, as in the competition.</li>
+        <li><strong>Progress the parents can see.</strong> Airtable is the central store: one row per task and one per training day. A dashboard shows the month’s key figures compared with the previous month.</li>
+        <li><strong>Second level and own account.</strong> After the school round, a second “galaxy” for the regional round was added. Three wishes came straight from the child and from the data: more badges, more time per task and a way to solve a task again. Since then the child works under his own account.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Solution</h2>
+    <div class="inhalt">
+      <ul>
+        <li><strong>Two versions from one source code:</strong> an offline file for the old tablet (own ES5 build pipeline) and a web version in the browser on the laptop.</li>
+        <li><strong>The child’s own account:</strong> in the web version the child sees only the trainer, not the parents’ account. Progress is saved automatically.</li>
+        <li><strong>Two olympiad levels as two “galaxies”:</strong> school round (24 tasks) and regional round (20 tasks).</li>
+        <li><strong>Staged hints and time boxes:</strong> hints after 4, 8 and 12 minutes, 20 minutes per task with as many extensions as needed.</li>
+        <li><strong>Dictated reasoning:</strong> on the laptop the reasoning is dictated and graded by AI against the olympiad standard: a grade from 1 to 6 and a short note for the parents in Ukrainian.</li>
+        <li><strong>“Nochmal lösen” (solve again):</strong> as in the olympiad, the first attempt counts. Improvements are recorded separately.</li>
+        <li><strong>Motivation:</strong> ranks, “stardust” and 26 badges. A workshop with 25 short drills targets the weaknesses the real submissions revealed.</li>
+      </ul>
+      <div class="galerie">
+        <figure class="breit"><img src="../../assets/img/olympiade/map.png" width="1100" height="900" alt="Star map with two galaxies, ranks and badges" loading="lazy"><figcaption>Two galaxies for the school round and the regional round, with ranks and badges.</figcaption></figure>
+        <figure><img src="../../assets/img/olympiade/task.png" width="752" height="763" alt="Task view with figure and Ukrainian translation" loading="lazy"><figcaption>The task in the German original, a translation for the parents with a hint.</figcaption></figure>
+        <figure><img src="../../assets/img/olympiade/hints.png" width="736" height="383" alt="Staged hints with a timer" loading="lazy"><figcaption>Staged hints after 4, 8 and 12 minutes.</figcaption></figure>
+        <figure class="breit"><img src="../../assets/img/olympiade/timer.png" width="784" height="175" alt="Time bar with 20 minutes per task and an encouraging message" loading="lazy"><figcaption>20 minutes per task, with a message that changes as time goes on.</figcaption></figure>
+        <figure><img src="../../assets/img/olympiade/time-up.png" width="784" height="900" alt="Screen “Zeit ist um!” (time is up) with three options" loading="lazy"><figcaption>“Zeit ist um!” (time is up): 5 more minutes, hand in, or go to the next star.</figcaption></figure>
+        <figure><img src="../../assets/img/olympiade/dictation.png" width="712" height="1016" alt="Dictated reasoning with one field per part of the task" loading="lazy"><figcaption>On the laptop the child dictates his reasoning, one field per part of the task.</figcaption></figure>
+        <figure><img src="../../assets/img/olympiade/result.png" width="752" height="656" alt="Result with grade and model solution" loading="lazy"><figcaption>The first attempt counts: grade and model solution.</figcaption></figure>
+        <figure><img src="../../assets/img/olympiade/retry.png" width="752" height="596" alt="First attempt and a later practice attempt side by side" loading="lazy"><figcaption>“Nochmal lösen”: the improvement is shown as a separate practice attempt.</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Automation</h2>
+    <div class="inhalt">
+      <p>The results arrive in two ways. As soon as the tablet is online, it sends them to a Make.com webhook; a router distinguishes a real upload from a connection test, and the data lands in a data store per device. The web version saves to its own database. Both sources are merged and stored in Airtable. A dashboard reads Airtable and shows the month-by-month comparison.</p>
+      <table class="tabelle">
+        <tr><th>A simple form instead of an API call</th><td>The tablet sends a normal HTML form. This needs no CORS and also works with Chrome 42.</td></tr>
+        <tr><th>Checked before roll-out</th><td>Whether Android 4.1 accepts the webhook’s TLS certificate.</td></tr>
+        <tr><th>First attempt and practice kept apart</th><td>Grade and statistics keep the first attempt. Later attempts are saved as practice, also in Airtable and in the dashboard.</td></tr>
+        <tr><th>Privacy</th><td>No child data, no IDs and no webhook address in the public repository. The demo contains only tasks I wrote myself.</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Result</h2>
+    <div class="inhalt">
+      <ul>
+        <li>In daily use since October 2026, on two devices. The school round of the olympiad is passed; training now runs at regional level.</li>
+        <li>Every change came from real data or from the child’s wishes: optional reasoning on the tablet, dictation on the laptop, more time, more badges, “solve again”, his own account.</li>
+        <li>The results reach the parents without copying and can be compared month by month in the dashboard.</li>
+        <li>For the old browser only the 24 polyfills needed are bundled: about 66 KB instead of about 750 KB.</li>
+      </ul>
+      <p class="hinweis">I wrote the nine tasks in the demo specifically for this project. The real olympiad tasks are protected by copyright and are not included.</p>
+    </div>
+  </section>
+
+  <nav class="weiter" aria-label="More case studies">
+    <a href="../#projekte">All projects</a>
+    <a href="kontaktlisten-bereinigung.html">Next project: Contact list cleanup</a>
+  </nav>
+</div>
+</main>
+
+<footer class="fuss">
+  <div class="wrap">
+    <p>© 2026 Dariia Sichynska</p>
+    <p>No cookies, no analytics tools, no external fonts. Served by GitHub Pages.</p>
+  </div>
+</footer>
+</body>
+</html>

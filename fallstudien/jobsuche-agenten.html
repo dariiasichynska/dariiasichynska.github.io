@@ -8,6 +8,8 @@
 <meta property="og:title" content="Agenten-Team für die Jobsuche – Fallstudie">
 <meta property="og:image" content="https://dariiasichynska.github.io/assets/img/dariia-sichynska.jpg">
 <meta name="theme-color" content="#171a20">
+<link rel="alternate" hreflang="de" href="https://dariiasichynska.github.io/fallstudien/jobsuche-agenten.html">
+<link rel="alternate" hreflang="en" href="https://dariiasichynska.github.io/en/case-studies/jobsuche-agenten.html">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/css/style.css">
 </head>
@@ -19,6 +21,7 @@
     <nav class="nav" aria-label="Hauptnavigation">
       <a href="../#projekte" aria-current="page">Projekte</a>
       <a href="../#kontakt">Kontakt</a>
+      <a href="../en/case-studies/jobsuche-agenten.html" hreflang="en" lang="en" class="sprache">EN</a>
     </nav>
   </div>
 </header>
@@ -31,8 +34,8 @@
     <p class="unterzeile">Mehrere KI-Agenten mit klar getrennten Aufgaben. Sie suchen, prüfen und bereiten vor, die Entscheidungen treffe ich.</p>
     <dl class="fakten">
       <div><dt>Meine Rolle</dt><dd>Architektur, Kriterien, Prüfregeln und Tests. Den n8n-Workflow habe ich zusammen mit Claude erstellt.</dd></div>
-      <div><dt>Werkzeuge</dt><dd>n8n, Google Gemini, Claude, Airtable, Gmail, Telegram, OpenStreetMap (Nominatim)</dd></div>
-      <div><dt>Status</dt><dd>Im Aufbau. Vier Workflows laufen nach Zeitplan, der Writer arbeitet noch auf Zuruf. Technische Doku auf <a href="https://github.com/dariiasichynska/jobsuche-agenten" rel="noopener">GitHub</a>.</dd></div>
+      <div><dt>Werkzeuge</dt><dd>n8n, Google Gemini, Claude, Airtable, Gmail, Telegram, OpenStreetMap (Nominatim), Healthchecks.io, UptimeRobot</dd></div>
+      <div><dt>Status</dt><dd>Im Aufbau. Fünf Workflows laufen nach Zeitplan und werden von außen überwacht. Der Writer prüft den Arbeitgeber und schreibt erst nach meinem „Ja“ zur jeweiligen Stelle. Technische Doku auf <a href="https://github.com/dariiasichynska/jobsuche-agenten" rel="noopener">GitHub</a>.</dd></div>
     </dl>
   </section>
 
@@ -52,8 +55,9 @@
         <li class="fertig"><span>Job-Scout: drei Quellen, Arbeitsweg, Dubletten</span><span>läuft täglich</span></li>
         <li class="fertig"><span>Scorer: Passung 0–100 nach Aufgabenbereich</span><span>läuft täglich</span></li>
         <li class="fertig"><span>Nachfass-Erinnerung und Fehlermeldung</span><span>Telegram</span></li>
-        <li class="fertig"><span>Writer: Anschreiben und Lebenslauf ab Score 75</span><span>Claude, auf Zuruf</span></li>
-        <li><span>Arbeitgeber-Check (Bewertungen im Netz)</span><span>geplant</span></li>
+        <li class="fertig"><span>Überwachung von außen: Healthchecks.io und UptimeRobot</span><span>Telegram und E-Mail</span></li>
+        <li class="fertig"><span>Writer: Arbeitgeber-Check, Anschreiben und Lebenslauf ab Score 75</span><span>Claude, nach meinem Ja</span></li>
+        <li><span>Writer als tägliche Aufgabe</span><span>als Nächstes</span></li>
         <li><span>ATS-Check des Lebenslaufs</span><span>geplant</span></li>
         <li><span>Wochenrückblick</span><span>geplant</span></li>
       </ul>
@@ -65,14 +69,15 @@
     <div class="inhalt">
       <p>Der Job-Scout startet jede Nacht um 3:17 Uhr, außerhalb der Arbeitszeiten anderer und abseits der Spitzenlast der KI-Dienste.</p>
       <ol class="schritte">
+        <li><strong>Server bereit?</strong> Vor dem Lauf fragt der Workflow den Server, ob er bereit ist, notfalls dreimal im Abstand von zehn Minuten. Antwortet er nicht, bricht der Lauf ab und ich bekomme eine Telegram-Nachricht.</li>
         <li><strong>Drei Quellen.</strong> Die Jobsuche der Bundesagentur für Arbeit, die Job-Alerts von LinkedIn und StepStone in einem eigenen Gmail-Label und die Karriereseiten meiner Wunschliste, sofern sie auf einem bekannten Bewerbungssystem laufen. Portale werden nicht gescrapt: Die Alerts kommen ohnehin per E-Mail.</li>
         <li><strong>Arbeitsweg zuerst.</strong> Die Bundesagentur liefert Koordinaten mit. Liegt das Büro zu weit weg und ist kein Homeoffice möglich, fliegt die Stelle raus, bevor sie einen KI-Aufruf kostet.</li>
         <li><strong>Dubletten und Fairness.</strong> Dieselbe Stelle kommt oft über mehrere Wege. Der Workflow vergleicht bereinigte Links sowie Titel und Arbeitgeber. Danach nimmt er reihum aus jeder Quelle, sonst füllt der erste Suchbegriff das Tageslimit allein.</li>
-        <li><strong>Bewertung.</strong> Pro Stelle ein Gemini-Aufruf, höchstens 25 pro Nacht. Ohne ausreichenden Anzeigentext entsteht nur ein Datensatz zur Vorprüfung.</li>
-        <li><strong>Kurze Meldung.</strong> Am Morgen kommt eine Telegram-Nachricht: passende Stellen ab 75 mit Link, der Rest nur als Zahl.</li>
+        <li><strong>Bewertung.</strong> Pro Stelle ein Gemini-Aufruf, höchstens 25 pro Nacht. Acht Plätze davon sind für die Bundesagentur reserviert, damit die E-Mail-Alerts das Limit nicht allein füllen. Ohne ausreichenden Anzeigentext entsteht nur ein Datensatz zur Vorprüfung.</li>
+        <li><strong>Kurze Meldung.</strong> Am Morgen kommt eine Telegram-Nachricht: passende Stellen ab 75 mit Link, der Rest nur als Zahl. Zum Schluss meldet der Lauf seinen Erfolg an Healthchecks.io.</li>
       </ol>
       <div class="galerie" style="grid-template-columns:minmax(0,1fr)">
-        <figure><a href="../assets/img/jobsuche/job-scout-gesamt.png"><img src="../assets/img/jobsuche/job-scout-gesamt.png" width="2374" height="530" alt="Der gesamte Job-Scout-Workflow in n8n: Start und Zeitplan, drei Quellen, Zusammenführen, Filter, Schleife mit Scorer-Aufruf und Vorprüfung, Telegram-Meldung" loading="lazy"></a><figcaption>Der ganze Job-Scout in n8n, Version 1.1. Klick öffnet das Bild in voller Größe. In Version 1.2 ist die Pause in der Schleife entfallen und der Start auf 3:17 Uhr verschoben.</figcaption></figure>
+        <figure><a href="../assets/img/jobsuche/job-scout-v1-6.png"><img src="../assets/img/jobsuche/job-scout-v1-6.png" width="1630" height="626" alt="Der gesamte Job-Scout-Workflow in n8n, Version 1.6: Start und Zeitplan, Prüfung der Serverbereitschaft mit zwei Wartezeiten, drei Quellen, Zusammenführen, Filter, Schleife mit Scorer-Aufruf und Vorprüfung, Telegram-Meldung und Pings an Healthchecks.io" loading="lazy"></a><figcaption>Der ganze Job-Scout in n8n, Version 1.6. Unten die Prüfung, ob der Server bereit ist, oben rechts die Erfolgsmeldung an Healthchecks.io. Klick öffnet das Bild in voller Größe.</figcaption></figure>
       </div>
       <p>Im ersten echten Lauf kamen von der Bundesagentur 958 Treffer. Nach dem Titel-Vorfilter blieben 109, davon waren 27 zu weit weg. 25 Stellen wurden bewertet.</p>
     </div>
@@ -85,8 +90,9 @@
       <ol class="schritte">
         <li><strong>Teilwerte von der KI.</strong> Gemini liest die Anzeige und liefert Teilwerte für Aufgaben, Werkzeuge, Sprache, Ort und Bedingungen, dazu Treffer, Lücken und offene Fragen als JSON.</li>
         <li><strong>Rechnen im Code.</strong> Die Gesamtpunktzahl berechnet ein Code-Knoten: Teilwerte begrenzen, Abzüge deckeln, Bonus für interne Rollen. So ist jeder Score nachvollziehbar, die Rechnung steht im Datensatz.</li>
-        <li><strong>Harte Ausschlüsse.</strong> Personalverantwortung, „5+ Jahre Berufserfahrung in Deutschland“ oder Präsenzpflicht außerhalb meines Radius sperren den Writer.</li>
-        <li><strong>Nachjustiert.</strong> Nach den ersten Läufen habe ich drei Regeln geschärft: Vertrieb als Hauptaufgabe begrenzt den Aufgaben-Wert, ein Gehalt unter meinem Minimum drückt die Bedingungen, und „sehr gute Deutschkenntnisse“ kosten keine Punkte mehr.</li>
+        <li><strong>Harte Ausschlüsse.</strong> Personalverantwortung, „5+ Jahre Berufserfahrung in Deutschland“, Arbeit mit Kunden oder am Telefon als Kernaufgabe, ein Gehalt unter meinem Minimum oder Präsenzpflicht außerhalb meines Radius sperren den Writer.</li>
+        <li><strong>Muss-Anforderungen mit Augenmaß.</strong> Fehlt eine ganze Klasse von Wissen oder Werkzeugen, etwa SAP oder Programmierung, deckelt das den Score bei 70. Ein anderes CRM oder ein anderer Task-Tracker ist nur eine Lücke, denn mit dieser Art Werkzeug arbeite ich schon.</li>
+        <li><strong>Nachjustiert.</strong> Nach den ersten Läufen habe ich die Regeln geschärft: Vertrieb als Hauptaufgabe begrenzt den Aufgaben-Wert, „sehr gute Deutschkenntnisse“ kosten keine Punkte, „ab sofort“ in der Anzeige ist kein Minus, und eine Lücke wird nur genannt, wenn die Anzeige das Werkzeug selbst erwähnt.</li>
       </ol>
     </div>
   </section>
@@ -94,8 +100,22 @@
   <section class="kapitel">
     <h2>Writer</h2>
     <div class="inhalt">
-      <p>Ab Score 75 bereitet Claude ein Bewerbungspaket vor: Anschreiben, einen auf die Anzeige zugeschnittenen Lebenslauf und Hinweise für das Bewerbungsportal. Formuliert wird nur mit Erfahrung, die belegt ist. Das Anschreiben entsteht vor allem als E-Mail-Text, weil ich die meisten Bewerbungen per E-Mail verschicke. Abgeschickt wird nichts automatisch: Ich lese, entscheide und bewerbe mich selbst.</p>
-      <p>Das erste Paket haben wir gemeinsam von Hand gebaut, es ist jetzt die Stilvorlage. Als Nächstes soll der Writer täglich laufen und vorher den Arbeitgeber anhand von Bewertungen im Netz einordnen.</p>
+      <p>Ab Score 75 entscheide ich in Airtable, ob ich mich bewerben will. Erst nach meinem „Ja“ ordnet Claude den Arbeitgeber anhand von Bewertungen im Netz ein, als „Premium“, „Solide Mitte“ oder „Lieber nicht“, mit den wichtigsten Fakten. Bei „Lieber nicht“ entsteht kein Paket. Sonst bereitet Claude ein Bewerbungspaket vor: Anschreiben, einen auf die Anzeige zugeschnittenen Lebenslauf und Hinweise für das Bewerbungsportal. Formuliert wird nur mit Erfahrung, die belegt ist. Das Anschreiben entsteht vor allem als E-Mail-Text, weil ich die meisten Bewerbungen per E-Mail verschicke. Abgeschickt wird nichts automatisch: Ich lese, entscheide und bewerbe mich selbst.</p>
+      <p>Das erste Paket haben wir gemeinsam von Hand gebaut, es ist die Stilvorlage. Inzwischen läuft auch der Arbeitgeber-Check. Als Nächstes soll der Writer jeden Tag zu einer festen Zeit laufen.</p>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Wenn nachts etwas ausfällt</h2>
+    <div class="inhalt">
+      <p>In der Nacht zum 12. November brach der Job-Scout nach zwölf Minuten ab. Ein Code-Knoten bekam auf dem Server keinen Task-Runner. Die Fehlermeldung blieb aus, weil der Fehler-Workflow selbst mit einem Code-Knoten begann. Vier Stellen waren gespeichert, eine Zusammenfassung kam nicht.</p>
+      <ol class="schritte">
+        <li><strong>Prüfung vor dem Start.</strong> Der Workflow fragt den Server, ob er bereit ist, und wartet notfalls zweimal zehn Minuten.</li>
+        <li><strong>Wiederholen statt aufgeben.</strong> Jeder Code-Knoten versucht es bis zu fünfmal. Der Knoten, der ausgefallen war, kommt jetzt ganz ohne Code aus.</li>
+        <li><strong>Fehlermeldung ohne Code.</strong> Die Telegram-Nachricht entsteht direkt im Telegram-Knoten, damit sie auch dann ankommt, wenn der Server hakt.</li>
+        <li><strong>Wächter von außen.</strong> Jeder Lauf meldet Start und Ende an Healthchecks.io. Bleibt die Erfolgsmeldung aus, kommt eine Nachricht per Telegram und E-Mail, auch bei abgebrochenen Läufen, die n8n selbst nicht meldet. UptimeRobot prüft den Server alle fünf Minuten.</li>
+      </ol>
+      <p>Ein längeres Zeitlimit hätte die Ursache nur versteckt. Deshalb habe ich die Stellen abgesichert, an denen der Ablauf still scheitern konnte.</p>
     </div>
   </section>
 
@@ -122,6 +142,7 @@
         <li>Meine Wohnadresse steht nirgends im Workflow. Für den Arbeitsweg reicht ein öffentlicher Platz in der Nähe.</li>
         <li>Lebenslauf, Kontaktdaten und Anschreiben bleiben bei Claude und in meinem Google Drive.</li>
         <li>Kein Workflow verschickt etwas an Arbeitgeber.</li>
+        <li>Healthchecks.io bekommt nur ein Lebenszeichen ohne Inhalt, UptimeRobot prüft nur eine öffentliche Statusadresse des Servers.</li>
         <li>Die n8n-Instanz stellt ein Bildungsträger bereit. Deshalb nutze ich eigene, eng begrenzte und austauschbare Zugangsschlüssel und exportiere die Workflows regelmäßig.</li>
       </ul>
     </div>
@@ -131,7 +152,7 @@
     <h2>Erkenntnis</h2>
     <div class="inhalt">
       <p>KI ist gut darin, Kandidaten vorzuschlagen und Anzeigen zu lesen. Für Fakten wie Adressen und Links und für das Rechnen ist eine einfache Regel zuverlässiger. Die stärkste Stelle im Workflow sind deshalb die Prüfungen, nicht der Prompt.</p>
-      <p>Die zweite Lehre kam aus dem Betrieb: Der kostenlose Gemini-Tarif hat Tageslimits pro Modell, und öffentliche Schnittstellen ändern sich ohne Ankündigung. Deshalb gibt es ein Ersatzmodell mit eigenem Kontingent, eine Fehlermeldung per Telegram und eine Obergrenze pro Lauf.</p>
+      <p>Die zweite Lehre kam aus dem Betrieb: Der kostenlose Gemini-Tarif hat Tageslimits pro Modell, und öffentliche Schnittstellen ändern sich ohne Ankündigung. Deshalb gibt es ein Ersatzmodell mit eigenem Kontingent, eine Obergrenze pro Lauf und eine Überwachung, die nicht vom selben Server abhängt.</p>
     </div>
   </section>
 

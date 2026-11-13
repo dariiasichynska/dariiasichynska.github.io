@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact list cleanup – Case study – Dariia Sichynska</title>
+<meta name="description" content="Case study: a Google Apps Script turns 150 rows from four sources into 96 clean contacts, a review list with reasons and a cockpit for management.">
+<meta property="og:title" content="Contact list cleanup (Kontaktlisten-Bereinigung) – Case study">
+<meta property="og:image" content="https://dariiasichynska.github.io/assets/img/kontaktlisten/cockpit-karte.png">
+<meta name="theme-color" content="#171a20">
+<link rel="alternate" hreflang="de" href="https://dariiasichynska.github.io/fallstudien/kontaktlisten-bereinigung.html">
+<link rel="alternate" hreflang="en" href="https://dariiasichynska.github.io/en/case-studies/kontaktlisten-bereinigung.html">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/style.css">
+<style>
+  .regel { font-family: var(--sans); font-size: 1rem; font-weight: 600; letter-spacing: 0; margin: 1.8rem 0 0; }
+  .code { background: var(--schiefer); border: 1px solid var(--kante); border-radius: 6px; padding: 0.9rem 1.1rem; margin: 0.6rem 0 0.5rem; overflow-x: auto; font: 0.8125rem/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; white-space: pre; }
+  .regel-text { color: var(--grau); font-size: var(--step--1); margin: 0; }
+</style>
+</head>
+<body>
+<a class="skip" href="#inhalt">Skip to content</a>
+<header class="kopf">
+  <div class="wrap">
+    <a class="marke" href="../">Dariia Sichynska</a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="../#projekte" aria-current="page">Projects</a>
+      <a href="../#kontakt">Contact</a>
+      <a href="../../fallstudien/kontaktlisten-bereinigung.html" hreflang="de" lang="de" class="sprache">DE</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inhalt">
+<div class="wrap">
+  <section class="fall-kopf">
+    <a class="zurueck" href="../#projekte">All projects</a>
+    <h1>Contact list cleanup</h1>
+    <p class="unterzeile">One click in Google Sheets turns 150 rows from four sources into 96 clean contacts, a review list with reasons and a cockpit for management.</p>
+    <dl class="fakten">
+      <div><dt>My role</dt><dd>Scope, functional concept, decisions on the rules, acceptance testing in Google Sheets, content of the cockpit. The code was written by Claude.</dd></div>
+      <div><dt>Tools</dt><dd>Google Apps Script, Google Sheets, web app with HTML, automated tests in Node</dd></div>
+      <div><dt>Status</dt><dd>Demo project, version 1.5. SICH Studio is a model company; all data is synthetic. Code and documentation are public on <a href="https://github.com/dariiasichynska/kontaktlisten-bereinigung">GitHub</a>, the cockpit runs as a <a href="https://script.google.com/macros/s/AKfycbxigPIFfsmDxaRsgpY2GTBQPTFU-wtq3qKxddGltTRqq5-TF2dZNikwP52lejOiaifE/exec" rel="noopener">live web app</a> (in German).</dd></div>
+    </dl>
+  </section>
+
+  <section class="kapitel">
+    <h2>Starting point</h2>
+    <div class="inhalt">
+      <p>The model company SICH Studio, a consultancy, collects contacts in four ways: through the contact form on its website, webinar registrations, business cards from a trade fair typed in by hand, and the newsletter. Each list is kept by a different person or tool.</p>
+      <ul>
+        <li><strong>The same person appears several times.</strong> Once as <code>J.NEUMANN@…</code>, once with a space, once with an invisible character from copy&nbsp;&amp;&nbsp;paste.</li>
+        <li><strong>Every source has its own errors.</strong> Names in one cell, phone numbers in six spellings, dates as text, as dates or as Excel numbers.</li>
+        <li><strong>Some people have objected to marketing.</strong> They are on a block list and must not be contacted again through any of the four lists.</li>
+        <li><strong>Nobody knows how many real contacts there are.</strong> 150 rows are not 150 people.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Approach</h2>
+    <div class="inhalt">
+      <p>The starting point was a task from my training course: clean 18 rows with n8n. I rebuilt the idea in Apps Script with my own data, stricter rules and a view for management. Claude was the developer; scope, decisions and acceptance were mine.</p>
+      <ol class="schritte">
+        <li><strong>Functional concept before code.</strong> Target schema, source priority and the split “the machine cleans, a person decides” were fixed before a single line of code existed. Plus 23 deliberate special cases with expected results.</li>
+        <li><strong>My own test data.</strong> 150 synthetic rows from four sources, generated reproducibly. All addresses end in <code>.example</code>, so no mail ever reaches a real person.</li>
+        <li><strong>Acceptance in the real spreadsheet.</strong> I ran every version in Google Sheets and compared the log with the tests. The first run failed because of the time zone of an imported spreadsheet. The simulation had not covered this case.</li>
+        <li><strong>Code review on request.</strong> I asked for a critical review of the finished script. It found ten defects outside the test data, including the missing block list and the spelling <code>+49 030 …</code>. All are fixed and covered by tests.</li>
+        <li><strong>Two decisions on the rules.</strong> If a blocked person later sends an enquiry through the form, the enquiry goes to the review list instead of disappearing. If two people share one e-mail address, both are kept.</li>
+        <li><strong>Extended after the next course module.</strong> I compared the module “Die saubere Liste” (the clean list) with the project and chose three improvements for version 1.5: review decisions are kept between runs, a tab recalculates the result with formulas, and the cell that triggered a review is highlighted. I deliberately did not adopt the fuzzy name matching from the course. I installed and tested version 1.5 in the spreadsheet myself.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Solution</h2>
+    <div class="inhalt">
+      <p>The spreadsheet menu has an item “Kontaktlisten bereinigen” (clean contact lists). The script reads the four sources without changing them and writes three tabs: <em>Sauber</em> (clean), <em>Prüfen</em> (review) and <em>Protokoll</em> (log).</p>
+      <ul>
+        <li><strong>Mapping as configuration:</strong> which column of which source goes where is defined in a separate file. A new source is a new entry; the code stays unchanged.</li>
+        <li><strong>Cleaning:</strong> remove invisible characters, lower-case e-mails, split names from one cell, bring phone numbers to <code>+49…</code>, standardise dates.</li>
+        <li><strong>Merging:</strong> rows with the same e-mail become one person. The script fills gaps from the other sources; the more reliable source wins.</li>
+        <li><strong>Review list with reasons:</strong> whatever the machine cannot decide safely gets a reason in plain language, for example “Nachname weicht ab (Krüger / Neumann)” (surname differs).</li>
+        <li><strong>Balance:</strong> every run checks that the rows read and the result add up. If a row is lost, the log says “FEHLER” (error).</li>
+        <li><strong>Decisions are kept:</strong> in <em>Prüfen</em> a person records what happened to the case (done, in progress, fix the source, discard) plus a note. This stays in place on the next run. Cases that no longer exist move to an archive.</li>
+        <li><strong>Cross-check without the script:</strong> the tab <em>Kontrolle</em> recounts the result with spreadsheet formulas, independently of the script, and shows “OK” or “ABWEICHUNG” (deviation).</li>
+        <li><strong>Problem cell highlighted:</strong> in <em>Prüfen</em> the cell that triggered the review reason is highlighted.</li>
+      </ul>
+      <div class="galerie">
+        <figure class="breit"><img src="../../assets/img/kontaktlisten/cockpit.png" width="1240" height="1778" alt="Contact data cockpit with key figures, flow of rows from four sources, review rate per source, privacy, review reasons and time saved" loading="lazy"><figcaption>The contact data cockpit, a web app in Apps Script (in German). It shows only numbers, no names and no addresses. <a href="https://script.google.com/macros/s/AKfycbxigPIFfsmDxaRsgpY2GTBQPTFU-wtq3qKxddGltTRqq5-TF2dZNikwP52lejOiaifE/exec" rel="noopener">View live</a></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Details</h2>
+    <div class="inhalt">
+      <p>Four places where a simple approach gives a result that looks tidy but is wrong.</p>
+      <table class="tabelle">
+        <tr><th>+49 (0)30 …</th><td>The usual short formula turns this into <code>+49030…</code>. The number looks clean and cannot be reached. The script removes the zero and checks the length.</td></tr>
+        <tr><th>Google Sheets reinterprets values</th><td>In a normal cell <code>+4930…</code> becomes a number without the plus, and <code>2026-09-15</code> becomes a date. The script first sets the format “Text” and then writes the values.</td></tr>
+        <tr><th>Clean first, then block</th><td>Compared raw, <code>MARKUS…@</code> slips past <code>markus…@</code> on the block list.</td></tr>
+        <tr><th>Missing block list</th><td>Without a block list the run stops. Otherwise every blocked person would land in the clean list, and the balance would still say “OK”.</td></tr>
+      </table>
+      <p><strong>Why merge first, then review?</strong> The tool reviews records, not rows. A missing first name in one source is often filled from another, and some conflicts, such as different surnames or two people behind one address, only show once the rows of one person are grouped. Rows without a valid e-mail are never merged, so they cannot disappear as duplicates.</p>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Rules in code</h2>
+    <div class="inhalt">
+      <p>Seven rules as they appear in the script. Variable names are simplified for reading; the full code is on GitHub.</p>
+      <h3 class="regel">Remove invisible characters</h3>
+      <pre class="code"><code>text.replace(/[\u00AD\u200B-\u200F\u2060\uFEFF]/g, '')   // zero-width space, soft hyphen
+    .replace(/[\u00A0\u2007\u202F]/g, ' ')               // non-breaking spaces
+    .replace(/\s+/g, ' ')
+    .trim()</code></pre>
+      <p class="regel-text">You cannot see these characters; they come from copy &amp; paste. Without this line two identical e-mail addresses count as different.</p>
+      <h3 class="regel">Check the e-mail</h3>
+      <pre class="code"><code>/^[a-z0-9._%+-]+@[a-z0-9-]+(\.[a-z0-9-]+)*\.[a-z]{2,}$/.test(email)</code></pre>
+      <p class="regel-text">“Contains an @” is not enough. The rule also requires a domain with an ending; otherwise the row goes to the review list.</p>
+      <h3 class="regel">Phone: short formula and script</h3>
+      <pre class="code"><code>// The usual short formula, here as an n8n expression. “+49 (0)30 …” becomes a wrong “+49030…”.
+{{ $json.telefon.replace(/[^0-9+]/g, '').replace(/^00/, '+').replace(/^0/, '+49') }}
+
+// In the script (shortened)
+var t = text.replace(/\(0\)/g, '').replace(/[^0-9+]/g, '');      // remove “(0)” first
+if (nummer.indexOf('490') === 0) nummer = '49' + nummer.slice(3); // „+49 030 …“ → „+4930…“
+if (nummer.length &lt; 10 || nummer.length &gt; 15) { /* → review: “Telefon nicht lesbar” (phone unreadable) */ }</code></pre>
+      <p class="regel-text">The short formula makes a number look tidy. The script also checks whether the result can be a phone number at all.</p>
+      <h3 class="regel">Compare without changing</h3>
+      <pre class="code"><code>text.toLowerCase()
+    .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')            // é → e</code></pre>
+      <p class="regel-text">“Möller” and “Moeller” become equal for the comparison. The name is stored the way the most reliable source spells it.</p>
+      <h3 class="regel">Read an Excel number as a date</h3>
+      <pre class="code"><code>new Date(Date.UTC(1899, 11, 30) + Math.floor(wert) * 86400000)   // 46280 → 2026-09-15</code></pre>
+      <p class="regel-text">In old exports a date is often a number: the days since 30 Dec 1899.</p>
+      <h3 class="regel">Text format first, then the values</h3>
+      <pre class="code"><code>bereich.setNumberFormat('@');   // format “Text”
+bereich.setValues(daten);</code></pre>
+      <p class="regel-text">In the opposite order Google Sheets turns “+4930…” into a number without the plus.</p>
+      <h3 class="regel">Balance</h3>
+      <pre class="code"><code>bilanzOk = gelesen === sauberZeilen + pruefenZeilen + gesperrt;</code></pre>
+      <p class="regel-text">One line of code that shows after every run whether anything was lost.</p>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Privacy</h2>
+    <div class="inhalt">
+      <table class="tabelle">
+        <tr><th>Blocked rows</th><td>They are removed from all sources and written to no tab. The log shows only their number.</td></tr>
+        <tr><th>Minimal permissions</th><td>The script may access only this one spreadsheet, not all files in Drive.</td></tr>
+        <tr><th>Cockpit without personal data</th><td>The web app reads stored key figures and never accesses the spreadsheet. The link can be shared.</td></tr>
+        <tr><th>Protection against formulas</th><td>A value from a public form that starts with “=” is written as text and never executed as a formula.</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="kapitel">
+    <h2>Result</h2>
+    <div class="inhalt">
+      <ul>
+        <li>150 rows become 96 clean contacts. 29 duplicate rows are merged, almost one in five.</li>
+        <li>17 records go to a person with a reason; 8 blocked rows appear nowhere.</li>
+        <li>The trade fair list causes the most review work: 20 percent of its rows. The cockpit shows where a different way of capturing data would pay off.</li>
+        <li>128 automated checks and a smoke test run locally, without a Google account. The run in the real spreadsheet gives the same numbers, and the tab <em>Kontrolle</em> confirms them with formulas.</li>
+      </ul>
+      <p class="hinweis">SICH Studio is a model company; all data is synthetic test data. The time saved in the cockpit is a worked example with openly stated assumptions: 2 minutes per row by hand, 3 minutes per review case, an hourly rate of 100 €.</p>
+    </div>
+  </section>
+
+  <nav class="weiter" aria-label="More case studies">
+    <a href="olympiade-training.html">Previous project: Olympiade-Training</a>
+    <a href="aurora-alert.html">Next project: Aurora-Alert</a>
+  </nav>
+</div>
+</main>
+
+<footer class="fuss">
+  <div class="wrap">
+    <p>© 2026 Dariia Sichynska</p>
+    <p>No cookies, no analytics tools, no external fonts. Served by GitHub Pages.</p>
+  </div>
+</footer>
+</body>
+</html>

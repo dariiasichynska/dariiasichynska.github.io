@@ -8,6 +8,8 @@
 <meta property="og:title" content="Kontaktlisten-Bereinigung – Fallstudie">
 <meta property="og:image" content="https://dariiasichynska.github.io/assets/img/kontaktlisten/cockpit-karte.png">
 <meta name="theme-color" content="#171a20">
+<link rel="alternate" hreflang="de" href="https://dariiasichynska.github.io/fallstudien/kontaktlisten-bereinigung.html">
+<link rel="alternate" hreflang="en" href="https://dariiasichynska.github.io/en/case-studies/kontaktlisten-bereinigung.html">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/css/style.css">
 <style>
@@ -24,6 +26,7 @@
     <nav class="nav" aria-label="Hauptnavigation">
       <a href="../#projekte" aria-current="page">Projekte</a>
       <a href="../#kontakt">Kontakt</a>
+      <a href="../en/case-studies/kontaktlisten-bereinigung.html" hreflang="en" lang="en" class="sprache">EN</a>
     </nav>
   </div>
 </header>
@@ -37,7 +40,7 @@
     <dl class="fakten">
       <div><dt>Meine Rolle</dt><dd>Umfang, Fachkonzept, Entscheidungen zu den Regeln, Abnahme in Google Sheets, Inhalte des Cockpits. Den Code hat Claude geschrieben.</dd></div>
       <div><dt>Werkzeuge</dt><dd>Google Apps Script, Google Sheets, Web-App mit HTML, automatisierte Tests in Node</dd></div>
-      <div><dt>Status</dt><dd>Demo-Projekt. SICH Studio ist ein Modellunternehmen, alle Daten sind synthetisch. Code und Dokumentation öffentlich auf <a href="https://github.com/dariiasichynska/kontaktlisten-bereinigung">GitHub</a>, das Cockpit als <a href="https://script.google.com/macros/s/AKfycbxigPIFfsmDxaRsgpY2GTBQPTFU-wtq3qKxddGltTRqq5-TF2dZNikwP52lejOiaifE/exec" rel="noopener">Live-Web-App</a>.</dd></div>
+      <div><dt>Status</dt><dd>Demo-Projekt, Version 1.5. SICH Studio ist ein Modellunternehmen, alle Daten sind synthetisch. Code und Dokumentation öffentlich auf <a href="https://github.com/dariiasichynska/kontaktlisten-bereinigung">GitHub</a>, das Cockpit als <a href="https://script.google.com/macros/s/AKfycbxigPIFfsmDxaRsgpY2GTBQPTFU-wtq3qKxddGltTRqq5-TF2dZNikwP52lejOiaifE/exec" rel="noopener">Live-Web-App</a>.</dd></div>
     </dl>
   </section>
 
@@ -64,6 +67,7 @@
         <li><strong>Abnahme in der echten Tabelle.</strong> Jede Version lief bei mir in Google Sheets, das Protokoll habe ich mit den Tests verglichen. Der erste Lauf scheiterte an der Zeitzone einer importierten Tabelle. Diesen Fall hatte die Simulation nicht abgedeckt.</li>
         <li><strong>Code-Review auf Anforderung.</strong> Ich habe eine kritische Prüfung des fertigen Skripts verlangt. Sie fand zehn Fehler außerhalb der Testdaten, darunter die fehlende Sperrliste und die Schreibweise <code>+49 030 …</code>. Alle sind behoben und durch Tests abgesichert.</li>
         <li><strong>Zwei Entscheidungen zu den Regeln.</strong> Meldet sich eine gesperrte Person später selbst über das Formular, geht die Anfrage auf die Prüf-Liste, statt zu verschwinden. Teilen sich zwei Personen eine E-Mail-Adresse, bleiben beide erhalten.</li>
+        <li><strong>Ausbau nach dem nächsten Kursteil.</strong> Den Kursteil „Die saubere Liste“ habe ich mit dem Projekt verglichen und drei Verbesserungen für Version 1.5 ausgewählt: Prüf-Entscheidungen bleiben zwischen den Läufen erhalten, ein Tab rechnet das Ergebnis mit Formeln nach, und die auslösende Zelle ist markiert. Einen unscharfen Namensvergleich aus dem Kurs habe ich bewusst nicht übernommen. Version 1.5 habe ich selbst in der Tabelle eingespielt und getestet.</li>
       </ol>
     </div>
   </section>
@@ -78,6 +82,9 @@
         <li><strong>Zusammenführen:</strong> Zeilen mit derselben E-Mail werden eine Person. Lücken füllt das Skript aus den anderen Quellen, die zuverlässigere Quelle gewinnt.</li>
         <li><strong>Prüf-Liste mit Begründung:</strong> Was die Maschine nicht sicher entscheiden kann, bekommt einen Grund in Klartext, zum Beispiel „Nachname weicht ab (Krüger / Neumann)“.</li>
         <li><strong>Bilanz:</strong> Jeder Lauf prüft, ob gelesene Zeilen und Ergebnis zusammenpassen. Geht eine Zeile verloren, steht im Protokoll „FEHLER“.</li>
+        <li><strong>Entscheidungen bleiben erhalten:</strong> In <em>Prüfen</em> trägt ein Mensch ein, was mit dem Fall passiert ist (erledigt, in Arbeit, Quelle korrigieren, verwerfen), dazu eine Notiz. Beim nächsten Lauf bleibt das stehen. Fälle, die es nicht mehr gibt, wandern in ein Archiv.</li>
+        <li><strong>Gegenprobe ohne Skript:</strong> Der Tab <em>Kontrolle</em> zählt das Ergebnis mit Tabellenformeln unabhängig vom Skript nach und zeigt „OK“ oder „ABWEICHUNG“.</li>
+        <li><strong>Problemzelle markiert:</strong> In <em>Prüfen</em> ist die Zelle hervorgehoben, die den Prüfgrund ausgelöst hat.</li>
       </ul>
       <div class="galerie">
         <figure class="breit"><img src="../assets/img/kontaktlisten/cockpit.png" width="1240" height="1778" alt="Kontaktdaten-Cockpit mit Kennzahlen, Fluss der Zeilen aus vier Quellen, Prüfquote je Quelle, Datenschutz, Prüfgründen und gesparter Zeit" loading="lazy"><figcaption>Das Kontaktdaten-Cockpit, eine Web-App in Apps Script. Es zeigt nur Zahlen, keine Namen und keine Adressen. <a href="https://script.google.com/macros/s/AKfycbxigPIFfsmDxaRsgpY2GTBQPTFU-wtq3qKxddGltTRqq5-TF2dZNikwP52lejOiaifE/exec" rel="noopener">Live ansehen</a></figcaption></figure>
@@ -95,6 +102,7 @@
         <tr><th>Erst säubern, dann sperren</th><td>Roh verglichen rutscht <code>MARKUS…@</code> an <code>markus…@</code> auf der Sperrliste vorbei.</td></tr>
         <tr><th>Fehlende Sperrliste</th><td>Ohne Sperrliste bricht der Lauf ab. Sonst landen alle gesperrten Personen in der sauberen Liste, und die Bilanz zeigt trotzdem „OK“.</td></tr>
       </table>
+      <p><strong>Warum erst zusammenführen, dann prüfen?</strong> Das Werkzeug prüft Datensätze, nicht Zeilen. Ein fehlender Vorname in einer Quelle wird oft aus einer anderen ergänzt, und manche Konflikte, etwa abweichende Nachnamen oder zwei Personen hinter einer Adresse, zeigen sich erst, wenn die Zeilen einer Person zusammenliegen. Zeilen ohne gültige E-Mail werden nie zusammengeführt und können deshalb nicht als Duplikat verschwinden.</p>
     </div>
   </section>
 
@@ -157,7 +165,7 @@ bereich.setValues(daten);</code></pre>
         <li>Aus 150 Zeilen werden 96 saubere Kontakte. 29 doppelte Zeilen sind zusammengeführt, das ist fast jede fünfte.</li>
         <li>17 Datensätze gehen mit Begründung an einen Menschen, 8 gesperrte Zeilen erscheinen nirgends.</li>
         <li>Die Messe-Liste verursacht den höchsten Prüfaufwand: 20 Prozent ihrer Zeilen. Das Cockpit zeigt damit, wo sich eine andere Erfassung lohnt.</li>
-        <li>121 automatisierte Prüfungen laufen lokal, ohne Google-Konto. Der Lauf in der echten Tabelle liefert dieselben Zahlen.</li>
+        <li>128 automatisierte Prüfungen und ein Rauchtest laufen lokal, ohne Google-Konto. Der Lauf in der echten Tabelle liefert dieselben Zahlen, und der Tab <em>Kontrolle</em> bestätigt sie mit Formeln.</li>
       </ul>
       <p class="hinweis">SICH Studio ist ein Modellunternehmen, alle Daten sind synthetische Testdaten. Die gesparte Zeit im Cockpit ist ein Rechenbeispiel mit offen ausgewiesenen Annahmen: 2 Minuten je Zeile von Hand, 3 Minuten je Prüf-Fall, 100 € Stundensatz.</p>
     </div>

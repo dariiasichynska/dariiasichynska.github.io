@@ -24,12 +24,19 @@
       ["i-archiv", "Archivieren", "Dropbox"]
     ]
   };
+  var EN = (document.documentElement.lang || "").indexOf("en") === 0;
+  var NAMEN_EN = {"Zeitplan": "Schedule", "wöchentlich": "weekly", "Neue Pakete": "New packages", "Fotos laden": "Load photos",
+    "Anfrage bauen": "Build request", "KI-Analyse": "AI analysis", "JSON parsen": "Parse JSON", "E-Mail an mich": "E-mail to me",
+    "Artikel erfassen": "Register item", "Archivieren": "Archive", "Verkleinern": "Resize", "Antwort parsen": "Parse response",
+    "Gmail-Entwurf": "Gmail draft"};
+  function uebersetze(s) { return EN && NAMEN_EN[s] ? NAMEN_EN[s] : s; }
+  var UI = EN ? { pause: "Pause", weiter: "Next", abspielen: "Play" } : { pause: "Pause", weiter: "Weiter", abspielen: "Abspielen" };
   document.querySelectorAll("[data-flow]").forEach(function (flow) {
     var liste = KNOTEN[flow.dataset.flow];
     if (!liste) return;
     flow.innerHTML = liste.map(function (k, i) {
       return '<div class="knoten" style="--n:' + i + '"><span class="kform"><svg class="ic"><use href="#' + k[0] + '"/></svg></span>' +
-        '<span class="name">' + k[1] + '</span><span class="dienst">' + k[2] + '</span></div>';
+        '<span class="name">' + uebersetze(k[1]) + '</span><span class="dienst">' + uebersetze(k[2]) + '</span></div>';
     }).join("");
   });
 
@@ -83,7 +90,7 @@
       laeuft = an;
       pausiere();
       playBtn.setAttribute("aria-pressed", String(an));
-      playText.textContent = an ? "Pause" : (ruhig ? "Weiter" : "Abspielen");
+      playText.textContent = an ? UI.pause : (ruhig ? UI.weiter : UI.abspielen);
       playIc.innerHTML = an
         ? '<rect x="3" y="2.5" width="3.5" height="11" rx="1"/><rect x="9.5" y="2.5" width="3.5" height="11" rx="1"/>'
         : '<path d="M4 2.5v11l9.5-5.5z"/>';
