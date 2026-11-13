@@ -38,8 +38,8 @@
     <h1>Contact list cleanup</h1>
     <p class="unterzeile">One click in Google Sheets turns 150 rows from four sources into 96 clean contacts, a review list with reasons and a cockpit for management.</p>
     <dl class="fakten">
-      <div><dt>My role</dt><dd>Scope, functional concept, decisions on the rules, acceptance testing in Google Sheets, content of the cockpit. The code was written by Claude.</dd></div>
-      <div><dt>Tools</dt><dd>Google Apps Script, Google Sheets, web app with HTML, automated tests in Node</dd></div>
+      <div><dt>My role</dt><dd>Scope, functional concept, decisions on the rules, acceptance testing in Google Sheets, content of the cockpit.</dd></div>
+      <div><dt>Tools</dt><dd>Google Apps Script, Google Sheets, web app with HTML, automated tests in Node, Claude</dd></div>
       <div><dt>Status</dt><dd>Demo project, version 1.5. SICH Studio is a model company; all data is synthetic. Code and documentation are public on <a href="https://github.com/dariiasichynska/kontaktlisten-bereinigung">GitHub</a>, the cockpit runs as a <a href="https://script.google.com/macros/s/AKfycbxigPIFfsmDxaRsgpY2GTBQPTFU-wtq3qKxddGltTRqq5-TF2dZNikwP52lejOiaifE/exec" rel="noopener">live web app</a> (in German).</dd></div>
     </dl>
   </section>
@@ -60,7 +60,7 @@
   <section class="kapitel">
     <h2>Approach</h2>
     <div class="inhalt">
-      <p>The starting point was a task from my training course: clean 18 rows with n8n. I rebuilt the idea in Apps Script with my own data, stricter rules and a view for management. Claude was the developer; scope, decisions and acceptance were mine.</p>
+      <p>The starting point was a task from my training course: clean 18 rows with n8n. I rebuilt the idea in Apps Script with my own data, stricter rules and a view for management.</p>
       <ol class="schritte">
         <li><strong>Functional concept before code.</strong> Target schema, source priority and the split “the machine cleans, a person decides” were fixed before a single line of code existed. Plus 23 deliberate special cases with expected results.</li>
         <li><strong>My own test data.</strong> 150 synthetic rows from four sources, generated reproducibly. All addresses end in <code>.example</code>, so no mail ever reaches a real person.</li>

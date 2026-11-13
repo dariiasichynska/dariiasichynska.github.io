@@ -33,7 +33,7 @@
     <h1>Olympiade-Training</h1>
     <p class="unterzeile">A trainer for the German Mathematics Olympiad (grade 5) that runs where the child actually learns: offline on a tablet from 2014 and as a web version in the browser under his own account. AI grades the reasoning, Make.com and Airtable bring the results to the parents.</p>
     <dl class="fakten">
-      <div><dt>My role</dt><dd>Product ownership from requirements to operation: requirements and decisions, tests on the real hardware, Make scenario, Airtable model and dashboard, analysis of the real submissions and the iterations that followed. The code was written by Claude (Anthropic) under my direction.</dd></div>
+      <div><dt>My role</dt><dd>Product ownership from requirements to operation: requirements and decisions, tests on the real hardware, Make scenario, Airtable model and dashboard, analysis of the real submissions and the iterations that followed.</dd></div>
       <div><dt>Tools</dt><dd>Claude, Make.com, Airtable, JavaScript (ES5 build with Babel), GitHub Pages</dd></div>
       <div><dt>Status</dt><dd>In daily use since October 2026, on two devices. Code and <a href="https://dariiasichynska.github.io/olympiade-training/">live demo</a> (in German) are public on <a href="https://github.com/dariiasichynska/olympiade-training">GitHub</a>.</dd></div>
     </dl>
@@ -56,7 +56,7 @@
   <section class="kapitel">
     <h2>Approach</h2>
     <div class="inhalt">
-      <p>The project came from a real need at home. I ran it like a small product project: Claude was the developer; problem, decisions, tests and automation were mine.</p>
+      <p>The project came from a real need at home. I ran it like a small product project.</p>
       <ol class="schritte">
         <li><strong>Requirements through structured questions.</strong> Before the first line of code, every open point was decided through multiple-choice questions: order of tasks, timing of hints, one attempt as in the real competition, grading scale 1 to 6, what is translated and what is not.</li>
         <li><strong>Prototype and field test.</strong> The first version ran on the desktop but stayed blank on the tablet. The cause: Chrome 42 does not understand modern JavaScript and CSS. The solution: a second build pipeline to ES5, separate CSS without grid and custom properties, and a start-up check that shows the error and the browser version instead of a blank page.</li>

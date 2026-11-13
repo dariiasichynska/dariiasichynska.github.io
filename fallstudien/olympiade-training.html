@@ -33,7 +33,7 @@
     <h1>Olympiade-Training</h1>
     <p class="unterzeile">Ein Trainer für die Mathematik-Olympiade (Klasse 5), der dort läuft, wo das Kind wirklich lernt: offline auf einem Tablet von 2014 und als Web-Version im Browser unter einem eigenen Konto. KI bewertet die Begründungen, Make.com und Airtable bringen die Ergebnisse zu den Eltern.</p>
     <dl class="fakten">
-      <div><dt>Meine Rolle</dt><dd>Produktverantwortung von der Anforderung bis zum Betrieb: Anforderungen und Entscheidungen, Tests auf der echten Hardware, Make-Szenario, Airtable-Modell und Dashboard, Datenanalyse der echten Abgaben und daraus abgeleitete Iterationen. Den Code hat Claude (Anthropic) unter meiner Anleitung geschrieben.</dd></div>
+      <div><dt>Meine Rolle</dt><dd>Produktverantwortung von der Anforderung bis zum Betrieb: Anforderungen und Entscheidungen, Tests auf der echten Hardware, Make-Szenario, Airtable-Modell und Dashboard, Datenanalyse der echten Abgaben und daraus abgeleitete Iterationen.</dd></div>
       <div><dt>Werkzeuge</dt><dd>Claude, Make.com, Airtable, JavaScript (ES5-Build mit Babel), GitHub Pages</dd></div>
       <div><dt>Status</dt><dd>Seit Oktober 2026 im täglichen Einsatz, auf zwei Geräten. Code und <a href="https://dariiasichynska.github.io/olympiade-training/">Live-Demo</a> öffentlich auf <a href="https://github.com/dariiasichynska/olympiade-training">GitHub</a>.</dd></div>
     </dl>
@@ -56,7 +56,7 @@
   <section class="kapitel">
     <h2>Vorgehen</h2>
     <div class="inhalt">
-      <p>Das Projekt entstand aus einem echten Bedarf zu Hause. Ich habe es wie ein kleines Produktprojekt geführt: Claude war der Entwickler, Problem, Entscheidungen, Tests und Automatisierung lagen bei mir.</p>
+      <p>Das Projekt entstand aus einem echten Bedarf zu Hause. Ich habe es wie ein kleines Produktprojekt geführt.</p>
       <ol class="schritte">
         <li><strong>Anforderungen über strukturierte Fragen.</strong> Vor dem ersten Code waren alle offenen Punkte als Auswahlfragen entschieden: Reihenfolge der Aufgaben, Zeitpunkt der Tipps, ein Versuch wie im echten Wettbewerb, Notenskala 1 bis 6, was übersetzt wird und was nicht.</li>
         <li><strong>Prototyp und Feldtest.</strong> Die erste Version lief am Desktop, auf dem Tablet blieb sie leer. Ursache: Chrome 42 versteht modernes JavaScript und CSS nicht. Lösung: eine zweite Build-Strecke nach ES5, eigenes CSS ohne Grid und Custom Properties und eine Startprüfung, die statt einer leeren Seite den Fehler und die Browserversion anzeigt.</li>

@@ -1,16 +1,16 @@
 # dariiasichynska.github.io
 
-Personal portfolio of Dariia Sichynska: process automation and AI integration. The site is in German, with an English version under `/en/`.
+This repository contains the personal portfolio of Dariia Sichynska (process automation and AI integration). The site is written in German; an English version is provided under `/en/`.
 
-Static HTML and CSS, no build steps, no cookies, no external services. The fonts (Spectral, IBM Plex Sans, SIL Open Font License) are in `assets/fonts/`.
+The site is built with static HTML and CSS. No build steps, cookies or external services are used. The fonts (Spectral, IBM Plex Sans, SIL Open Font License) are stored in `assets/fonts/`.
 
 ## Structure
-- `index.html` – home page
-- `fallstudien/` – one page per case study
-- `en/` – English home page, `en/case-studies/` – English case studies
-- `assets/js/clip.js` – the animated project clip (labels in German or English, depending on the page language)
-- `assets/css/style.css` – the whole design
-- `assets/img/` – photo and screenshots
-- `assets/cv/` – CV as PDF
+- `index.html`: the home page.
+- `fallstudien/`: one page is stored per case study.
+- `en/` and `en/case-studies/`: the English home page and case studies are stored here.
+- `assets/js/clip.js`: the animated project clip is controlled here; labels are shown in German or English, depending on the page language.
+- `assets/css/style.css`: the whole design is defined here.
+- `assets/img/`: the photo and the screenshots are stored here.
+- `assets/cv/`: the CV is stored here as a PDF.
 
 © 2026 Dariia Sichynska
